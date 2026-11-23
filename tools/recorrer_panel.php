@@ -37,7 +37,7 @@ $lista = $rutas ? explode(',', $rutas) : [
     "/admin/boletas/$bol", "/admin/boletas/$fac", '/admin/boletas/nueva', "/admin/notas/nc/$nc", '/admin/usuarios', '/admin/apariencia',
     '/admin/profesionales', '/admin/empresas', "/admin/dte/$emp", '/admin/boxes', '/admin/productos', '/admin/clientes', "/admin/clientes/$cli",
     '/admin/facturas/nueva', '/admin/pacientes', "/admin/pacientes/$pac", "/admin/pacientes/{$ficha['paciente_id']}/fichas/{$ficha['id']}/pdf",
-    "/admin/pacientes/$pac/certificado/nuevo", "/admin/dte/pdf?id=1", '/admin/calendario/pdf?modo=boxes',
+    "/admin/pacientes/$pac/certificado/nuevo", "/admin/dte/pdf?boleta=$bol", "/admin/dte/pdf?boleta=$fac", '/admin/calendario/pdf?modo=box&sel=todos',
     '/admin/bi', '/admin/reportes', '/admin/atenciones', '/admin/auditoria', '/admin/sin-permiso', '/api/docs',
 ];
 
