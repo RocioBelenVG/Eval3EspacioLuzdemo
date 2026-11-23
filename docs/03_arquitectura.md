@@ -18,33 +18,34 @@ no diverjan (flujo de estados, auditoría y validación en base de datos).
 
 ```mermaid
 flowchart TB
-    subgraph P[Presentación]
-        UI1[Panel clásico SSR<br/>pages/, partials/]
-        UI2[Módulos nuevos<br/>pages/panel/{atenciones,bi,reportes,auditoria}.php<br/>assets/js/app/*.js · assets/css/app.css]
-        SW[Swagger UI /api/docs]
+    subgraph P["Presentación"]
+        UI1["Panel clásico SSR<br/>pages/, partials/"]
+        UI2["Módulos nuevos<br/>atenciones · bi · reportes · auditoria<br/>assets/js/app · assets/css/app.css"]
+        SW["Swagger UI /api/docs"]
     end
-    subgraph A[API]
-        K[Kernel · Router · Request/Response<br/>JWT · RateLimiter · roles · errores]
-        C[Controladores delgados<br/>src/Controller]
+    subgraph A["API"]
+        K["Kernel · Router · Request/Response<br/>JWT · RateLimiter · roles · errores"]
+        C["Controladores delgados<br/>src/Controller"]
     end
-    subgraph S[Servicios de negocio]
-        SV[AtencionService · PacienteService · DocumentoService<br/>DashboardService · ReporteService · IaService · AuthService]
-        D[Dominio: EstadoReserva · Rol]
+    subgraph S["Servicios de negocio"]
+        SV["AtencionService · PacienteService · DocumentoService<br/>DashboardService · ReporteService · IaService · AuthService"]
+        D["Dominio: EstadoReserva · Rol"]
     end
-    subgraph DA[Acceso a datos]
-        R[Repositorios PDO<br/>src/Repository]
-        AD[Adaptadores externos<br/>Dte/MotorDteLegado · Ia/GroqClient · Export/*]
+    subgraph DA["Acceso a datos"]
+        R["Repositorios PDO<br/>src/Repository"]
+        AD["Adaptadores externos<br/>MotorDteLegado · GroqClient · Exportadores"]
     end
-    DB[(MariaDB 11.8<br/>tablas · vistas · CHECK · disparadores)]
-    UI2 -- fetch + JWT --> K
+    DB[("MariaDB 11.8<br/>tablas · vistas · CHECK · disparadores")]
+    LEG["lib/*.php + api/panel/*"]
+    UI2 -- "fetch + JWT" --> K
     SW --> K
-    UI1 -- sesión + CSRF --> LEG[lib/*.php + api/panel/*]
+    UI1 -- "sesión + CSRF" --> LEG
     K --> C --> SV --> R --> DB
     SV --> D
     SV --> AD
     LEG --> DB
-    LEG -. usa el mismo enum .-> D
-    AD -- motor DTE demo --> DB
+    LEG -. "usa el mismo enum" .-> D
+    AD -- "motor DTE demo" --> DB
 ```
 
 | Capa | Responsabilidad | No hace |
@@ -59,44 +60,46 @@ flowchart TB
 
 ```mermaid
 flowchart LR
-    subgraph Navegador
-        JS[nucleo.js<br/>cliente API + UI accesible]
-        BI[bi.js] --- JS
-        AT[atenciones.js] --- JS
-        RP[reportes.js] --- JS
+    subgraph NAV["Navegador"]
+        JS["nucleo.js<br/>cliente API + UI accesible"]
+        BI["bi.js"] --- JS
+        AT["atenciones.js"] --- JS
+        RP["reportes.js"] --- JS
     end
-    subgraph "Contenedor app (PHP-FPM)"
-        IDX[index.php<br/>controlador frontal]
-        V1[api/v1/index.php]
-        KER[Kernel]
-        CT[Container (DI)<br/>App::container]
-        SVC[Servicios]
-        REP[Repositorios]
-        EMI[«interfaz» EmisorDte]
-        MOT[MotorDteLegado]
-        DTE[dte/ motor DTE<br/>modo demo]
-        IAI[«interfaz» IaClient]
-        GROQ[GroqClient]
-        EXP[«interfaz» Exportador]
-        CSV[CsvExportador]
-        XLS[XlsxExportador]
-        PDF[PdfExportador · TCPDF]
-        LEG[Panel clásico lib/ pages/]
+    subgraph APP["Contenedor app (PHP-FPM)"]
+        IDX["index.php<br/>controlador frontal"]
+        V1["api/v1/index.php"]
+        KER["Kernel"]
+        CT["Container DI<br/>App::container"]
+        SVC["Servicios"]
+        REP["Repositorios"]
+        EMI["interfaz EmisorDte"]
+        MOT["MotorDteLegado"]
+        DTE["dte/ motor DTE<br/>modo demo"]
+        IAI["interfaz IaClient"]
+        GROQ["GroqClient"]
+        EXP["interfaz Exportador"]
+        CSV["CsvExportador"]
+        XLS["XlsxExportador"]
+        PDF["PdfExportador · TCPDF"]
+        LEG["Panel clásico lib/ pages/"]
     end
-    DBX[(MariaDB)]
-    LLM[(API Groq · Llama 3.3)]
-    JS -->|HTTPS JSON + Bearer| IDX --> V1 --> KER --> SVC
+    DBX[("MariaDB")]
+    LLM[("API Groq · Llama 3.3")]
+    JS -- "HTTPS JSON + Bearer" --> IDX --> V1 --> KER --> SVC
     IDX --> LEG
-    CT -. inyecta .-> SVC
+    CT -. "inyecta" .-> SVC
     SVC --> REP --> DBX
     SVC --> EMI
-    EMI <|.. MOT --> DTE --> DBX
+    MOT -. "implementa" .-> EMI
+    MOT --> DTE --> DBX
     SVC --> IAI
-    IAI <|.. GROQ --> LLM
+    GROQ -. "implementa" .-> IAI
+    GROQ --> LLM
     SVC --> EXP
-    EXP <|.. CSV
-    EXP <|.. XLS
-    EXP <|.. PDF
+    CSV -. "implementa" .-> EXP
+    XLS -. "implementa" .-> EXP
+    PDF -. "implementa" .-> EXP
     LEG --> DBX
 ```
 
@@ -126,10 +129,28 @@ flowchart TB
     APP -->|egress HTTPS| LLM[(api.groq.com)]
 ```
 
-Puertos, redes, volúmenes y variables: ver `05_plan_despliegue.md` y `compose.yaml`. Solo `web` publica un puerto; la base
+Exportaciones SVG de todos los diagramas: `docs/diagramas/*.svg` (fuente `.mmd` junto a cada una). Puertos, redes, volúmenes y variables: ver `05_plan_despliegue.md` y `compose.yaml`. Solo `web` publica un puerto; la base
 de datos vive en una red interna sin salida a internet; solo `app` tiene salida (para la IA).
 
-## 5. Patrones de diseño aplicados (registro de decisiones)
+## 5. Flujo de estados de una atención (patrón State)
+
+```mermaid
+stateDiagram-v2
+    [*] --> pendiente: agendar (CU-01)
+    pendiente --> confirmada: confirmar
+    pendiente --> realizada: atender (fecha cumplida)
+    pendiente --> no_show: no asistió (fecha cumplida)
+    pendiente --> cancelada: cancelar
+    confirmada --> realizada: atender (fecha cumplida)
+    confirmada --> no_show: no asistió (fecha cumplida)
+    confirmada --> cancelada: cancelar (si no está cobrada)
+    cancelada --> pendiente: reactivar
+    cancelada --> confirmada: reactivar
+    realizada --> [*]: cobrar con boleta demo (CU-05)
+    no_show --> [*]
+```
+
+## 6. Patrones de diseño aplicados (registro de decisiones)
 
 | ADR | Decisión | Dónde | Por qué | Alternativas descartadas |
 |---|---|---|---|---|
@@ -142,7 +163,7 @@ de datos vive en una red interna sin salida a internet; solo `app` tiene salida 
 | ADR-07 | **JWT HS256** propio | `Security/Jwt` | Sin dependencias, solo HS256 (rechaza `none`), revalida el usuario en cada solicitud. | Sesiones para la API (no es sin estado); librería externa (más superficie). |
 | ADR-08 | IA solo con **agregados** | `IaService` | Ley 19.628/20.584: ningún dato clínico ni personal sale a un proveedor externo. | Enviar evoluciones para resumirlas (riesgo legal). |
 
-## 6. Principios SOLID e inyección de dependencias en el código
+## 7. Principios SOLID e inyección de dependencias en el código
 
 * **S** — cada clase tiene una razón de cambio: `AtencionController` solo traduce HTTP; `AtencionService` las reglas;
   `AtencionRepository` el SQL; `PdfExportador` el formato PDF.
@@ -154,7 +175,7 @@ de datos vive en una red interna sin salida a internet; solo `app` tiene salida 
   PacienteRepository, CatalogoRepository, DocumentoRepository, EmisorDte, ?Closure $hoy)`); solo `App::container()` conoce
   las clases concretas.
 
-## 7. Requerimientos no funcionales y cómo los atiende la arquitectura
+## 8. Requerimientos no funcionales y cómo los atiende la arquitectura
 
 | RNF | Mecanismo |
 |---|---|

@@ -1,0 +1,21 @@
+flowchart TB
+    U[Usuario · navegador] -->|HTTPS 443| H
+    subgraph H["Hosting actual (Hostinger, LiteSpeed + PHP 8.3)"]
+        WEB1[public_html/espacioluzdemo<br/>.htaccess → index.php]
+        DB1[(MariaDB u195628024_espacioluzdemo)]
+        BK1[~/respaldos_espacioluzdemo]
+        WEB1 --> DB1
+        DB1 -. mysqldump diario .-> BK1
+    end
+    subgraph D["Docker (docker compose up) — mismo código"]
+        direction TB
+        W[web · nginx 1.27<br/>:8080 publicado · red frontend+backend]
+        APP[app · PHP-FPM 8.3<br/>:9000 · redes backend+egress]
+        MDB[(db · MariaDB 11.8<br/>red backend interna · volumen db-data)]
+        MIG[migrate · Phinx + datos sintéticos<br/>termina al acabar]
+        BKP[backup · mariadb-dump diario<br/>volumen backups]
+        W -->|fastcgi| APP --> MDB
+        MIG --> MDB
+        BKP --> MDB
+    end
+    APP -->|egress HTTPS| LLM[(api.groq.com)]

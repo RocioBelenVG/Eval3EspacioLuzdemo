@@ -48,7 +48,7 @@ La matriz completa de permisos por ruta está en `src/Kernel.php` (API) y `lib/a
 
 | ID | Categoría | Requerimiento | Cómo se atiende / mide |
 |---|---|---|---|
-| RNF01 | Seguridad | Mitigar al menos 5 riesgos del OWASP API Security Top 10. | API1 BOLA, API2 autenticación, API3 propiedades, API4 consumo, API5 funciones, API8 configuración, API10 consumo de APIs externas (ver `03_arquitectura.md` §6). |
+| RNF01 | Seguridad | Mitigar al menos 5 riesgos del OWASP API Security Top 10. | API1 BOLA, API2 autenticación, API3 propiedades, API4 consumo, API5 funciones, API8 configuración, API10 consumo de APIs externas (ver `03_arquitectura.md` §8). |
 | RNF02 | Seguridad | Ningún secreto en el repositorio ni en su historial. | `.env` excluido, `.env.example` sin valores; CI genera y enmascara secretos. |
 | RNF03 | Rendimiento | Listados y reportes paginados responden en < 1 s con 5.500 atenciones. | Índices `idx_res_fecha_prof_estado`, `idx_bol_fecha_tipo_pago`; `per_page` ≤ 100; exportación ≤ 20.000 filas. |
 | RNF04 | Disponibilidad | Restaurar la base desde un respaldo en menos de 15 minutos (RTO) con pérdida máxima de 24 h (RPO). | Respaldo diario (servicio `backup`); prueba en hosting: 1 s; prueba automática en CI. |

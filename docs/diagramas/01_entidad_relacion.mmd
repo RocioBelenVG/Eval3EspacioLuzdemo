@@ -1,0 +1,66 @@
+erDiagram
+    ESPECIALIDADES ||--o{ PROFESIONALES : "clasifica"
+    USUARIOS |o--o| PROFESIONALES : "cuenta del área clínica"
+    EMPRESAS ||--o{ PROFESIONALES : "socias emiten por"
+    BOXES ||--o{ RESERVAS : "se reserva (box_slug)"
+    PROFESIONALES ||--o{ RESERVAS : "atiende / arrienda"
+    PACIENTES |o--o{ RESERVAS : "recibe la sesión (NULL = arriendo)"
+    PACIENTES ||--o{ FICHAS : "tiene una por especialidad"
+    ESPECIALIDADES ||--o{ FICHAS : "área"
+    FICHAS ||--o{ EVOLUCIONES : "registra"
+    RESERVAS |o--o{ EVOLUCIONES : "sesión evolucionada"
+    PROFESIONALES ||--o{ CLIENTES : "cliente que arrienda"
+    EMPRESAS ||--o{ BOLETAS : "emite"
+    PACIENTES |o--o{ BOLETAS : "receptor (boleta)"
+    CLIENTES |o--o{ BOLETAS : "receptor (factura)"
+    BOLETAS ||--|{ BOLETA_ITEMS : "detalle"
+    BOLETAS ||--o{ DOCUMENTO_PAGOS : "pagos y devoluciones"
+    BOLETAS ||--o{ NOTAS_CREDITO : "se corrige con"
+    BOLETAS |o--o{ RESERVAS : "cobra (boleta_id / factura_id)"
+    BOLETAS |o--o| DTE_DOCUMENTOS : "documento electrónico (demo)"
+    EMPRESAS ||--o{ CAF_EMPRESA : "folios (CAF de prueba)"
+    RESERVAS ||--o{ RESERVAS_MOVIMIENTOS : "historial"
+    USUARIOS ||--o{ EXPORTACIONES : "exportó"
+    USUARIOS |o--o{ AUDITORIA : "autor del cambio"
+
+    RESERVAS {
+        bigint id PK
+        char16 publico_id UK
+        varchar box_slug FK
+        int profesional_id FK
+        int paciente_id FK "NULL = arriendo"
+        date fecha
+        time hora "CHECK 07:00-22:00"
+        enum estado "pendiente|confirmada|realizada|cancelada|no_show"
+        int precio_clp "CHECK <= 5.000.000"
+        bigint boleta_id FK
+        bigint factura_id FK
+        varchar slot_prof UK "generada: profesional|fecha|hora"
+    }
+    PACIENTES {
+        int id PK
+        varchar nombre "CHECK largo >= 3"
+        varchar rut UK
+        date fecha_nacimiento
+        varchar apoderado
+        tinyint consentimiento "CHECK con fecha"
+    }
+    BOLETAS {
+        bigint id PK
+        int folio "UK con empresa, tipo y serie"
+        varchar tipo "boleta|factura"
+        int total_clp "CHECK = neto+iva+exento"
+        enum pago_estado
+        int pagado_clp
+        date vence_en
+    }
+    AUDITORIA {
+        bigint id PK
+        varchar tabla
+        varchar registro_id
+        enum accion "crear|modificar|eliminar"
+        int usuario_id
+        varchar origen "panel|api|sistema"
+        json datos_antes
+        json datos_despues
+    }

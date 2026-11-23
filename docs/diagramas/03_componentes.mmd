@@ -1,0 +1,42 @@
+flowchart LR
+    subgraph NAV["Navegador"]
+        JS["nucleo.js<br/>cliente API + UI accesible"]
+        BI["bi.js"] --- JS
+        AT["atenciones.js"] --- JS
+        RP["reportes.js"] --- JS
+    end
+    subgraph APP["Contenedor app (PHP-FPM)"]
+        IDX["index.php<br/>controlador frontal"]
+        V1["api/v1/index.php"]
+        KER["Kernel"]
+        CT["Container DI<br/>App::container"]
+        SVC["Servicios"]
+        REP["Repositorios"]
+        EMI["interfaz EmisorDte"]
+        MOT["MotorDteLegado"]
+        DTE["dte/ motor DTE<br/>modo demo"]
+        IAI["interfaz IaClient"]
+        GROQ["GroqClient"]
+        EXP["interfaz Exportador"]
+        CSV["CsvExportador"]
+        XLS["XlsxExportador"]
+        PDF["PdfExportador · TCPDF"]
+        LEG["Panel clásico lib/ pages/"]
+    end
+    DBX[("MariaDB")]
+    LLM[("API Groq · Llama 3.3")]
+    JS -- "HTTPS JSON + Bearer" --> IDX --> V1 --> KER --> SVC
+    IDX --> LEG
+    CT -. "inyecta" .-> SVC
+    SVC --> REP --> DBX
+    SVC --> EMI
+    MOT -. "implementa" .-> EMI
+    MOT --> DTE --> DBX
+    SVC --> IAI
+    GROQ -. "implementa" .-> IAI
+    GROQ --> LLM
+    SVC --> EXP
+    CSV -. "implementa" .-> EXP
+    XLS -. "implementa" .-> EXP
+    PDF -. "implementa" .-> EXP
+    LEG --> DBX

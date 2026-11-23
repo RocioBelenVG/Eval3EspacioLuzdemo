@@ -1,0 +1,13 @@
+stateDiagram-v2
+    [*] --> pendiente: agendar (CU-01)
+    pendiente --> confirmada: confirmar
+    pendiente --> realizada: atender (fecha cumplida)
+    pendiente --> no_show: no asistió (fecha cumplida)
+    pendiente --> cancelada: cancelar
+    confirmada --> realizada: atender (fecha cumplida)
+    confirmada --> no_show: no asistió (fecha cumplida)
+    confirmada --> cancelada: cancelar (si no está cobrada)
+    cancelada --> pendiente: reactivar
+    cancelada --> confirmada: reactivar
+    realizada --> [*]: cobrar con boleta demo (CU-05)
+    no_show --> [*]
