@@ -1,0 +1,25 @@
+== Reversión de migraciones en el hosting · 2026-11-23T02:00:24+00:00
+     up  20261123000000  2026-11-23 01:22:43  2026-11-23 01:22:43  EsquemaBase
+     up  20261123000100  2026-11-23 01:22:43  2026-11-23 01:22:43  RolesYAuditoria
+     up  20261123000200  2026-11-23 01:22:43  2026-11-23 01:22:43  RestriccionesCheck
+     up  20261123000300  2026-11-23 01:22:43  2026-11-23 01:22:43  FlujoEstadosReserva
+     up  20261123000400  2026-11-23 01:22:43  2026-11-23 01:22:43  VistasReportes
+     up  20261123000500  2026-11-23 01:22:43  2026-11-23 01:22:44  SoporteApi
+-- rollback hasta V4 (revierte V6 soporte API y V5 vistas)
+ == 20261123000500 SoporteApi: reverting 
+ == 20261123000500 SoporteApi: reverted 0.3535s
+ == 20261123000400 VistasReportes: reverting 
+ == 20261123000400 VistasReportes: reverted 0.0025s
+API /health tras rollback: 200
+-- migrate (vuelve a aplicar V5 y V6)
+ == 20261123000400 VistasReportes: migrating 
+ == 20261123000400 VistasReportes: migrated 0.0097s
+ == 20261123000500 SoporteApi: migrating 
+ == 20261123000500 SoporteApi: migrated 0.0382s
+     up  20261123000000  2026-11-23 01:22:43  2026-11-23 01:22:43  EsquemaBase
+     up  20261123000100  2026-11-23 01:22:43  2026-11-23 01:22:43  RolesYAuditoria
+     up  20261123000200  2026-11-23 01:22:43  2026-11-23 01:22:43  RestriccionesCheck
+     up  20261123000300  2026-11-23 01:22:43  2026-11-23 01:22:43  FlujoEstadosReserva
+     up  20261123000400  2026-11-23 02:00:25  2026-11-23 02:00:25  VistasReportes
+     up  20261123000500  2026-11-23 02:00:25  2026-11-23 02:00:25  SoporteApi
+{"status":"ok","db":"ok","migraciones":6,"version":"v1","modo_dte":"demo"}

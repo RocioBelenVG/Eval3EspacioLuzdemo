@@ -1,0 +1,72 @@
+Analisis (EspacioLuz\Tests\Integration\Analisis)
+ [x] Los indicadores traen formula pregunta y comparacion
+ [x] Las series del dashboard responden a los filtros
+ [x] El reporte operativo se pagina y oculta pacientes a gerencia
+ [x] Los tres formatos de exportacion son validos y quedan registrados
+ [x] La exportacion respeta los permisos y exige rango en el reporte de documentos
+ [x] La ia recibe solo agregados y devuelve un resumen validado
+ [x] Los errores de la ia se traducen al formato estandar
+ [x] Solo administracion lee la auditoria con los campos que cambiaron
+
+Atenciones (EspacioLuz\Tests\Integration\Atenciones)
+ [x] El listado pagina filtra y ordena
+ [x] Filtros invalidos responden 422
+ [x] Recepcion agenda una sesion y queda auditada a su nombre
+ [x] Las reglas de calendario se validan en la api
+ [x] Un box lleno o un profesional ocupado responden 409
+ [x] El flujo de estados impide transiciones invalidas
+ [x] Una atencion cerrada no admite cambios ni en la base de datos
+ [x] Una atencion cobrada no se cancela desde la api
+ [x] Gerencia lee pero no agenda y el area clinica solo ve lo suyo
+ [x] Reprogramar mueve la atencion y deja el movimiento
+
+Auth (EspacioLuz\Tests\Integration\Auth)
+ [x] El login correcto entrega un jwt y los datos del usuario
+ [x] Una contrasena incorrecta no revela si el correo existe
+ [x] El login valida la entrada y responde 422 con detalle por campo
+ [x] Seis intentos fallidos seguidos se bloquean con 429
+ [x] Sin token o con token alterado la api responde 401
+ [x] Un token vencido se rechaza
+ [x] Desactivar la cuenta invalida de inmediato su token
+ [x] La sesion del panel se cambia por un token solo con csrf valido
+ [x] Las respuestas traen cabeceras de seguridad y request id
+
+Cobros (EspacioLuz\Tests\Integration\Cobros)
+ [x] Una sesion realizada se cobra con boleta exenta demo pagada
+ [x] El receptor de un menor es su apoderado
+ [x] No se cobran arriendos ni atenciones no realizadas
+ [x] Si el motor dte falla no queda ningun cobro a medias
+ [x] Los documentos se filtran y los pagos respetan el saldo
+ [x] La gerencia consulta documentos pero no registra pagos y el area clinica no los ve
+
+Estado Reserva (EspacioLuz\Tests\Unit\EstadoReserva)
+ [x] Respeta la tabla de transiciones with data set "pendiente → confirmada"
+ [x] Respeta la tabla de transiciones with data set "pendiente → realizada"
+ [x] Respeta la tabla de transiciones with data set "confirmada → no_show"
+ [x] Respeta la tabla de transiciones with data set "confirmada → pendiente"
+ [x] Respeta la tabla de transiciones with data set "cancelada → confirmada (reactivación)"
+ [x] Respeta la tabla de transiciones with data set "cancelada → realizada"
+ [x] Respeta la tabla de transiciones with data set "realizada → cancelada"
+ [x] Respeta la tabla de transiciones with data set "no_show → realizada"
+ [x] Los estados de cierre no tienen salida y exigen fecha cumplida
+ [x] Ningun estado transita a si mismo
+ [x] Los roles usan las claves del sistema original
+
+Pacientes (EspacioLuz\Tests\Integration\Pacientes)
+ [x] Recepcion registra un paciente con rut formateado
+ [x] Reglas del paciente responden 422 con el campo afectado
+ [x] Un rut repetido responde 409
+ [x] La api ignora campos no permitidos
+ [x] La base de datos rechaza un correo invalido aunque se salte la api
+ [x] La busqueda pagina y el area clinica ve solo sus pacientes
+ [x] Actualizar un paciente valida y guarda los cambios
+
+Validacion YSeguridad (EspacioLuz\Tests\Unit\ValidacionYSeguridad)
+ [x] El validador convierte tipos y junta todos los errores
+ [x] La paginacion limita el tamano de pagina
+ [x] El jwt rechaza firmas ajenas y tokens vencidos
+ [x] Un secreto corto no se acepta
+ [x] El router responde 405 con los metodos permitidos
+ [x] El periodo anterior tiene la misma duracion
+ [x] Los exportadores generan csv y xlsx validos
+

@@ -1,0 +1,823 @@
+{
+    "filtros": {
+        "desde": "2025-11-23",
+        "hasta": "2026-11-22"
+    },
+    "anterior": {
+        "desde": "2024-11-23",
+        "hasta": "2025-11-22"
+    },
+    "indicadores": [
+        {
+            "clave": "tasa_asistencia",
+            "nombre": "Tasa de asistencia",
+            "pregunta": "¿Los pacientes llegan a las sesiones que agendan?",
+            "formula": "sesiones realizadas ÷ (sesiones realizadas + inasistencias) × 100",
+            "valor": 93.1,
+            "anterior": null,
+            "unidad": "%",
+            "mejor": "alto"
+        },
+        {
+            "clave": "tasa_cancelacion",
+            "nombre": "Tasa de cancelación",
+            "pregunta": "¿Qué parte de la agenda se pierde por cancelaciones?",
+            "formula": "atenciones canceladas ÷ atenciones agendadas × 100",
+            "valor": 9.1,
+            "anterior": null,
+            "unidad": "%",
+            "mejor": "bajo"
+        },
+        {
+            "clave": "ocupacion_boxes",
+            "nombre": "Ocupación de boxes",
+            "pregunta": "¿Estamos aprovechando la capacidad instalada de los boxes?",
+            "formula": "horas-box con al menos una reserva vigente ÷ (horas de apertura × días hábiles × boxes activos) × 100",
+            "valor": 24,
+            "anterior": 0,
+            "unidad": "%",
+            "mejor": "alto"
+        },
+        {
+            "clave": "ingresos",
+            "nombre": "Ingresos netos",
+            "pregunta": "¿Cuánto factura el centro en el período?",
+            "formula": "Σ boletas y facturas emitidas − Σ notas de crédito + Σ notas de débito",
+            "valor": 94611000,
+            "anterior": 0,
+            "unidad": "CLP",
+            "mejor": "alto"
+        },
+        {
+            "clave": "ticket_sesion",
+            "nombre": "Ticket promedio por sesión",
+            "pregunta": "¿Cuánto ingresa en promedio cada sesión cobrada?",
+            "formula": "ingresos de boletas a pacientes ÷ sesiones cobradas",
+            "valor": 33160,
+            "anterior": null,
+            "unidad": "CLP",
+            "mejor": "alto"
+        },
+        {
+            "clave": "pacientes_nuevos",
+            "nombre": "Pacientes nuevos",
+            "pregunta": "¿Cuántos pacientes se suman al centro?",
+            "formula": "pacientes cuya primera atención realizada cae en el período",
+            "valor": 459,
+            "anterior": 0,
+            "unidad": "pacientes",
+            "mejor": "alto"
+        },
+        {
+            "clave": "retencion",
+            "nombre": "Retención de pacientes",
+            "pregunta": "¿Los pacientes continúan su tratamiento?",
+            "formula": "pacientes atendidos en el período anterior que vuelven en este ÷ pacientes atendidos en el período anterior × 100",
+            "valor": null,
+            "anterior": null,
+            "unidad": "%",
+            "mejor": "alto"
+        },
+        {
+            "clave": "dias_pago",
+            "nombre": "Días promedio de pago de facturas",
+            "pregunta": "¿Cuánto demoran los clientes en pagar el arriendo de box?",
+            "formula": "promedio de (fecha de pago − fecha de emisión) de las facturas pagadas",
+            "valor": 24.1,
+            "anterior": null,
+            "unidad": "días",
+            "mejor": "bajo"
+        },
+        {
+            "clave": "por_cobrar",
+            "nombre": "Cuentas por cobrar",
+            "pregunta": "¿Cuánto dinero facturado falta recaudar?",
+            "formula": "Σ saldos de documentos emitidos y no pagados al cierre del período",
+            "valor": 3128000,
+            "anterior": 0,
+            "unidad": "CLP",
+            "mejor": "bajo"
+        },
+        {
+            "clave": "anticipacion",
+            "nombre": "Anticipación de reserva",
+            "pregunta": "¿Con cuántos días de anticipación se agenda?",
+            "formula": "promedio de (fecha de la atención − fecha de creación de la reserva)",
+            "valor": 12.7,
+            "anterior": null,
+            "unidad": "días",
+            "mejor": "alto"
+        }
+    ],
+    "series": {
+        "mensual": [
+            {
+                "mes": "2025-11",
+                "agendadas": 65,
+                "realizadas": "60",
+                "canceladas": "3",
+                "no_show": "2",
+                "sesiones": "20",
+                "arriendos": "42",
+                "horas_box": "61.3",
+                "pacientes": 1,
+                "ingresos": 595000,
+                "documentos": 17,
+                "tasa_asistencia": 96.8
+            },
+            {
+                "mes": "2025-12",
+                "agendadas": 312,
+                "realizadas": "278",
+                "canceladas": "26",
+                "no_show": "8",
+                "sesiones": "175",
+                "arriendos": "111",
+                "horas_box": "276.5",
+                "pacientes": 23,
+                "ingresos": 5664000,
+                "documentos": 169,
+                "tasa_asistencia": 97.2
+            },
+            {
+                "mes": "2026-01",
+                "agendadas": 332,
+                "realizadas": "280",
+                "canceladas": "39",
+                "no_show": "13",
+                "sesiones": "153",
+                "arriendos": "140",
+                "horas_box": "285.8",
+                "pacientes": 41,
+                "ingresos": 5421000,
+                "documentos": 141,
+                "tasa_asistencia": 95.6
+            },
+            {
+                "mes": "2026-02",
+                "agendadas": 211,
+                "realizadas": "189",
+                "canceladas": "17",
+                "no_show": "5",
+                "sesiones": "106",
+                "arriendos": "88",
+                "horas_box": "189.0",
+                "pacientes": 60,
+                "ingresos": 4426000,
+                "documentos": 104,
+                "tasa_asistencia": 97.4
+            },
+            {
+                "mes": "2026-03",
+                "agendadas": 486,
+                "realizadas": "428",
+                "canceladas": "45",
+                "no_show": "13",
+                "sesiones": "248",
+                "arriendos": "193",
+                "horas_box": "426.8",
+                "pacientes": 92,
+                "ingresos": 8238000,
+                "documentos": 232,
+                "tasa_asistencia": 97.1
+            },
+            {
+                "mes": "2026-04",
+                "agendadas": 469,
+                "realizadas": "413",
+                "canceladas": "38",
+                "no_show": "18",
+                "sesiones": "242",
+                "arriendos": "189",
+                "horas_box": "418.3",
+                "pacientes": 117,
+                "ingresos": 8976000,
+                "documentos": 226,
+                "tasa_asistencia": 95.8
+            },
+            {
+                "mes": "2026-05",
+                "agendadas": 508,
+                "realizadas": "445",
+                "canceladas": "43",
+                "no_show": "20",
+                "sesiones": "265",
+                "arriendos": "200",
+                "horas_box": "449.0",
+                "pacientes": 133,
+                "ingresos": 9572500,
+                "documentos": 246,
+                "tasa_asistencia": 95.7
+            },
+            {
+                "mes": "2026-06",
+                "agendadas": 508,
+                "realizadas": "448",
+                "canceladas": "43",
+                "no_show": "17",
+                "sesiones": "261",
+                "arriendos": "204",
+                "horas_box": "454.5",
+                "pacientes": 129,
+                "ingresos": 9630000,
+                "documentos": 244,
+                "tasa_asistencia": 96.3
+            },
+            {
+                "mes": "2026-07",
+                "agendadas": 380,
+                "realizadas": "320",
+                "canceladas": "44",
+                "no_show": "16",
+                "sesiones": "191",
+                "arriendos": "145",
+                "horas_box": "326.3",
+                "pacientes": 117,
+                "ingresos": 7405500,
+                "documentos": 179,
+                "tasa_asistencia": 95.2
+            },
+            {
+                "mes": "2026-08",
+                "agendadas": 486,
+                "realizadas": "421",
+                "canceladas": "45",
+                "no_show": "20",
+                "sesiones": "254",
+                "arriendos": "187",
+                "horas_box": "429.3",
+                "pacientes": 148,
+                "ingresos": 8762500,
+                "documentos": 234,
+                "tasa_asistencia": 95.5
+            },
+            {
+                "mes": "2026-09",
+                "agendadas": 448,
+                "realizadas": "391",
+                "canceladas": "42",
+                "no_show": "15",
+                "sesiones": "225",
+                "arriendos": "181",
+                "horas_box": "394.8",
+                "pacientes": 147,
+                "ingresos": 8573000,
+                "documentos": 214,
+                "tasa_asistencia": 96.3
+            },
+            {
+                "mes": "2026-10",
+                "agendadas": 551,
+                "realizadas": "473",
+                "canceladas": "52",
+                "no_show": "26",
+                "sesiones": "296",
+                "arriendos": "203",
+                "horas_box": "481.0",
+                "pacientes": 172,
+                "ingresos": 10184000,
+                "documentos": 268,
+                "tasa_asistencia": 94.8
+            },
+            {
+                "mes": "2026-11",
+                "agendadas": 407,
+                "realizadas": "364",
+                "canceladas": "34",
+                "no_show": "9",
+                "sesiones": "210",
+                "arriendos": "163",
+                "horas_box": "363.3",
+                "pacientes": 140,
+                "ingresos": 7163500,
+                "documentos": 172,
+                "tasa_asistencia": 97.6
+            }
+        ],
+        "especialidades": [
+            {
+                "especialidad": "Terapia Ocupacional",
+                "slug": "terapia-ocupacional",
+                "realizadas": "1673",
+                "agendadas": "1777",
+                "horas": "1705.8"
+            },
+            {
+                "especialidad": "Fonoaudiología",
+                "slug": "fonoaudiologia",
+                "realizadas": "1369",
+                "agendadas": "1447",
+                "horas": "1381.8"
+            },
+            {
+                "especialidad": "Psicología",
+                "slug": "psicologia",
+                "realizadas": "805",
+                "agendadas": "805",
+                "horas": "805.0"
+            },
+            {
+                "especialidad": "Psiquiatría",
+                "slug": "psiquiatria",
+                "realizadas": "408",
+                "agendadas": "408",
+                "horas": "408.0"
+            },
+            {
+                "especialidad": "Psicopedagogía",
+                "slug": "psicopedagogia",
+                "realizadas": "255",
+                "agendadas": "255",
+                "horas": "255.0"
+            }
+        ],
+        "boxes": [
+            {
+                "slug": "loica",
+                "box": "Loica",
+                "horas_ocupadas": 1410,
+                "reservas": 1452,
+                "sesiones": "1309",
+                "arriendos": "143",
+                "ocupacion": 36.4
+            },
+            {
+                "slug": "colibri-gimnasio",
+                "box": "Gimnasio Colibri",
+                "horas_ocupadas": 1337,
+                "reservas": 1337,
+                "sesiones": "1337",
+                "arriendos": "0",
+                "ocupacion": 34.5
+            },
+            {
+                "slug": "martin-pescador",
+                "box": "Martín Pescador",
+                "horas_ocupadas": 1070,
+                "reservas": 1070,
+                "sesiones": "0",
+                "arriendos": "1070",
+                "ocupacion": 27.6
+            },
+            {
+                "slug": "gimnasio-golondrina",
+                "box": "Gimnasio Golondrina",
+                "horas_ocupadas": 440,
+                "reservas": 440,
+                "sesiones": "0",
+                "arriendos": "440",
+                "ocupacion": 11.4
+            },
+            {
+                "slug": "7-colores",
+                "box": "7 Colores",
+                "horas_ocupadas": 393,
+                "reservas": 393,
+                "sesiones": "0",
+                "arriendos": "393",
+                "ocupacion": 10.1
+            }
+        ],
+        "dia_hora": [
+            {
+                "dia": 1,
+                "hora": 9,
+                "reservas": 46
+            },
+            {
+                "dia": 1,
+                "hora": 10,
+                "reservas": 72
+            },
+            {
+                "dia": 1,
+                "hora": 11,
+                "reservas": 81
+            },
+            {
+                "dia": 1,
+                "hora": 12,
+                "reservas": 68
+            },
+            {
+                "dia": 1,
+                "hora": 13,
+                "reservas": 115
+            },
+            {
+                "dia": 1,
+                "hora": 14,
+                "reservas": 112
+            },
+            {
+                "dia": 1,
+                "hora": 15,
+                "reservas": 79
+            },
+            {
+                "dia": 1,
+                "hora": 16,
+                "reservas": 33
+            },
+            {
+                "dia": 1,
+                "hora": 17,
+                "reservas": 37
+            },
+            {
+                "dia": 1,
+                "hora": 18,
+                "reservas": 38
+            },
+            {
+                "dia": 2,
+                "hora": 8,
+                "reservas": 37
+            },
+            {
+                "dia": 2,
+                "hora": 9,
+                "reservas": 77
+            },
+            {
+                "dia": 2,
+                "hora": 10,
+                "reservas": 45
+            },
+            {
+                "dia": 2,
+                "hora": 11,
+                "reservas": 47
+            },
+            {
+                "dia": 2,
+                "hora": 12,
+                "reservas": 43
+            },
+            {
+                "dia": 2,
+                "hora": 13,
+                "reservas": 90
+            },
+            {
+                "dia": 2,
+                "hora": 14,
+                "reservas": 119
+            },
+            {
+                "dia": 2,
+                "hora": 15,
+                "reservas": 118
+            },
+            {
+                "dia": 2,
+                "hora": 16,
+                "reservas": 126
+            },
+            {
+                "dia": 2,
+                "hora": 17,
+                "reservas": 117
+            },
+            {
+                "dia": 2,
+                "hora": 18,
+                "reservas": 113
+            },
+            {
+                "dia": 2,
+                "hora": 19,
+                "reservas": 35
+            },
+            {
+                "dia": 3,
+                "hora": 9,
+                "reservas": 92
+            },
+            {
+                "dia": 3,
+                "hora": 10,
+                "reservas": 82
+            },
+            {
+                "dia": 3,
+                "hora": 11,
+                "reservas": 84
+            },
+            {
+                "dia": 3,
+                "hora": 12,
+                "reservas": 45
+            },
+            {
+                "dia": 3,
+                "hora": 13,
+                "reservas": 83
+            },
+            {
+                "dia": 3,
+                "hora": 14,
+                "reservas": 81
+            },
+            {
+                "dia": 3,
+                "hora": 15,
+                "reservas": 119
+            },
+            {
+                "dia": 3,
+                "hora": 16,
+                "reservas": 117
+            },
+            {
+                "dia": 3,
+                "hora": 17,
+                "reservas": 118
+            },
+            {
+                "dia": 3,
+                "hora": 18,
+                "reservas": 42
+            },
+            {
+                "dia": 4,
+                "hora": 9,
+                "reservas": 45
+            },
+            {
+                "dia": 4,
+                "hora": 10,
+                "reservas": 84
+            },
+            {
+                "dia": 4,
+                "hora": 11,
+                "reservas": 80
+            },
+            {
+                "dia": 4,
+                "hora": 12,
+                "reservas": 85
+            },
+            {
+                "dia": 4,
+                "hora": 13,
+                "reservas": 67
+            },
+            {
+                "dia": 4,
+                "hora": 14,
+                "reservas": 81
+            },
+            {
+                "dia": 4,
+                "hora": 15,
+                "reservas": 75
+            },
+            {
+                "dia": 4,
+                "hora": 16,
+                "reservas": 82
+            },
+            {
+                "dia": 4,
+                "hora": 17,
+                "reservas": 76
+            },
+            {
+                "dia": 4,
+                "hora": 18,
+                "reservas": 77
+            },
+            {
+                "dia": 5,
+                "hora": 8,
+                "reservas": 34
+            },
+            {
+                "dia": 5,
+                "hora": 9,
+                "reservas": 121
+            },
+            {
+                "dia": 5,
+                "hora": 10,
+                "reservas": 85
+            },
+            {
+                "dia": 5,
+                "hora": 11,
+                "reservas": 80
+            },
+            {
+                "dia": 5,
+                "hora": 12,
+                "reservas": 73
+            },
+            {
+                "dia": 5,
+                "hora": 13,
+                "reservas": 51
+            },
+            {
+                "dia": 5,
+                "hora": 14,
+                "reservas": 36
+            },
+            {
+                "dia": 5,
+                "hora": 15,
+                "reservas": 29
+            },
+            {
+                "dia": 5,
+                "hora": 16,
+                "reservas": 70
+            },
+            {
+                "dia": 5,
+                "hora": 17,
+                "reservas": 75
+            },
+            {
+                "dia": 5,
+                "hora": 18,
+                "reservas": 43
+            },
+            {
+                "dia": 6,
+                "hora": 9,
+                "reservas": 82
+            },
+            {
+                "dia": 6,
+                "hora": 10,
+                "reservas": 78
+            },
+            {
+                "dia": 6,
+                "hora": 11,
+                "reservas": 76
+            },
+            {
+                "dia": 6,
+                "hora": 12,
+                "reservas": 74
+            },
+            {
+                "dia": 6,
+                "hora": 13,
+                "reservas": 45
+            },
+            {
+                "dia": 6,
+                "hora": 14,
+                "reservas": 36
+            },
+            {
+                "dia": 6,
+                "hora": 15,
+                "reservas": 49
+            },
+            {
+                "dia": 6,
+                "hora": 16,
+                "reservas": 85
+            },
+            {
+                "dia": 6,
+                "hora": 17,
+                "reservas": 93
+            },
+            {
+                "dia": 6,
+                "hora": 18,
+                "reservas": 75
+            },
+            {
+                "dia": 6,
+                "hora": 19,
+                "reservas": 39
+            }
+        ],
+        "estados": [
+            {
+                "estado": "realizada",
+                "etiqueta": "Realizada",
+                "n": 4510
+            },
+            {
+                "estado": "confirmada",
+                "etiqueta": "Confirmada",
+                "n": 0
+            },
+            {
+                "estado": "pendiente",
+                "etiqueta": "Pendiente",
+                "n": 0
+            },
+            {
+                "estado": "cancelada",
+                "etiqueta": "Cancelada",
+                "n": 471
+            },
+            {
+                "estado": "no_show",
+                "etiqueta": "No asistió",
+                "n": 182
+            }
+        ],
+        "profesionales": [
+            {
+                "id": 1,
+                "profesional": "Fernanda Alarcón Ríos",
+                "especialidad": "Terapia Ocupacional",
+                "realizadas": "1233",
+                "no_show": "104",
+                "canceladas": "145",
+                "horas": "1265.8"
+            },
+            {
+                "id": 2,
+                "profesional": "Javiera Montes Lagos",
+                "especialidad": "Fonoaudiología",
+                "realizadas": "1231",
+                "no_show": "78",
+                "canceladas": "174",
+                "horas": "1243.8"
+            },
+            {
+                "id": 7,
+                "profesional": "Ignacio Fuentealba Cid",
+                "especialidad": "Psiquiatría",
+                "realizadas": "408",
+                "no_show": "0",
+                "canceladas": "28",
+                "horas": "408.0"
+            },
+            {
+                "id": 9,
+                "profesional": "Matías Arriagada Toro",
+                "especialidad": "Psicología",
+                "realizadas": "365",
+                "no_show": "0",
+                "canceladas": "30",
+                "horas": "365.0"
+            },
+            {
+                "id": 3,
+                "profesional": "Tomás Ibarra Quezada",
+                "especialidad": "Psicología",
+                "realizadas": "297",
+                "no_show": "0",
+                "canceladas": "25",
+                "horas": "297.0"
+            },
+            {
+                "id": 5,
+                "profesional": "Diego Paredes Lillo",
+                "especialidad": "Terapia Ocupacional",
+                "realizadas": "297",
+                "no_show": "0",
+                "canceladas": "21",
+                "horas": "297.0"
+            },
+            {
+                "id": 4,
+                "profesional": "Camila Ortega Vidal",
+                "especialidad": "Psicopedagogía",
+                "realizadas": "255",
+                "no_show": "0",
+                "canceladas": "24",
+                "horas": "255.0"
+            },
+            {
+                "id": 10,
+                "profesional": "Daniela Venegas Rubio",
+                "especialidad": "Terapia Ocupacional",
+                "realizadas": "143",
+                "no_show": "0",
+                "canceladas": "9",
+                "horas": "143.0"
+            },
+            {
+                "id": 6,
+                "profesional": "Valeria Sanhueza Mora",
+                "especialidad": "Psicología",
+                "realizadas": "143",
+                "no_show": "0",
+                "canceladas": "5",
+                "horas": "143.0"
+            },
+            {
+                "id": 8,
+                "profesional": "Constanza Leal Parra",
+                "especialidad": "Fonoaudiología",
+                "realizadas": "138",
+                "no_show": "0",
+                "canceladas": "10",
+                "horas": "138.0"
+            }
+        ]
+    }
+}

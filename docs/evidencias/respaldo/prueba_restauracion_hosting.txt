@@ -1,0 +1,24 @@
+== Prueba de respaldo y restauración · 2026-11-23T02:00:10+00:00
+-- Conteos antes
+reservas	5520
+pacientes	520
+boletas	2446
+documento_pagos	2394
+evoluciones	1079
+auditoria	0
+disparadores	52
+vistas	4
+-- Respaldo: /home/u195628024/respaldos_espacioluzdemo/espacioluz_20261123_020011.sql.gz (560K) en 0 s
+-- Incidente simulado: se vaciaron documento_pagos y evoluciones
+documento_pagos	0
+evoluciones	0
+-- Conteos después de restaurar (en 1 s)
+reservas	5520
+pacientes	520
+boletas	2446
+documento_pagos	2394
+evoluciones	1079
+auditoria	0
+disparadores	52
+vistas	4
+RESULTADO: OK, los conteos coinciden

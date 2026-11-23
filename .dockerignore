@@ -16,5 +16,5 @@ storage/exports/*
 storage/dte_priv
 assets/videos
 .phpunit.cache
-docs/evidencias
+
 *.bak*
