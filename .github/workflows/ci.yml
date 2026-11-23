@@ -187,8 +187,8 @@ jobs:
           docker compose ps -a > compose.txt 2>&1; docker compose logs --no-color --tail=40 >> compose.txt 2>&1
           cat compose.txt
           # Los registros de Actions requieren sesión: el detalle queda como anotación pública.
-          echo "::error title=Paso que falló::$(tail -45 "$RUNNER_TEMP/ci.log" | tr -d '' | awk '{printf "%s%%0A", $0}')"
-          echo "::error title=docker compose::$(tail -60 compose.txt | tr -d '' | awk '{printf "%s%%0A", $0}')"
+          echo "::error title=Paso que falló::$(tail -45 "$RUNNER_TEMP/ci.log" | tr -d '\r' | awk '{printf "%s%%0A", $0}')"
+          echo "::error title=docker compose::$(tail -60 compose.txt | tr -d '\r' | awk '{printf "%s%%0A", $0}')"
 
       - name: Bajar el entorno
         if: always()
