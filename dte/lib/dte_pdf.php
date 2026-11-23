@@ -37,7 +37,7 @@ if (!function_exists('dte_pdf_logo_uri')) {
         $base = defined('APP_ROOT') ? APP_ROOT : (__DIR__ . '/../..');
         $src = $base . '/assets/images/logo/logo.png';
         if (!is_file($src)) return '';
-        $cacheDir = getenv('ESPACIOLUZ_DTE_PRIV') ?: '/home/u195628024/espacioluz_dte_priv';
+        $cacheDir = getenv('DTE_PRIV_DIR') ?: dirname(__DIR__, 2) . '/storage/dte_priv';
         $cache = $cacheDir . '/logo_pdf.png';
         if (!is_file($cache) || @filemtime($cache) < @filemtime($src)) {
             $made = false;
@@ -516,7 +516,7 @@ function dte_pdf_doc_v(mysqli $conex, int $id): ?array
         'items' => $det,
         'neto' => (int)$doc['neto'], 'iva' => (int)$doc['iva'], 'exento' => (int)$doc['exento'], 'total' => (int)$doc['total'],
         'observaciones' => $obs,
-        'timbre_uri' => $timbreUri, 'res_linea' => $resLinea, 'mvp_note' => '',
+        'timbre_uri' => $timbreUri, 'res_linea' => $resLinea, 'mvp_note' => (function_exists('dte_modo_demo') && dte_modo_demo()) ? DTE_DEMO_NOTA : '',
         'referencias' => $referencias,
     ];
     return $v;

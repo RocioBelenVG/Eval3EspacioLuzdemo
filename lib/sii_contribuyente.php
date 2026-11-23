@@ -73,6 +73,8 @@ function siiArregloJs(string $html, string $var): array
  */
 function siiConsultarContribuyente(string $rutIn): array
 {
+    // EspacioLuz Demo: sin consultas al sitio del SII (los RUT de la demo son ficticios).
+    return ['ok' => false, 'error' => 'Modo demostración: la consulta de contribuyentes al SII está deshabilitada. Completa los datos a mano.'];
     $l = rutLimpio($rutIn);
     if (!rutValido($l)) {
         return ['ok' => false, 'error' => 'El RUT no es válido.'];

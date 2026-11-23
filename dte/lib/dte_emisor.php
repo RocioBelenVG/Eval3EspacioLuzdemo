@@ -222,6 +222,8 @@ function dte_log_tiempos(array $cfgBase, int $tipo, int $folio, array $tm, strin
  * Devuelve array con ok/trackid/folio/total/estado o error.
  */
 function dte_emitir(mysqli $conex, array $cfgBase, array $p): array {
+    // EspacioLuz Demo: emisión simulada, sin conexión con el SII.
+    if (dte_modo_demo()) return dte_emitir_demo($conex, $cfgBase, $p);
     $empresaId = dte_int($p['empresa_id'] ?? 0);
     $tipo      = dte_int($p['tipo'] ?? 0);
     if ($empresaId <= 0 || $tipo <= 0) return ['ok' => false, 'error' => 'Falta empresa_id o tipo'];
@@ -844,6 +846,7 @@ function dte_sincronizar_asiento(mysqli $conex, int $docId, string $estado, stri
 }
 
 function dte_resync_estado(mysqli $conex, array $cfgBase, int $docId, int $intentos = 2): array {
+    if (dte_modo_demo()) return dte_resync_estado_demo($conex, $docId);
     $st = $conex->prepare("SELECT id, empresa_id, tipo_dte, folio, trackid, estado, caf_empresa_id FROM dte_documentos WHERE id=? LIMIT 1");
     if (!$st) return ['ok' => false, 'error' => 'No se pudo consultar el documento'];
     $st->bind_param('i', $docId); $st->execute();

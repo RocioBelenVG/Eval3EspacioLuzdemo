@@ -143,6 +143,10 @@ function dteResolucionEmpresa(array $empresa): array
  */
 function dteChequeoEmision(array $empresa, int $tipo): array
 {
+    require_once APP_ROOT . '/dte/bootstrap.php';
+    if (dte_modo_demo()) {
+        return dte_chequeo_demo($empresa, $tipo);
+    }
     require_once APP_ROOT . '/lib/rut.php';
     $items = [];
     $add = function (bool $ok, string $label, string $detalle = '') use (&$items) {
@@ -324,6 +328,10 @@ function dteReconsultarDte(int $dteDocId, int $intentos = 2): array
  */
 function dteProbarConexion(): array
 {
+    require_once APP_ROOT . '/dte/bootstrap.php';
+    if (dte_modo_demo()) {
+        return ['ok' => true, 'salud' => true, 'key' => true, 'detalle' => 'Modo demostración: no hay conexión con el SII ni con Trivoxa API DTE. Las boletas, facturas y notas se emiten con folios de prueba y sin validez tributaria.'];
+    }
     [, $cfg] = require APP_ROOT . '/dte/bootstrap.php';
     $base = rtrim((string) ($cfg['base_url'] ?? ''), '/');
     $get = function (string $url, bool $conKey) use ($cfg): array {

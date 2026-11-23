@@ -8,7 +8,8 @@ declare(strict_types=1);
  * base de datos (lib/dte_cred.php) y el almacén aislado por empresa.
  */
 
-$PRIV = getenv('ESPACIOLUZ_DTE_PRIV') ?: '/home/u195628024/espacioluz_dte_priv';
+// EspacioLuz Demo: almacén privado propio (nunca el del sistema real).
+$PRIV = getenv('DTE_PRIV_DIR') ?: dirname(__DIR__) . '/storage/dte_priv';
 $secret = is_file($PRIV . '/secret.php') ? (require $PRIV . '/secret.php') : [];
 if (!is_array($secret)) { $secret = []; }
 

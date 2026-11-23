@@ -23,6 +23,7 @@ require_once __DIR__ . '/lib/folios.php';          // catálogo DTE + folios
 require_once __DIR__ . '/lib/dte_tipos.php';       // tipos disponibles por empresa
 require_once __DIR__ . '/lib/contabilidad.php';    // stub no-op (EspacioLuz no lleva contabilidad ERP)
 require_once __DIR__ . '/lib/dte_cred.php';        // certificados + CAF por empresa
+require_once __DIR__ . '/lib/dte_demo.php';        // MODO DEMO: nada sale al SII (EspacioLuz Demo)
 require_once __DIR__ . '/lib/dte_emisor.php';      // emisión unitaria multi-empresa
 
 $GLOBALS['__DTE_CONEX'] = $conex;

@@ -211,6 +211,7 @@ function dte_folios_registrar(mysqli $conex, int $empresaId, int $tipo, int $can
 
 /** POST multipart a Trivoxa API DTE (folios). ['http','body','error']. */
 function dte_folios_http_post(string $url, string $apiKey, array $input, string $pfxPath): array {
+    dte_demo_bloquear('la solicitud de folios al SII');
     if (!is_file($pfxPath)) return ['http' => 0, 'body' => '', 'error' => 'No existe el archivo del certificado.'];
     $ch = curl_init();
     curl_setopt_array($ch, [
@@ -239,6 +240,7 @@ function dte_folios_http_post(string $url, string $apiKey, array $input, string 
  * Devuelve ['ok', 'mensaje'|'error', 'desde', 'hasta', 'maximo', 'cantidad_excede', 'cuota'].
  */
 function dte_folios_solicitar(mysqli $conex, array $cfg, int $empresaId, int $tipo, int $cantidad, string $origen = 'manual'): array {
+    if (dte_modo_demo()) return dte_folios_solicitar_demo($conex, $empresaId, $tipo, $cantidad, $origen);
     $cantidad = max(1, min(10000, $cantidad));
     $nombreTipo = dte_nombre($tipo);
     $cuota = dte_folios_estado_cuota($conex);

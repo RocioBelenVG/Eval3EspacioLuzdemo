@@ -6,6 +6,14 @@
 
 declare(strict_types=1);
 
+// Variables de entorno (.env no versionado; ver .env.example).
+require_once __DIR__ . '/lib/env.php';
+
+// EspacioLuz Demo: copia académica (Evaluación 3). Los documentos tributarios son
+// de demostración y nunca se envían al SII (ver dte/lib/dte_demo.php).
+define('APP_DEMO', true);
+define('APP_NOMBRE', 'Espacio Luz Demo');
+
 // ---------------------------------------------------------------------------
 // Rutas del sistema de archivos
 // ---------------------------------------------------------------------------
@@ -23,7 +31,7 @@ define('RESERVAS_PATH', CONTENT_DIR . '/reservas.json');
 // ---------------------------------------------------------------------------
 // Puedes fijar la base manualmente con la variable de entorno ESPACIOLUZ_BASE
 // (p. ej. "/espacioluz"). Si no, se autodetecta.
-$envBase = getenv('ESPACIOLUZ_BASE');
+$envBase = getenv('APP_BASE');
 if ($envBase !== false) {
     define('BASE_URL', rtrim($envBase, '/'));
 } elseif (PHP_SAPI === 'cli-server') {
@@ -59,22 +67,24 @@ function asset(string $src): string
 // tabla `usuarios` con contraseñas hasheadas (bcrypt). Ver lib/auth.php.
 // Los valores se pueden sobrescribir con variables de entorno sin editar aquí.
 // ---------------------------------------------------------------------------
-define('DB_HOST', getenv('ESPACIOLUZ_DB_HOST') ?: 'localhost');
-define('DB_NAME', getenv('ESPACIOLUZ_DB_NAME') ?: '');
-define('DB_USER', getenv('ESPACIOLUZ_DB_USER') ?: '');
-define('DB_PASS', getenv('ESPACIOLUZ_DB_PASS') ?: '');
+define('DB_HOST', env('DB_HOST', 'localhost'));
+define('DB_PORT', (int) env('DB_PORT', '3306'));
+define('DB_NAME', env('DB_NAME', ''));
+define('DB_USER', env('DB_USER', ''));
+define('DB_PASS', env('DB_PASS', ''));
 define('DB_CHARSET', 'utf8mb4');
 
 // ---------------------------------------------------------------------------
 // Sesión (reemplaza a NextAuth con cookies de sesión de PHP).
 // ---------------------------------------------------------------------------
-if (session_status() === PHP_SESSION_NONE) {
+// La API REST (/api/v1) es sin estado (JWT): no abre sesión salvo que lo pida.
+if (session_status() === PHP_SESSION_NONE && !defined('EL_SIN_SESION') && PHP_SAPI !== 'cli') {
     session_set_cookie_params([
         'httponly' => true,
         'samesite' => 'Lax',
         'secure'   => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
     ]);
-    session_name('espacioluz_sess');
+    session_name('espacioluzdemo_sess');
     session_start();
 }
 

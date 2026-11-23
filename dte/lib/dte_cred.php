@@ -150,6 +150,8 @@ function dte_pfx_modernizar(string $cont, string $pass): ?string {
 }
 
 function dte_guardar_cert(mysqli $conex, array $cfg, int $empresaId, string $pfxTmpPath, string $pass): array {
+    // EspacioLuz Demo: no se aceptan certificados digitales reales.
+    if (dte_modo_demo()) return ['ok' => false, 'error' => 'Modo demostración: no se cargan certificados digitales reales. Los documentos se emiten con folios de prueba.'];
     $cont = @file_get_contents($pfxTmpPath);
     if ($cont === false || $cont === '') throw new RuntimeException('No se recibió el archivo del certificado.');
     $certs = [];
@@ -254,6 +256,8 @@ function dte_caf_bytes(array $cfg, int $empresaId, int $tipo, array $caf): strin
 }
 
 function dte_guardar_caf(mysqli $conex, array $cfg, int $empresaId, string $cafXml, string $nombre = ''): array {
+    // EspacioLuz Demo: los CAF reales del SII no se cargan; se usan CAF de prueba.
+    if (dte_modo_demo()) return ['ok' => false, 'error' => 'Modo demostración: no se cargan CAF reales del SII. Usa «Solicitar folios» para crear un CAF de prueba.'];
     $info = dte_inspeccionar_caf($cafXml);
     if (!$info) throw new RuntimeException("Archivo CAF inválido: {$nombre}");
 

@@ -20,20 +20,20 @@ function eluz_mail_from(): string
  */
 function eluz_mailer(): \PHPMailer\PHPMailer\PHPMailer
 {
-    require_once APP_ROOT . '/dte/vendor/autoload.php';
-    if (!class_exists('PHPMailer\\PHPMailer\\PHPMailer')) {
-        $pm = APP_ROOT . '/dte/vendor/phpmailer/phpmailer/src/';
-        foreach (['Exception.php', 'PHPMailer.php', 'SMTP.php'] as $f) {
-            if (is_file($pm . $f)) require_once $pm . $f;
-        }
-    }
+    require_once APP_ROOT . '/vendor/autoload.php';
     if (!class_exists('PHPMailer\\PHPMailer\\PHPMailer')) {
         throw new RuntimeException('PHPMailer no está disponible.');
     }
 
     $from = eluz_mail_from();
-    $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
-    if (getenv('ELUZ_SMTP_HOST')) {
+    // EspacioLuz Demo: los correos NO salen del servidor; se guardan como .eml en
+    // storage/logs/correos para revisarlos (los destinatarios de la demo son ficticios).
+    if (defined('APP_DEMO') && APP_DEMO && env('MAIL_MODO', 'archivo') !== 'smtp') {
+        $mail = new \EspacioLuz\Infrastructure\ArchivoMailer(true);
+    } else {
+        $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+    }
+    if (!($mail instanceof \EspacioLuz\Infrastructure\ArchivoMailer) && getenv('ELUZ_SMTP_HOST')) {
         $mail->isSMTP();
         $mail->Host       = getenv('ELUZ_SMTP_HOST');
         $mail->SMTPAuth   = true;

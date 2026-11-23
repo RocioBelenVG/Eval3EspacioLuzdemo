@@ -12,8 +12,8 @@
  * Deja el resultado en espacioluz_dte_priv/logs/cron_folios.log y en el historial del panel.
  */
 declare(strict_types=1);
-// MIGRADO: este sistema se trasladó a espacioterapeuticoluz.cl; los folios los pide el servidor nuevo.
-if (PHP_SAPI === "cli") { echo "Sistema migrado a espacioterapeuticoluz.cl: sin acción.\n"; exit(0); }
+// EspacioLuz Demo: no se piden folios al SII (los documentos usan CAF de prueba).
+if (PHP_SAPI === "cli") { echo "EspacioLuz Demo: solicitud de folios al SII deshabilitada.\n"; exit(0); }
 if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
 @set_time_limit(1800);
 define('EL_CRON', true);

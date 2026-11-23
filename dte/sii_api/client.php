@@ -9,6 +9,10 @@ final class TrivoxaApiClient
 
     public function __construct(array $cfg)
     {
+        // EspacioLuz Demo: este cliente NUNCA se usa; cualquier intento de crearlo se corta.
+        if (!function_exists('dte_modo_demo') || dte_modo_demo()) {
+            throw new RuntimeException('Modo demostración: la conexión con Trivoxa API DTE / SII está deshabilitada.');
+        }
         $this->cfg = $cfg;
 
         if (empty($this->cfg['base_url'])) {
