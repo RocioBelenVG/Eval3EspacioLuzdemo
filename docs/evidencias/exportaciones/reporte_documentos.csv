@@ -1,0 +1,26 @@
+﻿Fecha;Documento;Folio;Receptor;Emisor;Total;"Notas crédito";Pagado;Saldo;"Estado de pago";Vence;"Días pago"
+2026-09-01;"Factura exenta (demo)";73;"Tomás Ibarra Quezada";"Espacio Luz Demo SpA";224000;0;224000;0;Pagado;2026-10-01;32
+2026-09-01;"Factura exenta (demo)";74;"Camila Ortega Vidal";"Espacio Luz Demo SpA";184000;0;184000;0;Pagado;2026-10-01;13
+2026-09-01;"Factura exenta (demo)";75;"Diego Paredes Lillo";"Espacio Luz Demo SpA";336000;0;336000;0;Pagado;2026-10-01;28
+2026-09-01;"Factura exenta (demo)";76;"Consulta Sanhueza SpA";"Espacio Luz Demo SpA";88000;0;88000;0;Pagado;2026-10-01;34
+2026-09-01;"Factura exenta (demo)";77;"Ignacio Fuentealba Cid";"Espacio Luz Demo SpA";304000;0;304000;0;Pagado;2026-10-01;14
+2026-09-01;"Factura exenta (demo)";78;"Constanza Leal Parra";"Espacio Luz Demo SpA";104000;0;104000;0;Pagado;2026-10-01;10
+2026-09-01;"Factura exenta (demo)";79;"Matías Arriagada Toro";"Espacio Luz Demo SpA";280000;0;280000;0;Pagado;2026-10-01;32
+2026-09-01;"Factura exenta (demo)";80;"Daniela Venegas Rubio";"Espacio Luz Demo SpA";132000;0;132000;0;Pagado;2026-10-01;38
+2026-10-01;"Factura exenta (demo)";81;"Tomás Ibarra Quezada";"Espacio Luz Demo SpA";232000;0;232000;0;Pagado;2026-10-31;5
+2026-10-01;"Factura exenta (demo)";82;"Camila Ortega Vidal";"Espacio Luz Demo SpA";176000;0;176000;0;Pagado;2026-10-31;8
+2026-10-01;"Factura exenta (demo)";83;"Diego Paredes Lillo";"Espacio Luz Demo SpA";360000;0;360000;0;Pagado;2026-10-31;15
+2026-10-01;"Factura exenta (demo)";84;"Consulta Sanhueza SpA";"Espacio Luz Demo SpA";104000;0;104000;0;Pagado;2026-10-31;42
+2026-10-01;"Factura exenta (demo)";85;"Ignacio Fuentealba Cid";"Espacio Luz Demo SpA";232000;0;232000;0;Pagado;2026-10-31;28
+2026-10-01;"Factura exenta (demo)";86;"Constanza Leal Parra";"Espacio Luz Demo SpA";112000;0;112000;0;Pagado;2026-10-31;33
+2026-10-01;"Factura exenta (demo)";87;"Matías Arriagada Toro";"Espacio Luz Demo SpA";240000;0;240000;0;Pagado;2026-10-31;22
+2026-10-01;"Factura exenta (demo)";88;"Daniela Venegas Rubio";"Espacio Luz Demo SpA";168000;0;168000;0;Pagado;2026-10-31;37
+2026-11-02;"Factura exenta (demo)";89;"Tomás Ibarra Quezada";"Espacio Luz Demo SpA";232000;0;232000;0;Pagado;2026-12-02;3
+2026-11-02;"Factura exenta (demo)";90;"Camila Ortega Vidal";"Espacio Luz Demo SpA";168000;0;168000;0;Pagado;2026-12-02;18
+2026-11-02;"Factura exenta (demo)";91;"Diego Paredes Lillo";"Espacio Luz Demo SpA";348000;0;348000;0;Pagado;2026-12-02;11
+2026-11-02;"Factura exenta (demo)";92;"Consulta Sanhueza SpA";"Espacio Luz Demo SpA";136000;0;0;136000;"Por cobrar";2026-12-02;
+2026-11-02;"Factura exenta (demo)";93;"Ignacio Fuentealba Cid";"Espacio Luz Demo SpA";312000;0;0;312000;"Por cobrar";2026-12-02;
+2026-11-02;"Factura exenta (demo)";94;"Constanza Leal Parra";"Espacio Luz Demo SpA";112000;0;112000;0;Pagado;2026-12-02;14
+2026-11-02;"Factura exenta (demo)";95;"Matías Arriagada Toro";"Espacio Luz Demo SpA";352000;0;0;352000;"Por cobrar";2026-12-02;
+2026-11-02;"Factura exenta (demo)";96;"Daniela Venegas Rubio";"Espacio Luz Demo SpA";120000;0;0;120000;"Por cobrar";2026-12-02;
+TOTALES;;;;;5056000;0;4136000;920000;;;

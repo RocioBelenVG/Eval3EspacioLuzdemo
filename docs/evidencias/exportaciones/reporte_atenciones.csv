@@ -1,0 +1,334 @@
+﻿Fecha;Hora;Box;Profesional;Especialidad;"Paciente / uso";Tipo;Estado;Precio;Cobrada
+2026-10-23;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #16";Intervención;Cancelada;35000;No
+2026-10-23;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #129";Intervención;Realizada;32000;Sí
+2026-10-23;10:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #382";"Etapas de la vida";Realizada;35000;Sí
+2026-10-23;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #19";Intervención;Realizada;32000;Sí
+2026-10-23;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #352";Intervención;Realizada;35000;Sí
+2026-10-23;11:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #475";Intervención;Realizada;32000;Sí
+2026-10-23;12:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #142";Intervención;Realizada;35000;Sí
+2026-10-23;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #409";Intervención;Realizada;32000;Sí
+2026-10-23;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #42";Intervención;Realizada;35000;No
+2026-10-23;14:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #140";Intervención;Realizada;35000;Sí
+2026-10-23;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #228";Intervención;Realizada;35000;Sí
+2026-10-23;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #172";Intervención;Realizada;35000;Sí
+2026-10-23;16:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #45";Intervención;Cancelada;32000;No
+2026-10-23;17:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #323";Intervención;Realizada;32000;Sí
+2026-10-23;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #33";Intervención;Realizada;32000;Sí
+2026-10-24;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #328";Intervención;Realizada;35000;Sí
+2026-10-24;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #111";Evaluación;Realizada;30000;Sí
+2026-10-24;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #326";"Orientación familiar";Cancelada;35000;No
+2026-10-24;11:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #345";"Orientación familiar";Realizada;32000;Sí
+2026-10-24;12:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #474";"Etapas de la vida";Realizada;35000;Sí
+2026-10-24;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #352";Intervención;Realizada;35000;Sí
+2026-10-24;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #69";Intervención;Realizada;32000;Sí
+2026-10-24;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #264";Intervención;Realizada;35000;Sí
+2026-10-24;15:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #277";Intervención;Realizada;32000;Sí
+2026-10-24;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #142";Intervención;Realizada;35000;Sí
+2026-10-24;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #304";Intervención;Realizada;35000;Sí
+2026-10-24;18:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #134";Evaluación;Realizada;35000;Sí
+2026-10-24;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #399";Intervención;Realizada;32000;Sí
+2026-10-26;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #352";Evaluación;Realizada;35000;Sí
+2026-10-26;10:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #26";Intervención;Realizada;35000;Sí
+2026-10-26;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #517";Intervención;Cancelada;32000;No
+2026-10-26;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #446";Intervención;Realizada;35000;Sí
+2026-10-26;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #325";Intervención;Realizada;32000;Sí
+2026-10-26;13:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #381";Intervención;Realizada;32000;Sí
+2026-10-26;14:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #4";Intervención;Cancelada;35000;No
+2026-10-26;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #461";Intervención;Realizada;32000;Sí
+2026-10-26;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #424";Evaluación;Realizada;35000;Sí
+2026-10-26;15:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #67";Evaluación;Cancelada;30000;No
+2026-10-26;16:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #115";Intervención;Realizada;32000;Sí
+2026-10-26;17:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #217";Intervención;Realizada;32000;Sí
+2026-10-26;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #275";Intervención;Realizada;32000;Sí
+2026-10-27;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #79";Intervención;Realizada;32000;Sí
+2026-10-27;10:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #134";Intervención;"No asistió";35000;No
+2026-10-27;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #54";Intervención;Realizada;35000;Sí
+2026-10-27;11:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #441";Intervención;Realizada;32000;Sí
+2026-10-27;12:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #406";"Etapas de la vida";Realizada;35000;Sí
+2026-10-27;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #26";Intervención;Realizada;35000;Sí
+2026-10-27;13:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #333";Intervención;Realizada;32000;Sí
+2026-10-27;14:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #264";Evaluación;Realizada;35000;Sí
+2026-10-27;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #320";Intervención;Realizada;35000;Sí
+2026-10-27;15:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #233";Intervención;Realizada;32000;Sí
+2026-10-27;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #154";Intervención;Realizada;35000;Sí
+2026-10-27;16:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #51";Intervención;Realizada;32000;Sí
+2026-10-27;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #82";Intervención;Realizada;35000;Sí
+2026-10-27;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #345";Intervención;Realizada;32000;Sí
+2026-10-28;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #325";Intervención;Realizada;32000;Sí
+2026-10-28;10:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #352";Intervención;Realizada;35000;Sí
+2026-10-28;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #129";Evaluación;Realizada;30000;Sí
+2026-10-28;11:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #193";"Orientación familiar";Realizada;32000;Sí
+2026-10-28;12:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #480";Intervención;Realizada;35000;Sí
+2026-10-28;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #95";Intervención;Realizada;32000;Sí
+2026-10-28;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #296";Intervención;Realizada;35000;Sí
+2026-10-28;13:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #397";Intervención;Realizada;32000;Sí
+2026-10-28;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #141";Intervención;Realizada;32000;Sí
+2026-10-28;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #30";Intervención;Realizada;35000;Sí
+2026-10-28;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #292";Intervención;Realizada;35000;Sí
+2026-10-28;18:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #186";"Orientación familiar";Realizada;35000;Sí
+2026-10-28;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #105";Intervención;Realizada;32000;Sí
+2026-10-29;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #172";Intervención;Realizada;35000;Sí
+2026-10-29;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #411";Intervención;Realizada;32000;Sí
+2026-10-29;10:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #492";Intervención;Realizada;35000;Sí
+2026-10-29;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #476";Evaluación;Realizada;35000;Sí
+2026-10-29;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #339";Intervención;Realizada;32000;Sí
+2026-10-29;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #486";Intervención;Realizada;35000;Sí
+2026-10-29;14:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #444";Intervención;Realizada;35000;No
+2026-10-29;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #267";"Orientación familiar";Realizada;32000;Sí
+2026-10-29;15:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #113";"Etapas de la vida";Realizada;32000;Sí
+2026-10-29;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #520";Intervención;Realizada;35000;Sí
+2026-10-29;16:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #79";Intervención;"No asistió";32000;No
+2026-10-29;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #108";Evaluación;Realizada;35000;Sí
+2026-10-29;17:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #275";Evaluación;Realizada;30000;Sí
+2026-10-29;18:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #324";Intervención;Cancelada;35000;No
+2026-10-29;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #275";Intervención;Cancelada;32000;No
+2026-10-30;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #46";"Orientación familiar";Realizada;35000;Sí
+2026-10-30;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #151";Intervención;"No asistió";32000;No
+2026-10-30;12:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #16";Intervención;Realizada;35000;Sí
+2026-10-30;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #359";Evaluación;Realizada;30000;Sí
+2026-10-30;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #450";Intervención;Realizada;35000;Sí
+2026-10-30;13:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #467";"Orientación familiar";Realizada;32000;Sí
+2026-10-30;14:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #384";"Etapas de la vida";Cancelada;35000;No
+2026-10-30;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #517";Intervención;Realizada;32000;Sí
+2026-10-30;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #484";Intervención;Realizada;35000;Sí
+2026-10-30;15:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #271";Intervención;Realizada;32000;Sí
+2026-10-30;16:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #143";Intervención;"No asistió";32000;No
+2026-10-30;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #112";Intervención;Realizada;35000;Sí
+2026-10-30;17:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #379";Intervención;Realizada;32000;Sí
+2026-10-30;18:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #30";Intervención;Realizada;35000;Sí
+2026-11-02;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #364";"Orientación familiar";Realizada;35000;Sí
+2026-11-02;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #517";Intervención;Realizada;32000;Sí
+2026-11-02;10:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #176";Intervención;Realizada;35000;Sí
+2026-11-02;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #198";"Etapas de la vida";Realizada;35000;Sí
+2026-11-02;11:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #261";Intervención;Realizada;32000;Sí
+2026-11-02;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #105";Intervención;Cancelada;32000;No
+2026-11-02;13:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #457";Intervención;Cancelada;32000;No
+2026-11-02;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #178";Intervención;Realizada;35000;Sí
+2026-11-02;15:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #369";Intervención;Realizada;32000;Sí
+2026-11-02;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #186";Evaluación;Realizada;35000;Sí
+2026-11-02;17:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #107";Intervención;Cancelada;32000;No
+2026-11-02;18:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #394";"Orientación familiar";Realizada;35000;Sí
+2026-11-03;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #309";Intervención;"No asistió";32000;No
+2026-11-03;10:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #48";Evaluación;Realizada;35000;Sí
+2026-11-03;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #19";"Etapas de la vida";Realizada;32000;Sí
+2026-11-03;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #74";Intervención;Realizada;35000;Sí
+2026-11-03;11:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #3";Intervención;Realizada;32000;Sí
+2026-11-03;13:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #151";Evaluación;Realizada;30000;Sí
+2026-11-03;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #511";"Etapas de la vida";Realizada;32000;Sí
+2026-11-03;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #500";"Orientación familiar";Realizada;35000;Sí
+2026-11-03;16:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #343";Intervención;Realizada;32000;Sí
+2026-11-03;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #374";Intervención;Realizada;35000;Sí
+2026-11-03;17:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #393";"Orientación familiar";Realizada;32000;Sí
+2026-11-03;18:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #320";Intervención;Cancelada;35000;No
+2026-11-03;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #205";Intervención;Cancelada;32000;No
+2026-11-04;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #242";Intervención;Realizada;35000;Sí
+2026-11-04;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #19";"Orientación familiar";Realizada;32000;Sí
+2026-11-04;10:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #360";Evaluación;Realizada;35000;Sí
+2026-11-04;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #154";Intervención;Realizada;35000;Sí
+2026-11-04;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #500";Intervención;Realizada;35000;Sí
+2026-11-04;13:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #245";Evaluación;Realizada;30000;Sí
+2026-11-04;14:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #228";Intervención;Realizada;35000;Sí
+2026-11-04;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #469";Intervención;Realizada;32000;Sí
+2026-11-04;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #506";"Etapas de la vida";Realizada;35000;Sí
+2026-11-04;15:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #465";Intervención;Realizada;32000;Sí
+2026-11-04;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #176";Intervención;Realizada;35000;Sí
+2026-11-04;16:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #383";Intervención;Cancelada;32000;No
+2026-11-04;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #3";"Etapas de la vida";Realizada;32000;Sí
+2026-11-05;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #338";Intervención;Realizada;35000;Sí
+2026-11-05;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #287";Evaluación;Realizada;30000;Sí
+2026-11-05;10:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #484";Intervención;Realizada;35000;Sí
+2026-11-05;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #255";Intervención;Realizada;32000;Sí
+2026-11-05;12:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #148";Evaluación;Realizada;35000;Sí
+2026-11-05;13:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #417";Evaluación;Cancelada;30000;No
+2026-11-05;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #3";Intervención;Realizada;32000;Sí
+2026-11-05;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #178";Intervención;Realizada;35000;Sí
+2026-11-05;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #124";Intervención;Realizada;35000;Sí
+2026-11-05;16:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #381";Intervención;Realizada;32000;Sí
+2026-11-05;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #328";Intervención;Realizada;35000;Sí
+2026-11-05;17:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #393";Intervención;Realizada;32000;Sí
+2026-11-05;18:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #400";"Orientación familiar";Realizada;35000;Sí
+2026-11-05;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #393";"Orientación familiar";Realizada;32000;Sí
+2026-11-06;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #328";"Orientación familiar";Realizada;35000;Sí
+2026-11-06;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #33";"Orientación familiar";Realizada;32000;Sí
+2026-11-06;10:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #402";Intervención;Realizada;35000;Sí
+2026-11-06;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #517";Intervención;Realizada;32000;Sí
+2026-11-06;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #464";"Orientación familiar";Realizada;35000;Sí
+2026-11-06;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #312";Intervención;Realizada;35000;Sí
+2026-11-06;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #461";"Etapas de la vida";Realizada;32000;Sí
+2026-11-06;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #326";Evaluación;Realizada;35000;Sí
+2026-11-06;16:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #161";Intervención;Realizada;32000;Sí
+2026-11-06;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #102";Intervención;Realizada;35000;Sí
+2026-11-06;17:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #27";Intervención;Realizada;32000;Sí
+2026-11-06;18:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #364";"Orientación familiar";Cancelada;35000;No
+2026-11-06;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #125";Intervención;Realizada;32000;Sí
+2026-11-07;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #193";Evaluación;Realizada;30000;Sí
+2026-11-07;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #505";Intervención;Realizada;32000;Sí
+2026-11-07;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #450";Intervención;"No asistió";35000;No
+2026-11-07;11:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #209";Evaluación;Realizada;30000;Sí
+2026-11-07;12:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #148";Evaluación;Realizada;35000;Sí
+2026-11-07;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #19";Intervención;Cancelada;32000;No
+2026-11-07;13:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #393";"Orientación familiar";Realizada;32000;Sí
+2026-11-07;14:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #242";"Etapas de la vida";Realizada;35000;Sí
+2026-11-07;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #181";Intervención;Realizada;32000;Sí
+2026-11-07;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #340";Intervención;Realizada;35000;Sí
+2026-11-07;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #164";Intervención;Realizada;35000;Sí
+2026-11-07;17:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #67";"Etapas de la vida";Realizada;32000;Sí
+2026-11-07;18:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #428";Evaluación;"No asistió";35000;No
+2026-11-09;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #468";Intervención;Realizada;35000;Sí
+2026-11-09;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #307";Evaluación;Realizada;30000;Sí
+2026-11-09;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #419";Intervención;Realizada;32000;Sí
+2026-11-09;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #164";"Etapas de la vida";"No asistió";35000;No
+2026-11-09;11:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #205";Intervención;Realizada;32000;Sí
+2026-11-09;12:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #380";Intervención;Realizada;35000;Sí
+2026-11-09;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #309";Intervención;Realizada;32000;No
+2026-11-09;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #500";Intervención;Realizada;35000;Sí
+2026-11-09;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #325";Intervención;Realizada;32000;Sí
+2026-11-09;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #270";Intervención;Realizada;35000;Sí
+2026-11-09;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #306";"Etapas de la vida";Realizada;35000;Sí
+2026-11-09;17:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #347";Intervención;Realizada;32000;No
+2026-11-09;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #365";Intervención;Realizada;32000;Sí
+2026-11-10;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #198";Intervención;Realizada;35000;Sí
+2026-11-10;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #19";Intervención;Cancelada;32000;No
+2026-11-10;10:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #324";Intervención;Realizada;35000;Sí
+2026-11-10;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #263";Intervención;Realizada;32000;Sí
+2026-11-10;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #446";"Etapas de la vida";Realizada;35000;Sí
+2026-11-10;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #107";"Etapas de la vida";Realizada;32000;Sí
+2026-11-10;13:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #351";Intervención;Realizada;32000;Sí
+2026-11-10;14:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #46";"Etapas de la vida";Realizada;35000;Sí
+2026-11-10;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #73";Intervención;Realizada;32000;Sí
+2026-11-10;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #502";Evaluación;Realizada;35000;Sí
+2026-11-10;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #369";Intervención;Realizada;32000;Sí
+2026-11-11;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #470";"Etapas de la vida";Realizada;35000;Sí
+2026-11-11;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #263";Intervención;Realizada;32000;Sí
+2026-11-11;10:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #74";"Etapas de la vida";Realizada;35000;Sí
+2026-11-11;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #385";Intervención;Realizada;32000;Sí
+2026-11-11;12:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #96";Intervención;Cancelada;35000;No
+2026-11-11;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #307";Intervención;Realizada;32000;Sí
+2026-11-11;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #164";Intervención;Realizada;35000;Sí
+2026-11-11;13:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #15";Intervención;Realizada;32000;Sí
+2026-11-11;14:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #492";Intervención;Realizada;35000;Sí
+2026-11-11;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #107";"Orientación familiar";Realizada;32000;Sí
+2026-11-11;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #306";"Orientación familiar";"No asistió";35000;No
+2026-11-11;15:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #433";Intervención;Realizada;32000;Sí
+2026-11-11;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #196";Intervención;Realizada;35000;Sí
+2026-11-11;16:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #497";Intervención;Realizada;32000;Sí
+2026-11-11;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #344";"Orientación familiar";Cancelada;35000;No
+2026-11-11;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #347";"Orientación familiar";Realizada;32000;Sí
+2026-11-12;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #71";"Orientación familiar";Realizada;32000;Sí
+2026-11-12;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #390";Evaluación;Realizada;35000;Sí
+2026-11-12;11:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #473";Intervención;Realizada;32000;Sí
+2026-11-12;12:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #506";Intervención;Realizada;35000;Sí
+2026-11-12;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #454";"Orientación familiar";Realizada;35000;Sí
+2026-11-12;14:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #256";Intervención;Realizada;35000;Sí
+2026-11-12;15:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #193";Evaluación;Realizada;30000;Sí
+2026-11-12;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #464";Intervención;Cancelada;35000;No
+2026-11-12;16:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #235";Intervención;Realizada;32000;Sí
+2026-11-12;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #82";"Etapas de la vida";Realizada;35000;Sí
+2026-11-12;18:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #186";Intervención;Cancelada;35000;No
+2026-11-12;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #171";"Orientación familiar";Realizada;32000;Sí
+2026-11-13;10:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #264";Intervención;Realizada;35000;Sí
+2026-11-13;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #163";Intervención;Realizada;32000;No
+2026-11-13;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #320";Intervención;Realizada;35000;Sí
+2026-11-13;11:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #125";Intervención;Realizada;32000;No
+2026-11-13;12:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #254";Evaluación;Realizada;35000;Sí
+2026-11-13;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #3";Intervención;Realizada;32000;No
+2026-11-13;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #334";Intervención;Realizada;35000;Sí
+2026-11-13;13:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #393";Intervención;Realizada;32000;No
+2026-11-13;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #91";Intervención;Realizada;32000;Sí
+2026-11-13;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #96";Intervención;"No asistió";35000;No
+2026-11-13;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #282";Intervención;Realizada;35000;Sí
+2026-11-13;16:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #67";Evaluación;Realizada;30000;Sí
+2026-11-13;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #386";Intervención;Cancelada;35000;No
+2026-11-13;17:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #271";Evaluación;Realizada;30000;No
+2026-11-13;18:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #414";Evaluación;"No asistió";35000;No
+2026-11-13;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #129";Intervención;Realizada;32000;Sí
+2026-11-14;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #186";Intervención;Realizada;35000;No
+2026-11-14;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #95";Intervención;Cancelada;32000;No
+2026-11-14;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #469";Evaluación;Realizada;30000;No
+2026-11-14;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #450";Intervención;Realizada;35000;Sí
+2026-11-14;11:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #401";Intervención;Realizada;32000;Sí
+2026-11-14;12:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #414";Intervención;Realizada;35000;No
+2026-11-14;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #51";"Orientación familiar";Realizada;32000;Sí
+2026-11-14;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #374";Evaluación;Realizada;35000;No
+2026-11-14;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #352";Intervención;Cancelada;35000;No
+2026-11-14;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #374";Intervención;Realizada;35000;Sí
+2026-11-14;16:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #143";Evaluación;Realizada;30000;Sí
+2026-11-14;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #208";Intervención;Realizada;35000;No
+2026-11-14;17:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #373";"Etapas de la vida";Realizada;32000;Sí
+2026-11-14;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #89";Intervención;Realizada;32000;Sí
+2026-11-16;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #178";Intervención;Realizada;35000;Sí
+2026-11-16;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #33";Intervención;"No asistió";32000;No
+2026-11-16;10:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #46";Intervención;Realizada;35000;Sí
+2026-11-16;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #69";Evaluación;Realizada;30000;Sí
+2026-11-16;12:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #250";Evaluación;Realizada;35000;Sí
+2026-11-16;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #247";"Orientación familiar";Cancelada;32000;No
+2026-11-16;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #30";Intervención;Realizada;35000;No
+2026-11-16;14:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #328";Intervención;Realizada;35000;Sí
+2026-11-16;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #171";Intervención;Realizada;32000;Sí
+2026-11-16;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #264";Evaluación;Cancelada;35000;No
+2026-11-16;16:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #211";Intervención;Realizada;32000;Sí
+2026-11-16;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #515";Intervención;Realizada;32000;No
+2026-11-17;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #381";Intervención;Realizada;32000;No
+2026-11-17;11:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #77";Evaluación;Realizada;30000;No
+2026-11-17;12:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #102";"Orientación familiar";Realizada;35000;No
+2026-11-17;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #19";Intervención;Realizada;32000;No
+2026-11-17;13:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #71";Intervención;Realizada;32000;Sí
+2026-11-17;14:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #432";Intervención;Realizada;35000;No
+2026-11-17;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #93";Intervención;Realizada;32000;Sí
+2026-11-17;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #126";Evaluación;Realizada;35000;Sí
+2026-11-17;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #520";"Orientación familiar";Realizada;35000;Sí
+2026-11-17;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #250";Intervención;Realizada;35000;Sí
+2026-11-17;18:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #16";"Etapas de la vida";Realizada;35000;Sí
+2026-11-18;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #298";Intervención;Realizada;35000;Sí
+2026-11-18;10:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #406";Evaluación;Cancelada;35000;No
+2026-11-18;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #183";Intervención;Realizada;32000;Sí
+2026-11-18;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #1";Intervención;Realizada;32000;Sí
+2026-11-18;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #412";"Orientación familiar";Cancelada;35000;No
+2026-11-18;13:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #205";Evaluación;Realizada;30000;Sí
+2026-11-18;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #19";Evaluación;Realizada;30000;No
+2026-11-18;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #356";Evaluación;Realizada;35000;Sí
+2026-11-18;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #124";Intervención;Realizada;35000;No
+2026-11-18;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #228";Evaluación;Realizada;35000;No
+2026-11-18;17:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #305";Intervención;Cancelada;32000;No
+2026-11-18;18:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #172";Intervención;Realizada;35000;Sí
+2026-11-19;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #304";Intervención;Realizada;35000;Sí
+2026-11-19;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #399";Intervención;Cancelada;32000;No
+2026-11-19;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #381";Intervención;Realizada;32000;No
+2026-11-19;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #48";Intervención;Realizada;35000;No
+2026-11-19;12:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #420";Intervención;Realizada;35000;Sí
+2026-11-19;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #1";"Orientación familiar";Realizada;32000;Sí
+2026-11-19;14:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #414";"Orientación familiar";Realizada;35000;No
+2026-11-19;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #261";Intervención;Realizada;32000;Sí
+2026-11-19;15:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #448";Intervención;Realizada;35000;No
+2026-11-19;15:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #217";Intervención;Realizada;32000;No
+2026-11-19;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #8";Intervención;Realizada;35000;No
+2026-11-19;17:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #351";"Orientación familiar";Realizada;32000;Sí
+2026-11-19;18:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #262";Intervención;Realizada;35000;Sí
+2026-11-19;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #305";Intervención;Realizada;32000;No
+2026-11-20;09:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #204";Evaluación;Realizada;35000;Sí
+2026-11-20;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #43";Intervención;Realizada;32000;No
+2026-11-20;10:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #258";"Etapas de la vida";Realizada;35000;No
+2026-11-20;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #505";"Etapas de la vida";Realizada;32000;Sí
+2026-11-20;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #208";Intervención;Realizada;35000;Sí
+2026-11-20;11:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #383";Intervención;Realizada;32000;No
+2026-11-20;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #193";Intervención;Realizada;32000;Sí
+2026-11-20;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #316";Evaluación;Realizada;35000;Sí
+2026-11-20;13:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #235";"Orientación familiar";Realizada;32000;No
+2026-11-20;14:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #333";Intervención;Cancelada;32000;No
+2026-11-20;15:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #73";Intervención;Realizada;32000;Sí
+2026-11-20;16:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #162";Evaluación;Realizada;35000;Sí
+2026-11-20;16:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #207";Intervención;Realizada;32000;Sí
+2026-11-20;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #364";Intervención;Realizada;35000;Sí
+2026-11-20;18:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #324";Intervención;Realizada;35000;Sí
+2026-11-21;09:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #291";Intervención;Realizada;32000;No
+2026-11-21;10:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #33";Intervención;Realizada;32000;No
+2026-11-21;11:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #492";Intervención;Cancelada;35000;No
+2026-11-21;12:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #76";Intervención;Realizada;35000;Sí
+2026-11-21;12:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #183";Intervención;Realizada;32000;Sí
+2026-11-21;13:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #518";Intervención;Realizada;35000;No
+2026-11-21;15:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #411";Evaluación;Realizada;30000;Sí
+2026-11-21;17:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #280";"Orientación familiar";Realizada;35000;No
+2026-11-21;17:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #473";Intervención;Realizada;32000;Sí
+2026-11-21;18:00;"Gimnasio Colibri";"Fernanda Alarcón Ríos";"Terapia Ocupacional";"Paciente #176";Intervención;"No asistió";35000;No
+2026-11-21;18:00;Loica;"Javiera Montes Lagos";Fonoaudiología;"Paciente #471";Evaluación;Realizada;30000;Sí
+TOTALES;;;;;;;;11079000;
