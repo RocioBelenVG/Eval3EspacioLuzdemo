@@ -6,11 +6,11 @@
 <!--
   Fuente del informe técnico (PDF). Compone los documentos de docs/*.md con secciones propias.
   Generar: servir la raíz del repositorio en http://127.0.0.1:8767 y ejecutar
-    chrome --headless --no-pdf-header-footer --virtual-time-budget=20000 --print-to-pdf=Informe.pdf http://127.0.0.1:8767/docs/informe/informe.html
+    node docs/informe/generar_pdf.mjs "<chrome.exe>" Informe.pdf   (logo IPVG en cada página y numeración)
 -->
 <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
 <style>
-  @page { size: A4; margin: 18mm 16mm 18mm; }
+  /* Márgenes, logo (encabezado) y numeración (pie): los fija docs/informe/generar_pdf.mjs. */
   :root { --t:#3D2A21; --s:#6B5446; --p:#A4512F; --b:#D9CFC0; --c:#F3EEE4; }
   body { font: 10pt/1.45 "Segoe UI", Inter, Arial, sans-serif; color: var(--t); }
   h1, h2, h3, h4 { font-family: Georgia, "Times New Roman", serif; color: var(--t); page-break-after: avoid; }
@@ -42,8 +42,8 @@
   <p class="sub">Lenguaje de Programación Web II · Evaluación 3</p>
   <h1 style="font-size:28pt">Espacio Luz Demo</h1>
   <p class="sub">Proyecto integrador: sistema web de gestión de un centro terapéutico, análisis de datos y plan de despliegue</p>
-  <p><strong>Integrante:</strong> Rocío Riquelme Torres</p>
-  <p class="completar">Completar: otros integrantes del equipo (si corresponde), sección, docente y fecha de entrega.</p>
+  <p><strong>Integrante:</strong> Rocío Riquelme Torres (proyecto individual)</p>
+  <p><strong>Institución:</strong> Instituto Profesional Virginio Gómez · <strong>Fecha:</strong> noviembre de 2026</p>
   <p><strong>Sistema en línea:</strong> https://trivoxa.cl/espacioluzdemo · <strong>API:</strong> /api/v1 · <strong>Swagger:</strong> /api/docs</p>
   <p class="aviso">Datos 100 % sintéticos. Las boletas y facturas son de demostración: nunca se envían al SII.</p>
   <ol class="indice">
@@ -67,7 +67,7 @@ y documentos tributarios de demostración. Incluye sitio público, agenda en lí
 Queda fuera la emisión tributaria real, los pagos en línea y el envío real de correos.</p>
 
 <h2 class="sec">2. Plan de trabajo</h2>
-<p class="completar">Completar: roles de cada integrante (p. ej. backend/API, base de datos, front end y accesibilidad, BI y reportes, DevOps) y aporte individual verificable en el historial de commits.</p>
+<p><strong>Equipo y roles.</strong> Proyecto individual de <strong>Rocío Riquelme Torres</strong>, que asumió todos los roles: análisis del dominio y requerimientos, diseño de arquitectura y base de datos, backend y API, front end y accesibilidad, análisis de datos y reportes, integración de IA y DevOps (contenedores, CI/CD y despliegue). Como herramienta de apoyo se usó Claude Code (declarado en el README); el historial de commits del repositorio refleja el trabajo realizado.</p>
 <table><tr><th>Hito</th><th>Semana</th><th>Entregado</th></tr>
 <tr><td>1 · Propuesta y diseño</td><td>11</td><td>Dominio, requerimientos e historias (01), arquitectura (03), modelo ER (02), contrato OpenAPI, maquetas (docs/maquetas), repositorio.</td></tr>
 <tr><td>2 · Datos y backend</td><td>12</td><td>6 migraciones Phinx, datos sintéticos, API /api/v1 con JWT y 4 roles, validación, pruebas de integración.</td></tr>
@@ -117,10 +117,15 @@ dashboard, reportes y exportación, IA y auditoría; esquemas de datos, códigos
 <tr><td>Endpoint</td><td><code>POST /api/v1/ia/resumen</code> (Administración y Gerencia) con <code>desde</code>, <code>hasta</code> (≤ 1 año), <code>enfoque</code> (general, ocupación, cobranza) y <code>especialidad</code> opcional. Devuelve resumen, hallazgos, recomendaciones, modelo, latencia y los indicadores usados. Se usa desde el dashboard.</td></tr>
 <tr><td>Valor para el dominio</td><td>Convierte los 10 indicadores y su comparación con el período anterior en un resumen ejecutivo para la reunión de gestión del centro.</td></tr>
 <tr><td>Privacidad</td><td>Solo se envían indicadores agregados: nunca nombres, RUT, correos ni datos clínicos (Ley 19.628 y 20.584). Una prueba verifica que lo enviado no contiene correos ni nombres de pacientes.</td></tr>
-<tr><td>Clave</td><td>Variable de entorno <code>GROQ_API_KEY</code> (fuera del repositorio; vacía en CI). Sin clave el endpoint responde 503 IA_NO_CONFIGURADA y el resto del sistema sigue operando.</td></tr>
+<tr><td>Clave</td><td>Variable de entorno <code>GROQ_API_KEY</code> (fuera del repositorio; configurada solo en el .env del servidor; vacía en CI). Sin clave el endpoint responde 503 IA_NO_CONFIGURADA y el resto del sistema sigue operando.</td></tr>
 <tr><td>Tiempo máximo y errores</td><td><code>AI_TIMEOUT</code> (20 s) y 5 s de conexión. Timeout → 504 IA_TIEMPO_AGOTADO; error del proveedor o respuesta inválida → 502 IA_ERROR; límite del proveedor → 503 IA_SATURADA con Retry-After; límite propio 10/min → 429. Todo en el formato estándar y registrado en <code>ia_consultas</code>.</td></tr>
 <tr><td>Entrada y salida validadas</td><td>Entrada con <code>Validator</code>; salida del modelo validada contra un esquema y recortada (OWASP API10). Pruebas con el servicio simulado (<code>FakeIaClient</code>) para éxito, timeout, error, saturación y respuesta inválida.</td></tr></table>
-<p class="completar">Configurar <code>GROQ_API_KEY</code> en el .env del servidor para la demostración en vivo.</p>
+<h3>Resultado real (23-11-2026, semestre 24-05 al 22-11-2026, enfoque general)</h3>
+<p class="aviso">Modelo openai/gpt-oss-120b · 875 ms · HTTP 200. Evidencia completa: <code>docs/evidencias/ia/resumen_real_semestre_2026-11-23.json</code>.</p>
+<p><strong>Resumen:</strong> El centro muestra mejora en ingresos y ocupación de boxes, aunque la tasa de asistencia y cancelación presentan ligeras variaciones negativas. Los pacientes nuevos crecieron notablemente, pero la retención no cuenta con dato previo. Los días de pago se redujeron y la cartera de cuentas por cobrar aumentó.</p>
+<p><strong>Hallazgos:</strong></p><ul><li>Ingresos netos subieron a $53.483.500 frente a $41.127.500</li><li>Ocupación de boxes aumentó a 26.9% desde 21.1%</li><li>Pacientes nuevos crecieron a 280 frente a 179</li><li>Cuentas por cobrar se elevaron a $3.128.000 frente a $910.000</li></ul>
+<p><strong>Recomendaciones:</strong></p><ol><li>Implementar campañas de fidelización para mejorar la retención de pacientes</li><li>Optimizar la gestión de cobros para reducir la cartera de cuentas por cobrar</li><li>Revisar políticas de cancelación y reforzar recordatorios para disminuir la tasa de cancelación</li><li>Ajustar la capacidad de boxes o promocionar horarios para mantener la ocupación sin sobrecargar recursos</li></ol>
+<p>Las cifras citadas por el modelo coinciden con los indicadores del dashboard (sección 8): el modelo no inventó datos y reconoció que la retención no tiene período anterior para comparar. Durante la puesta en marcha se comprobó además el manejo de errores real: el modelo configurado inicialmente (Llama 3.3 70B) había sido retirado por Groq y la API respondió 502 IA_ERROR con el formato estándar, sin afectar al resto del sistema; se cambió a GPT-OSS 120B mediante la variable <code>GROQ_MODELO</code>.</p>
 
 <h2 class="sec">10. Contenerización y despliegue</h2>
 <table><tr><th>Pieza</th><th>Resumen</th></tr>
@@ -131,7 +136,7 @@ dashboard, reportes y exportación, IA y auditoría; esquemas de datos, códigos
 
 <h2 class="sec">11. Articulación del módulo y cierre</h2><div class="doc" data-md="../08_informe_integracion.md"></div>
 <h3>Aporte de cada integrante</h3>
-<p class="completar">Completar con el aporte individual y los commits de cada integrante.</p>
+<p>Proyecto individual: todo el desarrollo, las pruebas, la documentación y el despliegue corresponden a <strong>Rocío Riquelme Torres</strong>, con Claude Code como asistente de desarrollo (declarado en el README). Repositorio público: <code>https://github.com/RocioBelenVG/Eval3EspacioLuzdemo</code>.</p>
 
 <script>
 (async () => {
