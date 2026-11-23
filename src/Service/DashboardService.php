@@ -26,7 +26,7 @@ final class DashboardService
     ) {
     }
 
-    /** Filtros validados; por defecto, los últimos 12 meses cerrados hasta hoy. */
+    /** Filtros validados; por defecto, los últimos 6 meses hasta hoy (así siempre hay período anterior para comparar). */
     public function filtros(array $query): array
     {
         $f = Validator::check($query, [
@@ -38,7 +38,7 @@ final class DashboardService
         ]);
         $hoy = $this->hoy ? ($this->hoy)() : date('Y-m-d');
         $f['hasta'] ??= $hoy;
-        $f['desde'] ??= date('Y-m-d', strtotime($f['hasta'] . ' -1 year +1 day'));
+        $f['desde'] ??= date('Y-m-d', strtotime($f['hasta'] . ' -6 months +1 day'));
         if ($f['desde'] > $f['hasta']) {
             throw ApiException::field('hasta', 'La fecha final debe ser igual o posterior a la inicial.');
         }

@@ -28,6 +28,7 @@ include APP_ROOT . '/partials/panel/top.php';
         <div class="el-fila" style="margin-top:.75rem" role="group" aria-label="Períodos rápidos">
             <button type="button" class="el-btn el-btn--sec el-btn--chico" data-rango="30">Últimos 30 días</button>
             <button type="button" class="el-btn el-btn--sec el-btn--chico" data-rango="90">Últimos 3 meses</button>
+            <button type="button" class="el-btn el-btn--sec el-btn--chico" data-rango="183">Últimos 6 meses</button>
             <button type="button" class="el-btn el-btn--sec el-btn--chico" data-rango="365">Últimos 12 meses</button>
             <span class="el-ayuda" id="bi-estado" aria-live="polite" style="margin:0 0 0 auto"></span>
         </div>

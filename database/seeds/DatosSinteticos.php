@@ -349,8 +349,10 @@ final class DatosSinteticos extends AbstractSeed
                 'apoderado_telefono' => $menor ? $this->telefono() : null, 'prevision' => $this->azar($previsiones ?: ['FONASA']),
                 'consentimiento' => 1, 'consentimiento_fecha' => $creado, 'activo' => $this->prob(0.97) ? 1 : 0, 'creado_en' => $creado,
             ]);
+            // Duración del tratamiento: la mayoría entre 2 y 7 meses; algunos, procesos largos. Después reciben el alta.
+            $dur = $this->prob(0.2) ? mt_rand(240, 400) : mt_rand(45, 210);
             $this->pacientes[$id] = ['id' => $id, 'nombre' => $nombre, 'menor' => $menor, 'apoderado' => $apoderado, 'creado' => substr($creado, 0, 10),
-                'rut' => $rutPaciente, 'apoderado_rut' => $rutApoderado];
+                'rut' => $rutPaciente, 'apoderado_rut' => $rutApoderado, 'alta' => date('Y-m-d', strtotime(substr($creado, 0, 10) . " +$dur days"))];
         }
     }
 
@@ -428,7 +430,7 @@ final class DatosSinteticos extends AbstractSeed
                 $n = (int) round(mt_rand(4, 7) * $f);
                 $horas = range(9, 18);
                 shuffle($horas);
-                $lista = array_values(array_filter($pacientesPorSocia[$s['id']] ?? [], fn ($pa) => $pa['creado'] <= $fecha));
+                $lista = array_values(array_filter($pacientesPorSocia[$s['id']] ?? [], fn ($pa) => $pa['creado'] <= $fecha && $fecha <= $pa['alta']));
                 if ($lista === []) {
                     continue;
                 }
@@ -655,10 +657,13 @@ final class DatosSinteticos extends AbstractSeed
                     'fecha' => $r['fecha'], 'nota_progreso' => $this->azar($notas), 'proxima_accion' => $this->prob(0.5) ? 'Continuar plan de intervención.' : null]);
             }
         }
-        // Cierra (alta) algunas fichas antiguas.
-        $this->pdo->exec("UPDATE fichas f SET estado = 'cerrada', cerrada_en = (SELECT MAX(fecha) FROM evoluciones e WHERE e.ficha_id = f.id)
-                           WHERE f.abierta_en < CURDATE() - INTERVAL 7 MONTH AND f.id % 5 = 0
-                             AND EXISTS (SELECT 1 FROM evoluciones e WHERE e.ficha_id = f.id)");
+        // Alta: se cierran las fichas de pacientes sin atenciones en los últimos 45 días ni agendadas a futuro.
+        $this->pdo->exec("UPDATE fichas f
+                            JOIN (SELECT paciente_id, MAX(fecha) AS ultima FROM reservas WHERE estado = 'realizada' AND paciente_id IS NOT NULL GROUP BY paciente_id) x
+                              ON x.paciente_id = f.paciente_id
+                             SET f.estado = 'cerrada', f.cerrada_en = GREATEST(x.ultima, f.abierta_en)
+                           WHERE x.ultima < CURDATE() - INTERVAL 45 DAY
+                             AND NOT EXISTS (SELECT 1 FROM reservas r WHERE r.paciente_id = f.paciente_id AND r.fecha >= CURDATE() AND r.estado IN ('pendiente','confirmada'))");
         $this->pdo->commit();
     }
 

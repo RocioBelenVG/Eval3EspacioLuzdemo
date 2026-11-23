@@ -148,7 +148,7 @@ async function cargar() {
 async function iniciar() {
   const hoy = hoyISO();
   $('#f-bi-hasta').value = hoy;
-  $('#f-bi-desde').value = sumarDias(hoy, -364);
+  $('#f-bi-desde').value = sumarDias(hoy, -182);
   try {
     const [o, p, b] = await Promise.all([api('/opciones'), api('/profesionales'), api('/boxes')]);
     $('#f-bi-especialidad').insertAdjacentHTML('beforeend', o.data.especialidades.map((e) => `<option value="${esc(e.slug)}">${esc(e.nombre)}</option>`).join(''));
