@@ -67,6 +67,9 @@ crea sus propios usuarios con contraseña aleatoria. La IA y el motor DTE se ree
 multi-etapa con las pruebas unitarias dentro, `docker compose up`, prueba de humo HTTP, respaldo y restauración, rollback)
 → **publicar** (imágenes en GHCR solo en `main` y solo si todo pasó). Los secretos se generan y enmascaran en cada ejecución.
 
+Ejecución de referencia en verde (23-11-2026, commit `dccfee9`): pruebas 48 s, contenedores 2 min 15 s y publicación
+en GHCR 1 min 33 s, en total 5 min 1 s. Evidencia: https://github.com/RocioBelenVG/Eval3EspacioLuzdemo/actions/runs/45204549876
+
 ## Estructura
 
 ```

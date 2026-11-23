@@ -31,7 +31,7 @@ gerencial y de la IA salen de las mismas vistas y del mismo servicio.
 | RF11 Reportes | `ReporteService`, `Export/*` | `AnalisisTest::los_tres_formatos…` | BI II, OO II |
 | RF12 IA | `IaService`, `GroqClient` | `AnalisisTest::la_ia…`, `…errores_de_la_ia…` | Web II |
 | RNF04 Respaldo | `tools/respaldo.sh`, servicio `backup` | `evidencias/respaldo/…`, paso de CI | BD, Web II |
-| RNF09 Contenedores | `Dockerfile`, `compose.yaml`, `ci.yml` | Pipeline (al publicar el repositorio) | Web II |
+| RNF09 Contenedores | `Dockerfile`, `compose.yaml`, `ci.yml` | Ejecución #11 de GitHub Actions en verde (pruebas, contenedores y publicación en GHCR) | Web II |
 
 ## 3. Reflexión crítica sobre las decisiones
 
