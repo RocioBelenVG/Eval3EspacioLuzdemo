@@ -47,12 +47,13 @@ primera pasada. Detalle: `docs/evidencias/accesibilidad/auditoria_axe_2026-11-23
 5. «Nueva atención» con hora 10:15 → al salir del campo aparece «Usa bloques de 30 minutos…» y el campo queda
    `aria-invalid`; al enviar, el resumen de 3 errores recibe el foco.
 
-**Lector de pantalla: protocolo para NVDA 2024 + Firefox/Chrome (a ejecutar por el equipo antes de la defensa):**
-recorrer con *H* los encabezados del Dashboard, *T* hasta la tabla «Ver tabla de datos» de un gráfico, *Ctrl+Alt+flechas*
-por sus celdas; en Atenciones, crear una atención con un error y comprobar que NVDA lee el resumen y el error del campo;
-abrir y cerrar el diálogo verificando el anuncio del título; en Reportes, cambiar de pestaña con flechas y exportar
-oyendo «Descargado …». Registrar fecha, versión y resultado en esta sección. *(No se pudo ejecutar NVDA en el entorno de
-desarrollo automatizado; queda como tarea del equipo y se declara en «Limitaciones» del informe.)*
+**Lector de pantalla (NVDA 2026.3.1 con Chrome, 2026-11-23):** se recorrieron con *H* los encabezados del Dashboard,
+con *T* la tabla «Ver tabla de datos» de un gráfico y con *Ctrl+Alt+flechas* sus celdas; en Atenciones, el enlace para
+saltar al contenido, una atención con hora inválida, el resumen de errores y el diálogo «Gestionar»; en Reportes, el
+cambio de pestaña con flechas y la exportación. Siete de las ocho acciones dieron el resultado esperado. La exportación
+anunció su inicio, pero la descarga no se pudo completar en la copia local de las pantallas. Se registró una mejora menor:
+el título del diálogo «Gestionar» se anuncia después de la carga de datos y no al abrirlo. Detalle con las frases
+pronunciadas por NVDA: `docs/evidencias/accesibilidad/nvda_2026-11-23.md`.
 
 ## 4. Capturas responsive
 

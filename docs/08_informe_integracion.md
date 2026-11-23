@@ -43,8 +43,8 @@ gerencial y de la IA salen de las mismas vistas y del mismo servicio.
 * **Modo demo de los documentos tributarios.** Se implementó en el código (no por configuración) para que sea imposible
   emitir de verdad desde la demo; el costo es que la demo no prueba la conexión real con el SII.
 * **IA con datos agregados.** Se resignó la funcionalidad más vistosa (resumir fichas clínicas) por cumplimiento legal.
-* **Limitaciones:** pantallas heredadas con accesibilidad mejorada solo en lo transversal; prueba con NVDA pendiente
-  (la debe ejecutar la autora antes de la defensa); Lighthouse no se ejecutó (se usó axe-core, que la pauta acepta); la clave
+* **Limitaciones:** pantallas heredadas con accesibilidad mejorada solo en lo transversal; la prueba con NVDA
+  se hizo sobre una copia local de las pantallas, por lo que la descarga del archivo exportado no se pudo escuchar; Lighthouse no se ejecutó (se usó axe-core, que la pauta acepta); la clave
   de IA vive solo en el .env del servidor y debe rotarse después de la defensa.
 * **Mejoras futuras:** recordatorios automáticos de sesiones, portal del paciente, migrar el panel heredado a los
   componentes accesibles nuevos, caché de agregados para el dashboard y monitoreo con alertas externas.

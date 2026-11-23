@@ -83,6 +83,16 @@ niveles, auditoría, un dashboard de indicadores, reportes exportables, un resum
 y documentos tributarios de demostración. Incluye sitio público, agenda en línea, panel administrativo, fichas clínicas, cobros, análisis y API.
 Queda fuera la emisión tributaria real, los pagos en línea y el envío real de correos.</p>
 
+<h3>Acceso al sistema para la revisión</h3>
+<p>Inicio de sesión: <code>https://trivoxa.cl/espacioluzdemo/admin/login</code>. Las cuatro cuentas de demostración usan la misma contraseña.</p>
+<table><tr><th>Rol</th><th>Correo</th><th>Qué permite revisar</th></tr>
+<tr><td>Administración</td><td><code>admin@espacioluzdemo.cl</code></td><td>Todo el sistema, incluidos usuarios y auditoría.</td></tr>
+<tr><td>Recepción</td><td><code>recepcion@espacioluzdemo.cl</code></td><td>Agenda, pacientes y cobros.</td></tr>
+<tr><td>Área clínica</td><td><code>clinica@espacioluzdemo.cl</code></td><td>Solo sus pacientes, atenciones y fichas.</td></tr>
+<tr><td>Gerencia</td><td><code>gerencia@espacioluzdemo.cl</code></td><td>Dashboard, reportes y resumen con IA, en solo lectura.</td></tr>
+<tr><td colspan="2"><strong>Contraseña</strong></td><td id="clave-demo">Se entrega al docente por separado; no se publica en el repositorio, según la regla de credenciales de la pauta.</td></tr></table>
+<p>Después de cinco intentos fallidos seguidos el sistema bloquea ese correo durante un minuto (limitación de tasa).</p>
+
 <h2 class="sec">2. Plan de trabajo</h2>
 <p><strong>Equipo y roles.</strong> Proyecto individual de <strong>Rocío Riquelme Torres</strong>, que asumió todos los roles: análisis del dominio y requerimientos, diseño de arquitectura y base de datos, backend y API, front end y accesibilidad, análisis de datos y reportes, integración de IA y DevOps (contenedores, CI/CD y despliegue). Como herramienta de apoyo se usó Claude Code (declarado en el README); el historial de commits del repositorio refleja el trabajo realizado.</p>
 <table><tr><th>Hito</th><th>Semana</th><th>Entregado</th></tr>
@@ -125,6 +135,7 @@ dashboard, reportes y exportación, IA y auditoría; esquemas de datos, códigos
 </div>
 <div class="doc" data-md="../09_accesibilidad.md"></div>
 <div class="doc" data-md="../evidencias/accesibilidad/auditoria_axe_2026-11-23.md"></div>
+<div class="doc" data-md="../evidencias/accesibilidad/nvda_2026-11-23.md"></div>
 
 <h2 class="sec">8. Análisis de datos, dashboard y reportes</h2><div class="doc" data-md="../07_indicadores.md"></div>
 <h3>Vista de impresión</h3>

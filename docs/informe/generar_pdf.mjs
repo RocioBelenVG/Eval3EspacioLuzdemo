@@ -3,6 +3,7 @@
 // de cada página y pie con «Página X de Y».
 //   1. Servir la raíz del repositorio:  python -m http.server 8767 --bind 127.0.0.1
 //   2. node docs/informe/generar_pdf.mjs "<ruta a chrome.exe>" "<salida.pdf>"
+//      Copia para el docente con la contraseña demo: definir antes EL_CLAVE_DEMO (no se guarda en el repositorio).
 import { spawn } from 'node:child_process';
 import { readFileSync, writeFileSync, mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -38,6 +39,11 @@ for (let i = 0; i < 100; i++) {   // espera a que el informe termine de componer
   const r = await cdp('Runtime.evaluate', { expression: 'document.body && document.body.dataset.listo === "1" && [...document.images].every(i => i.complete)', returnByValue: true });
   if (r.result?.result?.value) break;
   await esperar(300);
+}
+// Copia para el docente: la contraseña de las cuentas demo se inyecta solo si se pasa en EL_CLAVE_DEMO
+// (nunca se escribe en el repositorio).
+if (process.env.EL_CLAVE_DEMO) {
+  await cdp('Runtime.evaluate', { expression: `document.getElementById('clave-demo').innerHTML = '<code>' + ${JSON.stringify(process.env.EL_CLAVE_DEMO)}.replace(/[<&]/g, '') + '</code>'` });
 }
 await esperar(800);
 const encabezado = `<div style="width:100%;padding:0 16mm;display:flex;justify-content:flex-end;align-items:center">
