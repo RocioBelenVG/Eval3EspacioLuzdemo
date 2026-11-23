@@ -104,7 +104,7 @@ Se usó **Claude (Anthropic) en Claude Code** como asistente de desarrollo para:
 proponer la arquitectura en capas, escribir código de la API, migraciones, datos sintéticos, pruebas, front end,
 contenedores y pipeline, ejecutar las pruebas y auditorías, y redactar la documentación. Todo el código y la documentación
 fueron revisados por el equipo, que debe poder explicarlos y modificarlos en vivo. El sistema usa además un servicio de IA
-en tiempo de ejecución (Groq, modelo Llama 3.3 70B) para el resumen ejecutivo del dashboard, solo con datos agregados.
+en tiempo de ejecución (Groq, modelo GPT-OSS 120B) para el resumen ejecutivo del dashboard, solo con datos agregados.
 
 ## Licencia y datos
 

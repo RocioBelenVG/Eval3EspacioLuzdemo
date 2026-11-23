@@ -63,7 +63,7 @@ final class App
 
         $c->set(EmisorDte::class, fn () => $sobrescribir['emisor'] ?? new MotorDteLegado(dirname(__DIR__)));
         $c->set(IaClient::class, fn () => $sobrescribir['ia'] ?? new GroqClient((string) env('GROQ_API_KEY', ''), (int) env('AI_TIMEOUT', '20'),
-            (string) env('GROQ_MODELO', 'llama-3.3-70b-versatile')));
+            (string) env('GROQ_MODELO', 'openai/gpt-oss-120b')));
 
         $c->set(AuthService::class, fn (Container $c) => new AuthService($c->get(UsuarioRepository::class), $c->get(Jwt::class), $c->get(RateLimiter::class)));
         $c->set(AtencionService::class, fn (Container $c) => new AtencionService($c->get(Database::class), $c->get(AtencionRepository::class),

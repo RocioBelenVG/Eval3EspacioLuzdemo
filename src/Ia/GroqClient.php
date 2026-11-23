@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace EspacioLuz\Ia;
 
 /**
- * Cliente de Groq (API compatible con OpenAI) para Llama 3.3 70B.
+ * Cliente de Groq (API compatible con OpenAI). Modelo por defecto: GPT-OSS 120B (GROQ_MODELO lo cambia).
  * - La clave llega por constructor desde la variable de entorno GROQ_API_KEY; nunca se registra.
  * - Tiempo máximo de espera configurable (AI_TIMEOUT) y de conexión de 5 s.
  * - Pide respuesta en formato JSON (response_format = json_object).
@@ -16,7 +16,7 @@ final class GroqClient implements IaClient
     public function __construct(
         private readonly string $apiKey,
         private readonly int $timeout = 20,
-        private readonly string $modelo = 'llama-3.3-70b-versatile',
+        private readonly string $modelo = 'openai/gpt-oss-120b',
     ) {
     }
 
@@ -32,16 +32,21 @@ final class GroqClient implements IaClient
 
     public function completarJson(string $instrucciones, string $datos): array
     {
-        $payload = json_encode([
+        $cuerpo = [
             'model' => $this->modelo,
             'temperature' => 0.2,
-            'max_tokens' => 900,
+            'max_tokens' => 2000,
             'response_format' => ['type' => 'json_object'],
             'messages' => [
                 ['role' => 'system', 'content' => $instrucciones],
                 ['role' => 'user', 'content' => $datos],
             ],
-        ], JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
+        ];
+        // Modelos con razonamiento (gpt-oss): poco razonamiento para que no consuma la respuesta ni el tiempo.
+        if (str_starts_with($this->modelo, 'openai/gpt-oss')) {
+            $cuerpo['reasoning_effort'] = 'low';
+        }
+        $payload = json_encode($cuerpo, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
 
         $ch = curl_init(self::URL);
         curl_setopt_array($ch, [

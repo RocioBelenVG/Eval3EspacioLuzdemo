@@ -382,7 +382,7 @@ paths:
       tags: [IA]
       summary: Resumen ejecutivo del período generado por un modelo de lenguaje externo (admin, gerencia)
       description: |
-        Envía al proveedor (Groq, modelo Llama 3.3 70B) SOLO indicadores agregados, nunca datos personales ni clínicos.
+        Envía al proveedor (Groq, modelo GPT-OSS 120B) SOLO indicadores agregados, nunca datos personales ni clínicos.
         Clave como secreto (`GROQ_API_KEY`), tiempo máximo `AI_TIMEOUT`, 10 consultas por minuto y usuario,
         respuesta del modelo validada contra un esquema.
       requestBody:

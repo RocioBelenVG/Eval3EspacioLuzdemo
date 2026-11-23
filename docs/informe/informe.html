@@ -113,7 +113,7 @@ dashboard, reportes y exportación, IA y auditoría; esquemas de datos, códigos
 
 <h2 class="sec">9. Integración de IA</h2>
 <table><tr><th>Aspecto</th><th>Implementación</th></tr>
-<tr><td>Servicio</td><td>Groq (API compatible con OpenAI), modelo Llama 3.3 70B, respuesta en formato JSON. Proveedor intercambiable por la interfaz <code>IaClient</code>.</td></tr>
+<tr><td>Servicio</td><td>Groq (API compatible con OpenAI), modelo GPT-OSS 120B, respuesta en formato JSON. Proveedor intercambiable por la interfaz <code>IaClient</code>.</td></tr>
 <tr><td>Endpoint</td><td><code>POST /api/v1/ia/resumen</code> (Administración y Gerencia) con <code>desde</code>, <code>hasta</code> (≤ 1 año), <code>enfoque</code> (general, ocupación, cobranza) y <code>especialidad</code> opcional. Devuelve resumen, hallazgos, recomendaciones, modelo, latencia y los indicadores usados. Se usa desde el dashboard.</td></tr>
 <tr><td>Valor para el dominio</td><td>Convierte los 10 indicadores y su comparación con el período anterior en un resumen ejecutivo para la reunión de gestión del centro.</td></tr>
 <tr><td>Privacidad</td><td>Solo se envían indicadores agregados: nunca nombres, RUT, correos ni datos clínicos (Ley 19.628 y 20.584). Una prueba verifica que lo enviado no contiene correos ni nombres de pacientes.</td></tr>
