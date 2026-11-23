@@ -27,19 +27,31 @@ $nav = [
     ['key' => 'clientes',  'label' => 'Clientes',      'href' => '/admin/clientes',                'admin' => false, 'sec' => 'facturacion', 'icon' => '<path d="M3 21V9l6-4 6 4v12"/><path d="M15 21V12h6v9"/><path d="M7 13h4M7 17h4M3 21h18"/>'],
     ['key' => 'usuarios',  'label' => 'Usuarios y Roles', 'href' => '/admin/usuarios',             'admin' => true,  'sec' => 'admin',  'icon' => '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5"/><circle cx="18" cy="9" r="2"/><path d="M16.5 20c0-2 .9-3.4 2.3-3.4"/>'],
     ['key' => 'sitio',     'label' => 'Editar o ver el sitio', 'href' => '/',                    'admin' => false, 'sec' => 'admin', 'icon' => '<path d="M3 12l9-9 9 9M5 10v10h14V10"/><path d="M14.5 14.5l3-3 1.5 1.5-3 3h-1.5z"/>'],
+    // Módulos nuevos (Evaluación 3): consumen la API REST /api/v1 con JWT. 'roles' = quién los ve.
+    ['key' => 'atenciones', 'label' => 'Atenciones', 'href' => '/admin/atenciones', 'admin' => false, 'sec' => 'analisis', 'roles' => ['admin', 'editor', 'pacientes', 'gerencia'], 'icon' => '<path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/>'],
+    ['key' => 'bi',         'label' => 'Dashboard e indicadores', 'href' => '/admin/bi', 'admin' => false, 'sec' => 'analisis', 'roles' => ['admin', 'gerencia'], 'icon' => '<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>'],
+    ['key' => 'reportes',   'label' => 'Reportes', 'href' => '/admin/reportes', 'admin' => false, 'sec' => 'analisis', 'roles' => ['admin', 'editor', 'gerencia'], 'icon' => '<path d="M6 2h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/><path d="M9 17v-3M12 17v-6M15 17v-4"/>'],
+    ['key' => 'auditoria',  'label' => 'Auditoría', 'href' => '/admin/auditoria', 'admin' => true, 'sec' => 'analisis', 'roles' => ['admin'], 'icon' => '<path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/>'],
+    ['key' => 'apidocs',    'label' => 'API (Swagger)', 'href' => '/api/docs', 'admin' => true, 'sec' => 'admin', 'roles' => ['admin'], 'icon' => '<path d="M8 9l-3 3 3 3M16 9l3 3-3 3M13 6l-2 12"/>'],
     ['key' => 'apariencia', 'label' => 'Apariencia',     'href' => '/admin/apariencia',             'admin' => true,  'sec' => 'admin',  'icon' => '<path d="M12 3a9 9 0 1 0 0 18c.9 0 1.6-.7 1.6-1.6 0-.4-.2-.8-.5-1.1-.3-.3-.5-.7-.5-1.1 0-.9.7-1.6 1.6-1.6H16a5 5 0 0 0 5-5c0-3.9-4-7-9-7Z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16.5" cy="10.5" r="1"/>'],
 ];
 
 // Secciones del menú: cada una con su propio fondo, color de acento y etiqueta.
 $navSecciones = [
+    'analisis'    => ['titulo' => 'Análisis y operación', 'sub' => 'Atenciones, dashboard y reportes'],
     'centro'      => ['titulo' => 'Gestión del centro', 'sub' => 'Agenda, pacientes y espacios'],
     'facturacion' => ['titulo' => 'Facturación',        'sub' => 'Documentos tributarios y cobros'],
     'admin'       => ['titulo' => 'Administración',     'sub' => 'Accesos y sitio web'],
 ];
 $navPorSeccion = [];
 foreach ($nav as $item) {
-    if ($item['admin'] && !$esAdmin) continue;
-    if (esRolPacientes() && $item['key'] !== 'pacientes') continue; /* rol Pacientes: solo su módulo */
+    if (isset($item['roles'])) {                       /* módulos nuevos: lista explícita de roles */
+        if (!in_array($rol, $item['roles'], true)) continue;
+    } else {
+        if ($item['admin'] && !$esAdmin) continue;
+        if (esRolPacientes() && $item['key'] !== 'pacientes') continue; /* rol Pacientes: su módulo + Atenciones */
+        if (esRolGerencia()) continue;                 /* Gerencia: solo análisis (lectura) */
+    }
     $navPorSeccion[$item['sec']][] = $item;
 }
 ?><!DOCTYPE html>
@@ -47,7 +59,7 @@ foreach ($nav as $item) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= e($panelTitle) ?> — Espacio Luz</title>
+    <title><?= e($panelTitle) ?> — Panel · Espacio Luz Demo</title>
     <link rel="icon" href="<?= e(asset('images/logo/logo.png')) ?>">
     <?php require_once APP_ROOT . '/partials/fonts.php'; echo ezFontsHead(); ?>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -178,9 +190,22 @@ foreach ($nav as $item) {
         .ez-row-btn:hover { background: #D97757; border-color: #D97757; color: #FBF9F4; box-shadow: 0 6px 16px -8px rgba(217,119,87,.8); }
         .ez-row-btn svg { width: 14px; height: 14px; }
     </style>
+    <?php foreach ($panelCss ?? [] as $css): ?><link rel="stylesheet" href="<?= e(asset($css)) ?>?v=<?= (int) @filemtime(ASSETS_DIR . '/' . $css) ?>"><?php endforeach; ?>
+    <style>
+        /* Accesibilidad global del panel (WCAG 2.2): foco siempre visible y enlace para saltar al contenido. */
+        .el-saltar { position: absolute; left: .75rem; top: -100px; z-index: 100; background: #3D2A21; color: #fff; padding: .75rem 1rem; border-radius: .75rem; font-weight: 600; }
+        .el-saltar:focus { top: .75rem; }
+        :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible { outline: 3px solid #1F5FBF; outline-offset: 2px; }
+        .pnl-sec-analisis .pnl-sec-ic { background: rgba(245,241,232,.18); color: #FBF9F4; }
+        .pnl-sec-analisis .pnl-sec-tit { color: #FBF9F4; }
+        .pnl-sec-analisis .pnl-sec-n { background: rgba(245,241,232,.16); color: #FBF9F4; }
+        .pnl-sec-analisis { background: rgba(217,119,87,.14); border: 1px solid rgba(229,154,128,.3); border-radius: 1.1rem; padding: .6rem .4rem .35rem; }
+        .pnl-demo { background: #FFF4D6; color: #5A3E00; border-bottom: 1px solid #E0B44C; font-size: .8rem; font-weight: 600; text-align: center; padding: .35rem 1rem; }
+    </style>
     <?php include APP_ROOT . '/partials/ez-dialog.php'; ?>
 </head>
 <body class="min-h-screen">
+<a class="el-saltar" href="#contenido">Saltar al contenido</a>
 <?php if ($panelEmbed): ?>
 <div><div>
 <script>
@@ -199,7 +224,7 @@ foreach ($nav as $item) {
     }, true);
 })();
 </script>
-        <main class="px-3 py-4 sm:px-6 sm:py-5">
+        <main id="contenido" tabindex="-1" class="px-3 py-4 sm:px-6 sm:py-5">
 <?php else: ?>
 <div class="flex min-h-screen">
     <!-- Barra lateral -->
@@ -212,6 +237,7 @@ foreach ($nav as $item) {
             </div>
         </div>
         <?php $secIcon = [
+            'analisis'    => '<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>',
             'centro'      => '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>',
             'facturacion' => '<path d="M6 2h9l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/><path d="M9 13h6M9 17h4"/>',
             'admin'       => '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
@@ -272,7 +298,7 @@ foreach ($nav as $item) {
     <div class="flex min-w-0 flex-1 flex-col lg:pl-64">
         <header class="sticky top-0 z-20 flex h-16 items-center justify-between gap-4 border-b border-cafe/10 bg-crema-light/90 px-4 backdrop-blur sm:px-8">
             <div class="flex items-center gap-3">
-                <button type="button" id="pnl-menu" class="flex h-10 w-10 items-center justify-center rounded-lg text-cafe hover:bg-cafe/5 lg:hidden" aria-label="Abrir menú">
+                <button type="button" id="pnl-menu" class="flex h-11 w-11 items-center justify-center rounded-lg text-cafe hover:bg-cafe/5 lg:hidden" aria-label="Abrir menú" aria-controls="pnl-sidebar" aria-expanded="false">
                     <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
                 <h1 class="font-heading text-xl font-semibold text-cafe sm:text-2xl"><?= e($panelTitle) ?></h1>
@@ -280,12 +306,13 @@ foreach ($nav as $item) {
             <div class="flex items-center gap-3">
                 <div class="hidden text-right sm:block">
                     <p class="font-body text-sm font-semibold text-cafe"><?= e($nombre) ?></p>
-                    <p class="font-body text-xs text-cafe/55"><?= e(rolEtiqueta($rol)) ?></p>
+                    <p class="font-body text-xs text-cafe/70"><?= e(rolEtiqueta($rol)) ?></p>
                 </div>
                 <div class="flex h-10 w-10 items-center justify-center rounded-full bg-terracota/15 font-body text-sm font-bold text-terracota-dark">
                     <?= e(getIniciales($nombre)) ?>
                 </div>
             </div>
         </header>
-        <main class="flex-1 px-4 py-6 sm:px-8 sm:py-8">
+        <p class="pnl-demo" role="note">Espacio Luz <strong>Demo</strong> · datos sintéticos · boletas y facturas de demostración, nunca enviadas al SII</p>
+        <main id="contenido" tabindex="-1" class="flex-1 px-4 py-6 sm:px-8 sm:py-8">
 <?php endif; ?>

@@ -126,6 +126,18 @@ if ($method === 'POST') {
         if (!$r) {
             json_response(['error' => 'Reserva no encontrada'], 404);
         }
+        // Flujo de estados único (mismo enum que la API y que el disparador trg_reservas_transicion).
+        require_once APP_ROOT . '/vendor/autoload.php';
+        $eActual = \EspacioLuz\Domain\EstadoReserva::from((string) $r['estado']);
+        $eDestino = \EspacioLuz\Domain\EstadoReserva::from($estado);
+        if ($eActual !== $eDestino && !$eActual->puedePasarA($eDestino)) {
+            $permitidos = implode(', ', array_map(fn ($x) => $x->etiqueta(), $eActual->siguientes()));
+            json_response(['error' => 'No se puede pasar de «' . $eActual->etiqueta() . '» a «' . $eDestino->etiqueta() . '». '
+                . ($permitidos !== '' ? 'Desde aquí solo se permite: ' . $permitidos . '.' : 'Es un estado de cierre: ya no admite cambios.')], 409);
+        }
+        if ($eDestino->exigeFechaCumplida() && (string) $r['fecha'] > date('Y-m-d')) {
+            json_response(['error' => 'Una atención futura no puede marcarse como realizada ni como inasistencia.'], 409);
+        }
         require_once APP_ROOT . '/lib/cobros.php';
         $cancela = $estado === 'cancelada' && $r['estado'] !== 'cancelada';
         $impacto = $cancela ? cobroImpacto([$id], 'cancelar') : ['requiere' => false];

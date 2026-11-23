@@ -48,7 +48,9 @@ final class DocumentoRepository extends Repository
         [$where, $params] = self::filtro($f);
         $r = $this->paginate(self::COLUMNAS, "FROM v_documentos d WHERE $where", $params, self::ORDENES[$orden] ?? self::ORDENES['-fecha'], $page, $perPage);
         $r['resumen'] = $this->one("SELECT COUNT(*) AS documentos, COALESCE(SUM(CASE WHEN d.estado = 'emitida' THEN d.total_ajustado END), 0) AS total,
-                                           COALESCE(SUM(CASE WHEN d.estado = 'emitida' THEN d.saldo_clp END), 0) AS saldo
+                                           COALESCE(SUM(CASE WHEN d.estado = 'emitida' THEN d.saldo_clp END), 0) AS saldo,
+                                           COALESCE(SUM(d.total_clp), 0) AS total_clp, COALESCE(SUM(d.nc_clp), 0) AS nc_clp,
+                                           COALESCE(SUM(d.pagado_clp), 0) AS pagado_clp, COALESCE(SUM(d.saldo_clp), 0) AS saldo_clp
                                       FROM v_documentos d WHERE $where", $params);
         return $r;
     }

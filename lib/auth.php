@@ -143,7 +143,8 @@ function requireAdminPage(): void
 const ROLES = [
     'admin'    => ['Administrador', 'Acceso total: usuarios, boletas, calendarios y configuración.'],
     'editor'   => ['Editor', 'Edita los contenidos del sitio y usa el panel (sin módulos de administración).'],
-    'pacientes' => ['Pacientes', 'Solo el módulo Pacientes: fichas, evoluciones y certificados de atención.'],
+    'pacientes' => ['Pacientes', 'Solo el módulo Pacientes: fichas, evoluciones y certificados de atención, y sus propias atenciones.'],
+    'gerencia' => ['Gerencia', 'Solo lectura: dashboard, indicadores, reportes (con exportación) y resumen con IA.'],
 ];
 
 /** Etiqueta legible de un rol. */
@@ -164,10 +165,28 @@ function esRolPacientes(): bool
     return isAuthenticated() && currentAdminRol() === 'pacientes';
 }
 
-/** ¿Puede editar los contenidos del sitio público? (el rol Pacientes no). */
+/** ¿El usuario actual tiene el rol «Gerencia» (solo lectura de análisis)? */
+function esRolGerencia(): bool
+{
+    return isAuthenticated() && currentAdminRol() === 'gerencia';
+}
+
+/** ¿Puede editar los contenidos del sitio público? (los roles Pacientes y Gerencia no). */
 function puedeEditarSitio(): bool
 {
-    return isAuthenticated() && !esRolPacientes();
+    return isAuthenticated() && !esRolPacientes() && !esRolGerencia();
+}
+
+/** Rutas del panel que puede usar Gerencia (módulos de análisis); el resto responde «sin permisos». */
+function rolGerenciaPermite(string $path): bool
+{
+    foreach (['#^/admin/bi$#', '#^/admin/reportes$#', '#^/admin/atenciones$#', '#^/admin/sin-permiso$#', '#^/admin/login$#'] as $re) {
+        if (preg_match($re, $path)) {
+            return true;
+        }
+    }
+    $interna = str_starts_with($path, '/admin') || str_starts_with($path, '/api/panel') || str_starts_with($path, '/api/content') || preg_match('#^/api/upload#', $path);
+    return !$interna;
 }
 
 /**
@@ -212,6 +231,8 @@ function rolPacientesPermite(string $path): bool
         '#^/admin/firmas/prof-\d+-[0-9a-f]{12}\.png$#',
         '#^/api/panel/pacientes(\.php)?$#',
         '#^/api/panel/certificados(\.php)?$#',
+        '#^/admin/atenciones$#',
+        '#^/admin/sin-permiso$#',
     ];
     foreach ($permitidas as $re) {
         if (preg_match($re, $path)) {
@@ -234,6 +255,17 @@ function aplicarPermisosDeRol(string $path): void
         return;
     }
     sesionRevalidar();
+    if (esRolGerencia() && ($path === '/admin' || $path === '/admin/panel')) {
+        header('Location: ' . base_path('/admin/bi'));   // su «inicio» es el dashboard
+        exit;
+    }
+    if (esRolGerencia() && !rolGerenciaPermite($path)) {
+        if (str_starts_with($path, '/api')) {
+            json_response(['error' => 'Tu rol (Gerencia) solo tiene acceso de lectura a los módulos de análisis.'], 403);
+        }
+        header('Location: ' . base_path('/admin/sin-permiso'));
+        exit;
+    }
     if (!esRolPacientes() || rolPacientesPermite($path)) {
         return;
     }

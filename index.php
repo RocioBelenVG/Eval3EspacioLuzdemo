@@ -229,6 +229,32 @@ if (preg_match('#^/admin/firmas/(prof-\d+-[0-9a-f]{12}\.png)$#', $path, $m)) {
     return;
 }
 
+// --- Módulos nuevos (Evaluación 3): consumen la API REST /api/v1 -----------
+if ($path === '/admin/atenciones') {
+    require APP_ROOT . '/pages/panel/atenciones.php';
+    return;
+}
+if ($path === '/admin/bi') {
+    require APP_ROOT . '/pages/panel/bi.php';
+    return;
+}
+if ($path === '/admin/reportes') {
+    require APP_ROOT . '/pages/panel/reportes.php';
+    return;
+}
+if ($path === '/admin/auditoria') {
+    require APP_ROOT . '/pages/panel/auditoria.php';
+    return;
+}
+if ($path === '/admin/sin-permiso') {
+    require APP_ROOT . '/pages/panel/sin-permiso.php';
+    return;
+}
+if ($path === '/api/docs') {
+    require APP_ROOT . '/pages/api-docs.php';
+    return;
+}
+
 // --- API del panel ----------------------------------------------------------
 if ($path === '/api/panel/reservas') {
     require APP_ROOT . '/api/panel/reservas.php';
