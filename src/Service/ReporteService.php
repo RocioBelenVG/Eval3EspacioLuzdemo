@@ -126,10 +126,10 @@ final class ReporteService
                 $tot[$k] += (float) $fila[$k];
             }
         }
-        $asist = $tot['realizadas'] + $tot['no_show'];
-        $tot['tasa_asistencia'] = $asist > 0 ? round(100 * $tot['realizadas'] / $asist, 1) : null;
         unset($tot['pacientes']);
         $ind = $this->dashboard->indicadores($f);
+        // Asistencia del período: la misma del indicador (solo sesiones con paciente).
+        $tot['tasa_asistencia'] = array_column($ind, null, 'clave')['tasa_asistencia']['valor'] ?? null;
         $nota = 'Indicadores del período: ' . implode(' · ', array_map(fn ($i) => $i['nombre'] . ': ' . self::valorIndicador($i), $ind)) . '.';
         $grafico = ['titulo' => 'Ingresos netos por mes (CLP)', 'etiquetas' => array_map(fn ($x) => substr($x['mes'], 2), $filas),
             'valores' => array_map(fn ($x) => (float) $x['ingresos'], $filas), 'tipo' => 'clp'];

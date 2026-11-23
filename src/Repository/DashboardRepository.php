@@ -94,7 +94,8 @@ final class DashboardRepository extends Repository
                 SUM(a.estado = 'cancelada') AS canceladas, SUM(a.estado = 'no_show') AS no_show,
                 SUM(a.uso = 'sesion' AND a.estado <> 'cancelada') AS sesiones, SUM(a.uso = 'arriendo' AND a.estado <> 'cancelada') AS arriendos,
                 ROUND(SUM(CASE WHEN a.estado <> 'cancelada' THEN a.duracion_min ELSE 0 END) / 60, 1) AS horas_box,
-                COUNT(DISTINCT CASE WHEN a.estado = 'realizada' THEN a.paciente_id END) AS pacientes
+                COUNT(DISTINCT CASE WHEN a.estado = 'realizada' THEN a.paciente_id END) AS pacientes,
+                SUM(a.uso = 'sesion' AND a.estado = 'realizada') AS ses_realizadas, SUM(a.uso = 'sesion' AND a.estado = 'no_show') AS ses_no_show
               FROM v_atenciones a WHERE $w GROUP BY DATE_FORMAT(a.fecha, '%Y-%m') ORDER BY mes", $p);
         $ing = [];
         foreach ($this->all("SELECT DATE_FORMAT(fecha, '%Y-%m') AS mes, SUM(ingresos) AS ingresos, SUM(documentos) AS documentos
@@ -104,8 +105,10 @@ final class DashboardRepository extends Repository
         foreach ($filas as &$r) {
             $r['ingresos'] = (int) ($ing[$r['mes']]['ingresos'] ?? 0);
             $r['documentos'] = (int) ($ing[$r['mes']]['documentos'] ?? 0);
-            $asist = (int) $r['realizadas'] + (int) $r['no_show'];
-            $r['tasa_asistencia'] = $asist > 0 ? round(100 * (int) $r['realizadas'] / $asist, 1) : null;
+            // Misma fórmula que el indicador: solo sesiones con paciente (los arriendos no tienen inasistencias).
+            $asist = (int) $r['ses_realizadas'] + (int) $r['ses_no_show'];
+            $r['tasa_asistencia'] = $asist > 0 ? round(100 * (int) $r['ses_realizadas'] / $asist, 1) : null;
+            unset($r['ses_realizadas'], $r['ses_no_show']);
         }
         return $filas;
     }
