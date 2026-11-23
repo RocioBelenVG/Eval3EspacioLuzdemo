@@ -184,7 +184,7 @@ final class AtencionService
             }
             if ($destino === EstadoReserva::Cancelada || $reactiva) {
                 $this->atenciones->registrarMovimiento($id, $reactiva ? 'reactivacion' : 'cancelacion', $r['profesional_id'] ? (int) $r['profesional_id'] : null,
-                    $u->id, $u->nombre, trim(($reactiva ? 'Reactivada como ' . $destino->etiqueta() : 'Cancelación vía API') . ($d['motivo'] ? ' · ' . $d['motivo'] : '')));
+                    $u->id, $u->nombre, trim(($reactiva ? 'Reactivada como ' . $destino->etiqueta() : 'Cancelación vía API') . (!empty($d['motivo']) ? ' · ' . $d['motivo'] : '')));
             }
         });
         return $this->ver($u, $id);

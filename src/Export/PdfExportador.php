@@ -61,7 +61,7 @@ final class PdfExportador implements Exportador
         $pesos = array_map(fn ($c) => (float) ($c[2] ?? 10), $r->columnas);
         $util = $pdf->getPageWidth() - 24;
         $suma = array_sum($pesos) ?: 1;
-        return array_map(fn ($w) => $util * $w / $suma, $pesos);
+        return array_values(array_map(fn ($w) => $util * $w / $suma, $pesos));
     }
 
     private function encabezadoTabla(\TCPDF $pdf, Reporte $r, array $anchos): void

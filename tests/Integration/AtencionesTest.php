@@ -81,7 +81,11 @@ final class AtencionesTest extends ApiTestCase
         $this->assertSame(201, $this->request('POST', '/atenciones', $base, [], $t)->status);
         $this->assertError($this->request('POST', '/atenciones', $base, [], $t), 409, 'PROFESIONAL_OCUPADO');
         $this->assertSame(201, $this->request('POST', '/atenciones', ['profesional_id' => $this->profesionalExterno] + $base, [], $t)->status);
-        $this->assertError($this->request('POST', '/atenciones', ['profesional_id' => $this->profesionalExterno, 'hora' => '11:00', 'box' => 'loica'] + $this->nueva(['paciente_id' => null, 'tipo_atencion' => null]), [], $t), 409, 'PROFESIONAL_OCUPADO');
+        // El box ya tiene sus 2 cupos: un tercer profesional (libre) no puede tomar esa hora.
+        $tercero = (int) self::$db->pdo->query("SELECT id FROM profesionales WHERE id NOT IN ({$this->profesionalClinico}, {$this->profesionalExterno}) AND activo = 1 LIMIT 1")->fetchColumn();
+        $this->assertError($this->request('POST', '/atenciones', ['profesional_id' => $tercero] + $base, [], $t), 409, 'BOX_SIN_CUPO');
+        // En otro box sí puede.
+        $this->assertSame(201, $this->request('POST', '/atenciones', ['profesional_id' => $tercero, 'box' => '7-colores'] + $base, [], $t)->status);
     }
 
     #[Test]
