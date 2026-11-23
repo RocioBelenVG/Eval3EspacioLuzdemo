@@ -38,7 +38,10 @@
   .capturas { display: grid; grid-template-columns: 1fr 1fr; gap: 6pt; }
   .capturas figure { margin: 0; page-break-inside: avoid; } .capturas img { width: 100%; border: 1px solid var(--b); }
   figcaption { font-size: 8pt; color: var(--s); }
-  .indice li { margin: 1pt 0; }
+  .indice { max-width: 150mm; margin-top: 10pt; }
+  .ind-fila { display: flex; justify-content: space-between; gap: 12pt; padding: 4pt 0; font-size: 10.5pt; }
+  .ind-fila .pag { white-space: nowrap; color: var(--s); }
+  .ind-cab { font-weight: 700; font-size: 9pt; text-transform: uppercase; letter-spacing: .04em; color: var(--s); padding-bottom: 6pt; }
 </style>
 </head>
 <body>
@@ -64,13 +67,27 @@
 </section>
 
 <h2 class="sec" style="page-break-before:auto">Índice</h2>
-<ol class="indice">
-  <li>Introducción y dominio</li><li>Plan de trabajo</li><li>Requerimientos</li><li>Arquitectura de software</li><li>Modelo de datos</li>
-  <li>Backend y API</li><li>Front end y accesibilidad</li><li>Análisis de datos, dashboard y reportes</li><li>Integración de IA</li>
-  <li>Contenerización y despliegue</li><li>Articulación del módulo y cierre</li>
-</ol>
+<div class="indice">
+  <div class="ind-fila ind-cab"><span>Sección</span><span>Páginas</span></div>
+  <div class="ind-fila" data-n="1"><span>1. Introducción y dominio</span><span class="pag"></span></div>
+  <div class="ind-fila" data-n="2"><span>2. Plan de trabajo</span><span class="pag"></span></div>
+  <div class="ind-fila" data-n="3"><span>3. Requerimientos</span><span class="pag"></span></div>
+  <div class="ind-fila" data-n="4"><span>4. Arquitectura de software</span><span class="pag"></span></div>
+  <div class="ind-fila" data-n="5"><span>5. Modelo de datos</span><span class="pag"></span></div>
+  <div class="ind-fila" data-n="6"><span>6. Backend y API</span><span class="pag"></span></div>
+  <div class="ind-fila" data-n="7"><span>7. Front end y accesibilidad</span><span class="pag"></span></div>
+  <div class="ind-fila" data-n="8"><span>8. Análisis de datos, dashboard y reportes</span><span class="pag"></span></div>
+  <div class="ind-fila" data-n="9"><span>9. Integración de IA</span><span class="pag"></span></div>
+  <div class="ind-fila" data-n="10"><span>10. Contenerización y despliegue</span><span class="pag"></span></div>
+  <div class="ind-fila" data-n="11"><span>11. Articulación del módulo y cierre</span><span class="pag"></span></div>
+</div>
 
 <h2 class="sec">1. Introducción y dominio</h2>
+<p><strong>Naturaleza del entregable.</strong> Espacio Luz Demo es una <strong>demo completa del proyecto integrado final</strong>
+de la Evaluación 3: no es un prototipo ni una maqueta, sino el sistema entero funcionando en línea, con todos sus módulos operativos
+(sitio público, agenda, panel administrativo, fichas clínicas, cobros, API REST, dashboard, reportes, resumen con IA, contenedores y
+pipeline de CI/CD). Se diferencia del sistema real del centro solo en que usa datos sintéticos y en que los documentos tributarios se
+emiten en modo de demostración, sin envío al SII.</p>
 <p><strong>Contexto.</strong> Espacio Luz es un centro terapéutico de Los Ángeles (Región del Biobío) que atiende a niños, adolescentes y adultos con
 profesionales socias de terapia ocupacional y fonoaudiología, y que además arrienda por hora sus cinco boxes (salas y gimnasios sensoriales) a
 profesionales externos de psicología, psiquiatría y psicopedagogía, a quienes factura mensualmente.</p>
