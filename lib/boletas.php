@@ -360,8 +360,9 @@ function listBoletas(int $limite = 100, int $empresaId = 0, string $tipo = ''): 
 function anularBoleta(int $id): bool
 {
     try {
-        $st = db()->prepare("UPDATE boletas SET estado='anulada' WHERE id = ?");
-        return $st->execute([$id]);
+        // Restricción chk_bol_anulada: toda anulación deja fecha y responsable.
+        $st = db()->prepare("UPDATE boletas SET estado='anulada', anulada_en = COALESCE(anulada_en, NOW()), anulada_por = COALESCE(anulada_por, ?) WHERE id = ?");
+        return $st->execute([$_SESSION['admin_nombre'] ?? null, $id]);
     } catch (Throwable $e) {
         return false;
     }
