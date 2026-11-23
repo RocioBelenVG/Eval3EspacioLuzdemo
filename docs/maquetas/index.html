@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maquetas por rol — Espacio Luz Demo</title>
+<style>
+  :root { --texto:#3D2A21; --suave:#6B5446; --prim:#A4512F; --borde:#D9CFC0; --fondo:#FBF9F4; --crema:#F3EEE4; --cafe:#5C4033; }
+  * { box-sizing: border-box; }
+  body { margin:0; font: 15px/1.5 Inter, system-ui, sans-serif; color:var(--texto); background:var(--fondo); }
+  header { background:var(--texto); color:#fff; padding:1rem 1.5rem; }
+  header h1 { margin:0; font: 600 1.4rem Georgia, serif; }
+  main { max-width:1200px; margin:0 auto; padding:1.5rem 1rem 3rem; }
+  nav.toc a { color:var(--prim); margin-right:1rem; font-weight:600; }
+  section { margin-top:2.5rem; }
+  h2 { font: 600 1.3rem Georgia, serif; border-bottom:2px solid var(--borde); padding-bottom:.3rem; }
+  .nota { color:var(--suave); max-width:80ch; }
+  .pantallas { display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit, minmax(min(100%, 520px), 1fr)); }
+  figure { margin:0; } figcaption { font-weight:700; margin-bottom:.4rem; }
+  .marco { border:2px solid var(--texto); border-radius:10px; overflow:hidden; background:#fff; display:grid; grid-template-columns:130px 1fr; min-height:330px; }
+  .marco.movil { grid-template-columns:1fr; max-width:300px; }
+  .lat { background:var(--cafe); color:#fff; padding:.6rem; font-size:.72rem; }
+  .lat b { display:block; margin:.5rem 0 .2rem; opacity:.75; text-transform:uppercase; letter-spacing:.06em; font-size:.62rem; }
+  .lat span { display:block; padding:.25rem .4rem; border-radius:6px; margin:.15rem 0; background:rgba(255,255,255,.08); }
+  .lat span.act { background:rgba(217,119,87,.45); }
+  .cont { padding:.7rem; font-size:.75rem; }
+  .barra { height:1.6rem; background:var(--crema); border-radius:6px; margin-bottom:.5rem; display:flex; align-items:center; padding:0 .5rem; font-weight:700; }
+  .aviso { background:#FFF4D6; border:1px solid #E0B44C; border-radius:6px; padding:.2rem .5rem; margin-bottom:.5rem; font-size:.68rem; }
+  .fila { display:flex; gap:.4rem; flex-wrap:wrap; margin-bottom:.5rem; }
+  .campo { flex:1 1 70px; border:1.5px solid #857362; border-radius:6px; height:1.5rem; font-size:.62rem; padding:.15rem .3rem; color:var(--suave); }
+  .btn { background:var(--prim); color:#fff; border-radius:999px; padding:.2rem .7rem; font-weight:700; font-size:.66rem; }
+  .btn.sec { background:#fff; color:var(--texto); border:1.5px solid var(--borde); }
+  .tabla { border:1px solid var(--borde); border-radius:6px; overflow:hidden; }
+  .tabla div { display:grid; grid-template-columns:repeat(6, 1fr); gap:.3rem; padding:.25rem .4rem; border-top:1px solid #EEE6D8; font-size:.62rem; }
+  .tabla div:first-child { background:var(--crema); font-weight:700; border:0; }
+  .kpis { display:grid; grid-template-columns:repeat(3,1fr); gap:.35rem; margin-bottom:.5rem; }
+  .kpi { border:1px solid var(--borde); border-radius:6px; padding:.3rem; } .kpi b { display:block; font-size:.95rem; }
+  .graf { display:grid; grid-template-columns:1fr 1fr; gap:.4rem; }
+  .g { border:1px solid var(--borde); border-radius:6px; height:70px; padding:.25rem; font-size:.6rem; position:relative; }
+  .g i { position:absolute; bottom:.3rem; width:10%; background:var(--prim); }
+  .chip { border:1.5px solid currentColor; border-radius:999px; padding:0 .35rem; font-weight:700; }
+  .tarjeta { border:1px solid var(--borde); border-radius:6px; padding:.35rem; margin-bottom:.35rem; font-size:.62rem; }
+  .tarjeta p { margin:.1rem 0; display:grid; grid-template-columns:70px 1fr; } .tarjeta p b { color:var(--suave); }
+  .dialogo { border:2px solid var(--texto); border-radius:8px; padding:.5rem; margin-top:.5rem; background:#fff; box-shadow:0 8px 20px rgba(0,0,0,.2); }
+  .err { color:#B3261E; font-size:.6rem; font-weight:700; }
+  table.leyenda { border-collapse:collapse; margin-top:1rem; } table.leyenda td, table.leyenda th { border:1px solid var(--borde); padding:.3rem .6rem; text-align:left; }
+</style>
+</head>
+<body>
+<header><h1>Espacio Luz Demo · Maquetas de las pantallas principales por rol</h1>
+  <p style="margin:.3rem 0 0;opacity:.85">Wireframes de baja fidelidad (Hito 1) que guiaron la implementación. Paleta, tipografía y componentes: <code>docs/04_guia_estilos.md</code>.</p></header>
+<main>
+  <nav class="toc" aria-label="Índice"><a href="#recepcion">Recepción</a><a href="#clinica">Área clínica</a><a href="#gerencia">Gerencia</a><a href="#admin">Administración</a><a href="#movil">Celular</a></nav>
+
+  <section id="recepcion" aria-labelledby="t-rec">
+    <h2 id="t-rec">Recepción</h2>
+    <p class="nota">Tarea principal: agendar, confirmar y cobrar. Filtros arriba, lista paginada con acción «Gestionar» y alta en un diálogo con validación inmediata.</p>
+    <div class="pantallas">
+      <figure><figcaption>Atenciones · lista</figcaption>
+        <div class="marco" role="img" aria-label="Maqueta de la lista de atenciones">
+          <div class="lat"><b>Análisis y operación</b><span class="act">Atenciones</span><span>Reportes</span><b>Gestión</b><span>Pacientes</span><span>Calendario de boxes</span><b>Facturación</b><span>Documentos</span></div>
+          <div class="cont"><div class="barra">Atenciones</div><div class="aviso">Espacio Luz Demo · documentos sin validez tributaria</div>
+            <div class="fila"><span class="campo">Buscar…</span><span class="campo">Estado ▾</span><span class="campo">Desde</span><span class="campo">Hasta</span><span class="campo">Profesional ▾</span><span class="campo">Ordenar por ▾</span><span class="btn">Filtrar</span></div>
+            <div class="fila" style="justify-content:space-between"><span>5.520 atenciones</span><span class="btn">+ Nueva atención</span></div>
+            <div class="tabla"><div><span>Fecha ▼</span><span>Paciente</span><span>Profesional</span><span>Box</span><span>Estado</span><span>Acción</span></div>
+              <div><span>12-12 19:00</span><span>Arriendo</span><span>D. Paredes</span><span>Golondrina</span><span class="chip" style="color:#8A5A00">Pendiente</span><span class="btn sec">Gestionar</span></div>
+              <div><span>12-12 17:00</span><span>M. Flores</span><span>F. Alarcón</span><span>Colibrí</span><span class="chip" style="color:#2D5B86">Confirmada</span><span class="btn sec">Gestionar</span></div>
+              <div><span>11-12 10:00</span><span>A. Rojas</span><span>J. Montes</span><span>Loica</span><span class="chip" style="color:#2F6B3F">✓ Realizada</span><span class="btn sec">Gestionar</span></div></div>
+            <div class="fila" style="justify-content:space-between;margin-top:.4rem"><span>Página 1 de 276</span><span class="btn sec">← Anterior</span><span class="btn sec">Siguiente →</span></div></div>
+        </div></figure>
+      <figure><figcaption>Nueva atención · diálogo con errores</figcaption>
+        <div class="marco" style="grid-template-columns:1fr" role="img" aria-label="Maqueta del diálogo de nueva atención">
+          <div class="cont"><div class="barra">Nueva atención ✕</div>
+            <div class="aviso" style="background:#FDECEA;border-color:#B3261E;color:#7A1712"><b>Revisa los 2 campos marcados:</b> Elige un box · Usa bloques de 30 minutos</div>
+            <div class="fila"><span class="campo">Profesional ▾</span><span class="campo" style="border-color:#B3261E">Box ▾</span></div><p class="err">⚠ Elige un box.</p>
+            <div class="fila"><span class="campo">Paciente (vacío = arriendo) ▾</span></div>
+            <div class="fila"><span class="campo">Fecha</span><span class="campo" style="border-color:#B3261E">10:15</span><span class="campo">60 min</span></div><p class="err">⚠ Usa bloques de 30 minutos (10:00 o 10:30).</p>
+            <div class="fila"><span class="campo">Tipo ▾</span><span class="campo">Precio</span></div>
+            <div class="fila" style="justify-content:flex-end"><span class="btn sec">Cancelar</span><span class="btn">Agendar</span></div></div>
+        </div></figure>
+    </div>
+  </section>
+
+  <section id="clinica" aria-labelledby="t-cli">
+    <h2 id="t-cli">Área clínica</h2>
+    <p class="nota">Solo ve sus pacientes y sus atenciones; marca «Realizada» o «No asistió» y registra evoluciones en la ficha.</p>
+    <div class="pantallas">
+      <figure><figcaption>Gestionar atención propia</figcaption>
+        <div class="marco" role="img" aria-label="Maqueta del diálogo de estado para el área clínica">
+          <div class="lat"><b>Análisis y operación</b><span class="act">Atenciones</span><b>Gestión</b><span>Pacientes</span></div>
+          <div class="cont"><div class="barra">Atenciones (solo las mías)</div>
+            <div class="dialogo"><b>Atención del 20-11-2026 · 10:00</b><p>Estado: <span class="chip" style="color:#2D5B86">Confirmada</span> · Paciente: A. Rojas</p>
+              <p><b>Cambiar estado a:</b> ○ Realizada ○ No asistió</p><p style="color:#6B5446">(Cancelar o reprogramar lo hace Recepción)</p><span class="btn">Guardar estado</span></div></div>
+        </div></figure>
+      <figure><figcaption>Ficha clínica (panel heredado)</figcaption>
+        <div class="marco" role="img" aria-label="Maqueta de la ficha clínica">
+          <div class="lat"><b>Gestión</b><span class="act">Pacientes</span></div>
+          <div class="cont"><div class="barra">Agustina Rojas · 7 años · Apoderada: …</div>
+            <div class="fila"><span class="btn sec">Terapia Ocupacional</span><span class="btn sec">Fonoaudiología</span></div>
+            <div class="tarjeta"><p><b>Motivo</b><span>Derivación para evaluación…</span></p><p><b>Objetivos</b><span>Autonomía en actividades…</span></p></div>
+            <div class="tarjeta"><b>Evoluciones</b><p><b>18-11</b><span>Se trabaja regulación sensorial…</span></p><p><b>11-11</b><span>Buena adherencia…</span></p></div>
+            <div class="fila"><span class="btn">+ Evolución</span><span class="btn sec">PDF de la ficha</span><span class="btn sec">Certificado</span></div></div>
+        </div></figure>
+    </div>
+  </section>
+
+  <section id="gerencia" aria-labelledby="t-ger">
+    <h2 id="t-ger">Gerencia</h2>
+    <p class="nota">Solo lectura. Inicio en el dashboard: filtros, 10 indicadores con variación, 6 gráficos con tabla de datos, lectura del período y resumen con IA; reportes con exportación.</p>
+    <div class="pantallas">
+      <figure><figcaption>Dashboard e indicadores</figcaption>
+        <div class="marco" role="img" aria-label="Maqueta del dashboard">
+          <div class="lat"><b>Análisis</b><span class="act">Dashboard</span><span>Reportes</span><span>Atenciones</span></div>
+          <div class="cont"><div class="fila"><span class="campo">Desde</span><span class="campo">Hasta</span><span class="campo">Especialidad ▾</span><span class="campo">Box ▾</span><span class="btn">Aplicar</span></div>
+            <div class="kpis"><div class="kpi">Asistencia<b>92,8 %</b>▼ 0,9 %</div><div class="kpi">Ocupación<b>26,9 %</b>▲ 27,5 %</div><div class="kpi">Ingresos<b>$53,5 M</b>▲ 30 %</div></div>
+            <div class="graf"><div class="g">Atenciones por mes<i style="left:10%;height:40%"></i><i style="left:30%;height:60%"></i><i style="left:50%;height:55%"></i><i style="left:70%;height:70%"></i></div>
+              <div class="g">Ingresos por mes (línea)</div><div class="g">Horas por especialidad</div><div class="g">Ocupación por box</div></div>
+            <p style="margin:.3rem 0 0">▸ Ver tabla de datos · Lectura del período · Resumen con IA</p></div>
+        </div></figure>
+      <figure><figcaption>Reportes</figcaption>
+        <div class="marco" role="img" aria-label="Maqueta de reportes">
+          <div class="lat"><b>Análisis</b><span>Dashboard</span><span class="act">Reportes</span></div>
+          <div class="cont"><div class="fila"><span class="btn sec">Operativo</span><span class="btn">Gerencial</span><span class="btn sec">Documentos</span></div>
+            <div class="fila"><span class="campo">Desde *</span><span class="campo">Hasta *</span><span class="btn">Ver</span><span class="btn sec">Excel</span><span class="btn sec">PDF</span><span class="btn sec">CSV</span><span class="btn sec">Imprimir</span></div>
+            <div class="g" style="height:55px">Ingresos netos por mes</div>
+            <div class="tabla" style="margin-top:.4rem"><div><span>Mes</span><span>Agendadas</span><span>Realizadas</span><span>Asistencia</span><span>Horas</span><span>Ingresos</span></div><div><span>2026-10</span><span>551</span><span>473</span><span>91,2 %</span><span>460</span><span>$10,2 M</span></div><div style="font-weight:800"><span>Totales</span><span>5.163</span><span>4.510</span><span>93,1 %</span><span>…</span><span>$94,6 M</span></div></div></div>
+        </div></figure>
+    </div>
+  </section>
+
+  <section id="admin" aria-labelledby="t-adm">
+    <h2 id="t-adm">Administración</h2>
+    <p class="nota">Todo lo anterior más configuración, usuarios y auditoría (quién cambió qué y cuándo).</p>
+    <div class="pantallas">
+      <figure><figcaption>Auditoría</figcaption>
+        <div class="marco" role="img" aria-label="Maqueta de auditoría">
+          <div class="lat"><b>Análisis</b><span class="act">Auditoría</span><b>Administración</b><span>Usuarios y roles</span><span>API (Swagger)</span></div>
+          <div class="cont"><div class="fila"><span class="campo">Entidad ▾</span><span class="campo">Acción ▾</span><span class="campo">Origen ▾</span><span class="campo">Desde</span><span class="btn">Filtrar</span></div>
+            <div class="tabla"><div><span>Fecha</span><span>Usuario</span><span>Origen</span><span>Entidad</span><span>Acción</span><span>Cambios</span></div>
+              <div><span>23-11 10:02</span><span>Recepción</span><span>api</span><span>reservas #5521</span><span>modificar</span><span>estado: pendiente → confirmada</span></div>
+              <div><span>23-11 09:40</span><span>Admin</span><span>panel</span><span>pacientes #12</span><span>modificar</span><span>comuna: Laja → Mulchén</span></div></div>
+            <p><b>Últimas exportaciones:</b> Gerencia · gerencial · PDF · 13 filas</p></div>
+        </div></figure>
+    </div>
+  </section>
+
+  <section id="movil" aria-labelledby="t-mov">
+    <h2 id="t-mov">Celular (360 px)</h2>
+    <p class="nota">Menú colapsable (☰), filtros en una columna y tablas convertidas en tarjetas con la etiqueta de cada dato.</p>
+    <div class="marco movil" role="img" aria-label="Maqueta de atenciones en celular">
+      <div class="cont"><div class="barra">☰ Atenciones</div>
+        <div class="tarjeta"><p><b>FECHA</b><span>12-12-2026 19:00</span></p><p><b>PACIENTE</b><span>Arriendo de box</span></p><p><b>ESTADO</b><span class="chip" style="color:#8A5A00;width:fit-content">Pendiente</span></p><p><b>ACCIONES</b><span class="btn sec" style="width:fit-content">Gestionar</span></p></div>
+        <div class="tarjeta"><p><b>FECHA</b><span>12-12-2026 17:00</span></p><p><b>PACIENTE</b><span>M. Flores</span></p><p><b>ESTADO</b><span class="chip" style="color:#2D5B86;width:fit-content">Confirmada</span></p></div></div>
+    </div>
+    <table class="leyenda"><caption style="text-align:left;font-weight:700">Puntos de quiebre</caption><tr><th scope="col">Ancho</th><th scope="col">Cambio</th></tr>
+      <tr><td>360–767 px</td><td>Menú oculto, tarjetas apiladas, gráficos a 1 columna</td></tr><tr><td>768–1023 px</td><td>Gráficos a 2 columnas, tablas con desplazamiento interno</td></tr><tr><td>≥ 1024 px</td><td>Menú fijo, rejillas de hasta 3 columnas</td></tr></table>
+  </section>
+</main>
+</body>
+</html>
