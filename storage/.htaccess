@@ -1,0 +1,10 @@
+# storage/ es privado: respaldos, caché y firmas de profesionales se leen
+# únicamente desde PHP (sistema de archivos). Nada se sirve por la web.
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>
+Options -Indexes

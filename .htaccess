@@ -1,0 +1,37 @@
+# --- EN CONSTRUCCION (demo): bloqueado hasta tener su propia BD ---
+RewriteEngine On
+RewriteRule ^ - [R=503,L]
+# --- FIN ---
+
+# Espacio Luz (PHP) — enrutamiento por controlador frontal
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Base automática: si la app vive en un subdirectorio, Apache la resuelve.
+    # Si un archivo o carpeta existe físicamente (imágenes, css, js), se sirve tal cual.
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Todo lo demás pasa por index.php
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# No listar directorios
+Options -Indexes
+
+# Bloquear acceso web directo a los .php internos (las inclusiones desde
+# index.php son a nivel de sistema de archivos y no se ven afectadas). Las
+# rutas del router como /api/content NO terminan en .php, así que no se tocan.
+RedirectMatch 404 ^.*/(lib|pages|partials|api)/.*\.php$
+RedirectMatch 404 ^.*/(config|data)\.php$
+
+# Proteger los datos JSON (contenido y reservas) de acceso web directo
+<FilesMatch "\.(json)$">
+    Require all denied
+</FilesMatch>
+
+# Excepción: el estilo del mapa sí debe servirse
+<Files "map-style.json">
+    Require all granted
+</Files>

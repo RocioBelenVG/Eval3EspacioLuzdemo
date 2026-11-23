@@ -1,0 +1,18 @@
+# Dependencias (se instalan con composer install)
+/vendor/
+/dte/vendor/*
+!/dte/vendor/autoload.php
+!/dte/vendor/.htaccess
+# Secretos y configuración local
+.env
+/.phpunit.cache/
+# Datos generados en ejecución
+/storage/cache/*
+/storage/firmas/*
+/storage/informes/*
+/storage/exports/*
+/storage/logs/*
+!/storage/**/.gitkeep
+/content/reservas.json
+# Videos pesados del sitio público (solo en el servidor)
+/assets/videos/

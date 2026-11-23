@@ -1,0 +1,15 @@
+{
+  "profesionales": {
+    "1": {
+      "nombre": "Fernanda Alarcón Ríos"
+    },
+    "2": {
+      "nombre": "Javiera Montes Lagos"
+    }
+  },
+  "secciones": {
+    "profesionales": {
+      "descripcion": "Un equipo cercano y especializado, dedicado a la atención individual de cada persona que llega a Espacio Luz."
+    }
+  }
+}

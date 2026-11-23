@@ -1,0 +1,9 @@
+# El módulo DTE solo se usa por inclusión desde el servidor (nunca por HTTP directo).
+# Se bloquea todo acceso web directo a estos archivos (motor, config, libs).
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>
