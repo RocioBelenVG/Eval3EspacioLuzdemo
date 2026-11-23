@@ -32,7 +32,7 @@ final class AnalisisTest extends ApiTestCase
     public function las_series_del_dashboard_responden_a_los_filtros(): void
     {
         $t = $this->token('Administrador');
-        $todo = $this->request('GET', '/dashboard/series', [], [], $t)->data()['data'];
+        $todo = $this->request('GET', '/dashboard/series', [], ['desde' => date('Y-m-d', strtotime('-1 year +1 day'))], $t)->data()['data'];
         foreach (['mensual', 'especialidades', 'boxes', 'dia_hora', 'estados', 'profesionales'] as $k) {
             $this->assertArrayHasKey($k, $todo);
         }
