@@ -27,7 +27,7 @@ mysqli_set_charset($conex, 'utf8mb4');
 $__uid = isset($_SESSION['admin_id']) ? (int) $_SESSION['admin_id'] : null;
 $__unom = isset($_SESSION['admin_nombre']) ? (string) $_SESSION['admin_nombre'] : null;
 $__ip = substr((string) ($_SERVER['REMOTE_ADDR'] ?? 'cli'), 0, 45);
-if ($__st = $conex->prepare('SET @app_usuario_id = ?, @app_usuario_nombre = ?, @app_origen = 'panel', @app_ip = ?')) {
+if ($__st = $conex->prepare("SET @app_usuario_id = ?, @app_usuario_nombre = ?, @app_origen = 'panel', @app_ip = ?")) {
     $__st->bind_param('iss', $__uid, $__unom, $__ip); $__st->execute(); $__st->close();
 }
 unset($__uid, $__unom, $__ip, $__st);

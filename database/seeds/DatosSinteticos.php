@@ -273,7 +273,7 @@ final class DatosSinteticos extends AbstractSeed
         }
         $usuarioClinica = (int) $this->pdo->query("SELECT id FROM usuarios WHERE rol = 'pacientes' LIMIT 1")->fetchColumn();
         foreach (self::PROFESIONALES as $i => [$nombre, $esp, $socia, $online, $box, $titulo]) {
-            $slug = strtolower(preg_replace('/[^a-z]+/', '-', iconv('UTF-8', 'ASCII//TRANSLIT', $nombre) ?: 'prof') ?? 'prof');
+            $slug = preg_replace('/[^a-z]+/', '-', strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $nombre) ?: 'prof')) ?? 'prof';
             $id = $this->insertar('profesionales', [
                 'nombre' => $nombre, 'rut' => $this->rut(12000000, 19999999), 'slug' => trim($slug, '-'), 'especialidad_slug' => $esp,
                 'titulo' => $titulo, 'descripcion' => 'Profesional de demostración del área de ' . str_replace('-', ' ', $esp) . '.',
