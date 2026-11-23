@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Informe técnico — Espacio Luz Demo</title>
+<!--
+  Fuente del informe técnico (PDF). Compone los documentos de docs/*.md con secciones propias.
+  Generar: servir la raíz del repositorio en http://127.0.0.1:8767 y ejecutar
+    chrome --headless --no-pdf-header-footer --virtual-time-budget=20000 --print-to-pdf=Informe.pdf http://127.0.0.1:8767/docs/informe/informe.html
+-->
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<style>
+  @page { size: A4; margin: 18mm 16mm 18mm; }
+  :root { --t:#3D2A21; --s:#6B5446; --p:#A4512F; --b:#D9CFC0; --c:#F3EEE4; }
+  body { font: 10pt/1.45 "Segoe UI", Inter, Arial, sans-serif; color: var(--t); }
+  h1, h2, h3, h4 { font-family: Georgia, "Times New Roman", serif; color: var(--t); page-break-after: avoid; }
+  h1 { font-size: 20pt; margin: 0 0 6pt; }
+  h2.sec { font-size: 16pt; border-bottom: 2px solid var(--p); padding-bottom: 3pt; margin-top: 0; page-break-before: always; }
+  .doc h1 { font-size: 13pt; margin-top: 14pt; color: var(--s); }
+  .doc h2 { font-size: 12pt; margin-top: 12pt; }
+  .doc h3 { font-size: 10.5pt; }
+  table { border-collapse: collapse; width: 100%; margin: 6pt 0 10pt; font-size: 8.4pt; page-break-inside: auto; }
+  th, td { border: 1px solid var(--b); padding: 3pt 5pt; vertical-align: top; text-align: left; }
+  th { background: var(--c); }
+  tr { page-break-inside: avoid; }
+  code { font-family: Consolas, monospace; font-size: 8.4pt; background: #F6F1E8; padding: 0 2pt; border-radius: 2pt; }
+  pre { background: #F6F1E8; padding: 6pt; font-size: 8pt; white-space: pre-wrap; border-radius: 4pt; page-break-inside: avoid; }
+  pre code { background: none; }
+  img.diag { width: 100%; max-height: 210mm; object-fit: contain; border: 1px solid var(--b); border-radius: 4pt; margin: 6pt 0; page-break-inside: avoid; }
+  .portada { height: 250mm; display: flex; flex-direction: column; justify-content: center; }
+  .portada .sub { font-size: 13pt; color: var(--s); }
+  .aviso { background: #FFF4D6; border: 1px solid #E0B44C; padding: 6pt 8pt; border-radius: 4pt; }
+  .completar { background: #FDECEA; border: 1.5px dashed #B3261E; padding: 6pt 8pt; border-radius: 4pt; color: #7A1712; }
+  .capturas { display: grid; grid-template-columns: 1fr 1fr; gap: 6pt; }
+  .capturas figure { margin: 0; page-break-inside: avoid; } .capturas img { width: 100%; border: 1px solid var(--b); }
+  figcaption { font-size: 8pt; color: var(--s); }
+  .indice li { margin: 1pt 0; }
+</style>
+</head>
+<body>
+<section class="portada">
+  <p class="sub">Lenguaje de Programación Web II · Evaluación 3</p>
+  <h1 style="font-size:28pt">Espacio Luz Demo</h1>
+  <p class="sub">Proyecto integrador: sistema web de gestión de un centro terapéutico, análisis de datos y plan de despliegue</p>
+  <p><strong>Integrante:</strong> Rocío Riquelme Torres</p>
+  <p class="completar">Completar: otros integrantes del equipo (si corresponde), sección, docente y fecha de entrega.</p>
+  <p><strong>Sistema en línea:</strong> https://trivoxa.cl/espacioluzdemo · <strong>API:</strong> /api/v1 · <strong>Swagger:</strong> /api/docs</p>
+  <p class="aviso">Datos 100 % sintéticos. Las boletas y facturas son de demostración: nunca se envían al SII.</p>
+  <ol class="indice">
+    <li>Introducción y dominio</li><li>Plan de trabajo</li><li>Requerimientos</li><li>Arquitectura de software</li><li>Modelo de datos</li>
+    <li>Backend y API</li><li>Front end y accesibilidad</li><li>Análisis de datos, dashboard y reportes</li><li>Integración de IA</li>
+    <li>Contenerización y despliegue</li><li>Articulación del módulo y cierre</li>
+  </ol>
+</section>
+
+<h2 class="sec">1. Introducción y dominio</h2>
+<p><strong>Contexto.</strong> Espacio Luz es un centro terapéutico de Los Ángeles (Región del Biobío) que atiende a niños, adolescentes y adultos con
+profesionales socias de terapia ocupacional y fonoaudiología, y que además arrienda por hora sus cinco boxes (salas y gimnasios sensoriales) a
+profesionales externos de psicología, psiquiatría y psicopedagogía, a quienes factura mensualmente.</p>
+<p><strong>Problema.</strong> La operación diaria —agenda de boxes, fichas clínicas, cobros a pacientes y facturación a clientes— necesitaba
+reglas consistentes (cupos, horarios, estados), trazabilidad de los cambios y, sobre todo, información para decidir: qué tan ocupados están los
+boxes, cuántos pacientes asisten, cuánto se factura y cuánto falta cobrar.</p>
+<p><strong>Objetivo.</strong> Construir un sistema completo sobre el sistema real del centro, agregando una API REST segura, validación en tres
+niveles, auditoría, un dashboard de indicadores, reportes exportables, un resumen con IA, contenerización, CI/CD y un plan de despliegue.</p>
+<p><strong>Alcance.</strong> Espacio Luz Demo es una copia del sistema en producción con datos sintéticos (12 meses, 5.520 atenciones, 520 pacientes)
+y documentos tributarios de demostración. Incluye sitio público, agenda en línea, panel administrativo, fichas clínicas, cobros, análisis y API.
+Queda fuera la emisión tributaria real, los pagos en línea y el envío real de correos.</p>
+
+<h2 class="sec">2. Plan de trabajo</h2>
+<p class="completar">Completar: roles de cada integrante (p. ej. backend/API, base de datos, front end y accesibilidad, BI y reportes, DevOps) y aporte individual verificable en el historial de commits.</p>
+<table><tr><th>Hito</th><th>Semana</th><th>Entregado</th></tr>
+<tr><td>1 · Propuesta y diseño</td><td>11</td><td>Dominio, requerimientos e historias (01), arquitectura (03), modelo ER (02), contrato OpenAPI, maquetas (docs/maquetas), repositorio.</td></tr>
+<tr><td>2 · Datos y backend</td><td>12</td><td>6 migraciones Phinx, datos sintéticos, API /api/v1 con JWT y 4 roles, validación, pruebas de integración.</td></tr>
+<tr><td>3 · Front end, contenedores e IA</td><td>13</td><td>Módulos Atenciones, Dashboard, Reportes y Auditoría conectados a la API; Dockerfile, compose y pipeline; endpoint de IA.</td></tr>
+<tr><td>4 · Análisis, reportes y despliegue</td><td>14</td><td>Indicadores, dashboard, 3 reportes con exportación e impresión, plan de despliegue, auditoría de accesibilidad.</td></tr></table>
+<p><strong>Herramientas:</strong> PHP 8.3, MariaDB 11.8, Composer, Phinx, PHPUnit 11, dompdf/TCPDF, Chart.js 4, Docker y Compose, GitHub Actions,
+axe-core, Mermaid, Git (repositorio en el servidor con despliegue por <code>git push</code>), Claude Code como asistente (declarado en el README).</p>
+<p><strong>Organización del repositorio:</strong> <code>src/</code> API en capas · <code>lib/ pages/ partials/</code> sistema clásico · <code>dte/</code> motor tributario (modo demo) ·
+<code>database/</code> migraciones, seeds y SQL · <code>tests/</code> · <code>docker/</code>, <code>Dockerfile</code>, <code>compose.yaml</code>, <code>.github/</code> · <code>docs/</code> documentación y evidencias · <code>tools/</code> utilidades CLI.</p>
+
+<h2 class="sec">3. Requerimientos</h2><div class="doc" data-md="../01_requerimientos.md"></div>
+<h2 class="sec">4. Arquitectura de software</h2><div class="doc" data-md="../03_arquitectura.md"></div>
+<h2 class="sec">5. Modelo de datos</h2><div class="doc" data-md="../02_modelo_datos.md"></div>
+
+<h2 class="sec">6. Backend y API</h2>
+<p><strong>Contrato OpenAPI 3.1</strong> (<code>docs/openapi.yaml</code>, servido en <code>/api/v1/openapi.yaml</code> y navegable en <code>/api/docs</code>):
+29 operaciones sobre los recursos sistema, auth, catálogos, atenciones (con <code>/estado</code>, reprogramación y <code>/boleta</code>), pacientes, documentos y pagos,
+dashboard, reportes y exportación, IA y auditoría; esquemas de datos, códigos de estado, modelo de errores y esquema de seguridad Bearer JWT.</p>
+<table><tr><th>Aspecto</th><th>Implementación</th></tr>
+<tr><td>Rutas, verbos y códigos</td><td>GET (listar/ver), POST (crear → 201 + Location), PUT (reemplazo de paciente), PATCH (estado, reprogramar); 401, 403, 404, 405 con <code>Allow</code>, 409 reglas de negocio, 422 validación, 429 límite, 502/503/504 servicios externos.</td></tr>
+<tr><td>Errores centralizados</td><td><code>Kernel::handle</code> captura todo: <code>{"error":{code, message, details[], request_id}}</code>; los 500 no exponen trazas y quedan en <code>storage/logs/api.log</code> con su request_id.</td></tr>
+<tr><td>Validación (2.º nivel)</td><td><code>Validator</code> declara tipos y reglas y junta todos los errores de una vez; los servicios validan reglas de negocio (calendario, cupo, transiciones, consentimiento, apoderado, saldo). El 3.er nivel son 34 CHECK, FK, UNIQUE y disparadores.</td></tr>
+<tr><td>Serialización</td><td>JSON UTF-8; listas con <code>data</code> + <code>meta</code> (página, total, páginas); campos sensibles nunca serializados (hash de contraseña) y minimización por rol.</td></tr>
+<tr><td>Seguridad</td><td>JWT HS256 propio (rechaza <code>alg</code> distinto, exp/nbf/iss, revalida el usuario), 4 roles por ruta, OWASP API1/2/3/4/5/8/9/10 mitigados (detalle en §4), auditoría por disparadores y limitación de tasa (login 5/min, API 120/min, IA 10/min).</td></tr>
+<tr><td>Pruebas</td><td>PHPUnit: <strong>58 pruebas, 444 verificaciones, todas en verde</strong> (18 unitarias + 40 de integración que recorren la API completa contra MariaDB en transacciones revertidas). Reporte: <code>docs/evidencias/pruebas/</code>.</td></tr></table>
+<div class="doc" data-md="../evidencias/pruebas/phpunit-testdox.txt" data-pre="1"></div>
+
+<h2 class="sec">7. Front end y accesibilidad</h2>
+<div class="doc" data-md="../04_guia_estilos.md"></div>
+<h3>Capturas en celular, tablet y escritorio</h3>
+<div class="capturas">
+  <figure><img src="../evidencias/capturas/atenciones_360px_tarjetas.jpg" alt="Atenciones en 360 px: tabla convertida en tarjetas"><figcaption>Atenciones · 360 px (tarjetas apiladas)</figcaption></figure>
+  <figure><img src="../evidencias/capturas/atenciones_360px_filtros.jpg" alt="Atenciones en 360 px: filtros en una columna"><figcaption>Atenciones · 360 px (filtros)</figcaption></figure>
+  <figure><img src="../evidencias/capturas/dashboard_768px.jpg" alt="Dashboard en 768 px con gráficos a dos columnas"><figcaption>Dashboard · 768 px</figcaption></figure>
+  <figure><img src="../evidencias/capturas/reportes_1440px.jpg" alt="Reporte operativo en 1440 px"><figcaption>Reportes · 1440 px</figcaption></figure>
+  <figure><img src="../evidencias/capturas/reporte_gerencial_1440px.jpg" alt="Reporte gerencial con gráfico de ingresos"><figcaption>Reporte gerencial · 1440 px</figcaption></figure>
+  <figure><img src="../evidencias/capturas/validacion_inmediata_1440px.jpg" alt="Formulario con validación inmediata y resumen de errores"><figcaption>Validación inmediata y resumen de errores</figcaption></figure>
+</div>
+<div class="doc" data-md="../09_accesibilidad.md"></div>
+<div class="doc" data-md="../evidencias/accesibilidad/auditoria_axe_2026-11-23.md"></div>
+
+<h2 class="sec">8. Análisis de datos, dashboard y reportes</h2><div class="doc" data-md="../07_indicadores.md"></div>
+
+<h2 class="sec">9. Integración de IA</h2>
+<table><tr><th>Aspecto</th><th>Implementación</th></tr>
+<tr><td>Servicio</td><td>Groq (API compatible con OpenAI), modelo Llama 3.3 70B, respuesta en formato JSON. Proveedor intercambiable por la interfaz <code>IaClient</code>.</td></tr>
+<tr><td>Endpoint</td><td><code>POST /api/v1/ia/resumen</code> (Administración y Gerencia) con <code>desde</code>, <code>hasta</code> (≤ 1 año), <code>enfoque</code> (general, ocupación, cobranza) y <code>especialidad</code> opcional. Devuelve resumen, hallazgos, recomendaciones, modelo, latencia y los indicadores usados. Se usa desde el dashboard.</td></tr>
+<tr><td>Valor para el dominio</td><td>Convierte los 10 indicadores y su comparación con el período anterior en un resumen ejecutivo para la reunión de gestión del centro.</td></tr>
+<tr><td>Privacidad</td><td>Solo se envían indicadores agregados: nunca nombres, RUT, correos ni datos clínicos (Ley 19.628 y 20.584). Una prueba verifica que lo enviado no contiene correos ni nombres de pacientes.</td></tr>
+<tr><td>Clave</td><td>Variable de entorno <code>GROQ_API_KEY</code> (fuera del repositorio; vacía en CI). Sin clave el endpoint responde 503 IA_NO_CONFIGURADA y el resto del sistema sigue operando.</td></tr>
+<tr><td>Tiempo máximo y errores</td><td><code>AI_TIMEOUT</code> (20 s) y 5 s de conexión. Timeout → 504 IA_TIEMPO_AGOTADO; error del proveedor o respuesta inválida → 502 IA_ERROR; límite del proveedor → 503 IA_SATURADA con Retry-After; límite propio 10/min → 429. Todo en el formato estándar y registrado en <code>ia_consultas</code>.</td></tr>
+<tr><td>Entrada y salida validadas</td><td>Entrada con <code>Validator</code>; salida del modelo validada contra un esquema y recortada (OWASP API10). Pruebas con el servicio simulado (<code>FakeIaClient</code>) para éxito, timeout, error, saturación y respuesta inválida.</td></tr></table>
+<p class="completar">Configurar <code>GROQ_API_KEY</code> en el .env del servidor para la demostración en vivo.</p>
+
+<h2 class="sec">10. Contenerización y despliegue</h2>
+<table><tr><th>Pieza</th><th>Resumen</th></tr>
+<tr><td>Dockerfile</td><td>Multi-etapa con bases Alpine de versión fija (<code>php:8.3.14-fpm-alpine3.20</code>, <code>composer:2.8.4</code>, <code>nginx:1.27.3-alpine</code>): dependencias, base PHP con extensiones, <strong>etapa de pruebas unitarias</strong> (si fallan, no hay imagen), imagen final <code>app</code> sin herramientas de desarrollo y con usuario <code>www-data</code>, e imagen <code>web</code> (nginx). Health checks en ambas.</td></tr>
+<tr><td>compose.yaml</td><td>5 servicios: web (único puerto publicado, 8080), app, db (MariaDB 11.8 en red interna), migrate (migraciones + datos sintéticos, termina) y backup (diario, 14 días). Redes frontend / backend interna / egress (solo app, para la IA); volúmenes db-data, storage, imagenes y backups; variables desde .env (se entrega .env.example). Arranca con <code>docker compose up</code>.</td></tr>
+<tr><td>Pipeline CI/CD</td><td>GitHub Actions: pruebas (PHPUnit contra MariaDB + reversión de migraciones) → contenedores (build, compose up, prueba de humo HTTP con login por rol, PDF y bloqueo de archivos internos, respaldo y restauración en menos de 15 min, rollback) → publicación en GHCR solo en main y solo si todo pasó; secretos generados y enmascarados.</td></tr></table>
+<div class="doc" data-md="../05_plan_despliegue.md"></div>
+
+<h2 class="sec">11. Articulación del módulo y cierre</h2><div class="doc" data-md="../08_informe_integracion.md"></div>
+<h3>Aporte de cada integrante</h3>
+<p class="completar">Completar con el aporte individual y los commits de cada integrante.</p>
+
+<script>
+(async () => {
+  const docs = document.querySelectorAll('.doc[data-md]');
+  for (const d of docs) {
+    const txt = await (await fetch(d.dataset.md)).text();
+    if (d.dataset.pre) { d.innerHTML = '<pre>' + txt.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</pre>'; continue; }
+    let md = txt;
+    // Diagramas Mermaid → su exportación SVG (mismo orden que docs/diagramas).
+    const mapa = { '02_modelo_datos': ['01_entidad_relacion'], '03_arquitectura': ['02_capas', '03_componentes', '04_despliegue', '05_estados_atencion'] };
+    const clave = d.dataset.md.replace(/^.*\//, '').replace('.md', '');
+    let i = 0;
+    md = md.replace(/```mermaid[\s\S]*?```/g, () => { const n = (mapa[clave] || [])[i++]; return n ? `<img class="diag" src="../diagramas/${n}.svg" alt="Diagrama ${n.replace(/_/g, ' ')}">` : ''; });
+    md = md.replace(/^# .*\n/, '');   // el título del documento ya es el de la sección
+    d.innerHTML = marked.parse(md);
+  }
+  document.body.dataset.listo = '1';
+})();
+</script>
+</body>
+</html>
