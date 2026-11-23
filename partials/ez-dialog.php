@@ -46,8 +46,10 @@ select::-ms-expand{display:none}
 .ezsel-list{position:absolute;z-index:1800;top:calc(100% + 6px);left:0;min-width:100%;width:max-content;max-width:min(340px,90vw);max-height:270px;overflow-y:auto;background:#FBF9F4;border:1px solid rgba(92,64,51,.15);border-radius:14px;box-shadow:0 18px 44px -14px rgba(61,42,33,.4);padding:6px;opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .15s,transform .15s}
 .ezsel.ezsel-open .ezsel-list{opacity:1;transform:none;pointer-events:auto}
 .ezsel-opt{padding:9px 12px;border-radius:9px;font-family:'Nunito',system-ui,sans-serif;font-size:14.5px;color:#5C4033;cursor:pointer;white-space:nowrap}
-.ezsel-opt:hover,.ezsel-opt.ezsel-active{background:rgba(217,119,87,.12);color:#B85C3E}
-.ezsel-opt.ezsel-sel{background:#D97757;color:#FBF9F4;font-weight:700}
+.ezsel-opt:hover,.ezsel-opt.ezsel-active,.ezsel-opt.ezsel-act{background:rgba(217,119,87,.14);color:#3D2A21}
+.ezsel-opt.ezsel-act{outline:2px solid #1F5FBF;outline-offset:-2px}
+.ezsel-list:focus{outline:none}
+.ezsel-opt.ezsel-sel{background:#A4512F;color:#FFFFFF;font-weight:700}
 /* Aviso de emisión (ezEmision): enviando -> emitido, con el estado del SII en vivo */
 .ezd-box.eze-box{max-width:460px}
 .eze-spin{width:46px;height:46px;border-radius:9999px;border:3px solid rgba(217,119,87,.22);border-top-color:#D97757;animation:eze-rot .9s linear infinite;margin-bottom:14px}
@@ -203,23 +205,37 @@ a.ezd-btn{text-decoration:none;display:inline-flex;align-items:center}
   function fancySelect(sel){
     if (!sel || sel.multiple || sel.dataset.ezFancy === '1' || sel.hasAttribute('data-ez-nofancy')) return;
     if (sel.closest('table')) return; // los selects pequeños de tablas se dejan como están
+    if (sel.closest('.el-app')) return; // módulos nuevos: <select> nativo (accesible por defecto)
     sel.dataset.ezFancy = '1';
     var wrap = document.createElement('div'); wrap.className = 'ezsel';
     sel.parentNode.insertBefore(wrap, sel);
     wrap.appendChild(sel);
     sel.style.display = 'none';
     var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'ezsel-btn';
+    // Accesibilidad (WCAG 4.1.2): el botón toma el nombre de la etiqueta del <select> y anuncia la lista.
+    var uid = sel.id || ('ezsel-' + Math.random().toString(36).slice(2, 8));
+    btn.id = uid + '-btn';
+    btn.setAttribute('aria-haspopup', 'listbox'); btn.setAttribute('aria-expanded', 'false');
+    var etq = sel.id ? document.querySelector('label[for="' + sel.id + '"]') : null;
+    if (etq) { if (!etq.id) etq.id = uid + '-lbl'; etq.htmlFor = btn.id; btn.setAttribute('aria-labelledby', etq.id + ' ' + btn.id); }
+    else if (sel.getAttribute('aria-label')) { btn.setAttribute('aria-label', sel.getAttribute('aria-label')); }
+    if (sel.required) btn.setAttribute('aria-required', 'true');
     var lbl = document.createElement('span'); lbl.className = 'ezsel-lbl';
     var chev = document.createElement('span'); chev.innerHTML = CHEV; chev.style.display = 'inline-flex';
     btn.appendChild(lbl); btn.appendChild(chev);
-    var list = document.createElement('div'); list.className = 'ezsel-list'; list.setAttribute('role', 'listbox');
+    var list = document.createElement('div'); list.className = 'ezsel-list'; list.setAttribute('role', 'listbox'); list.id = uid + '-lista'; list.tabIndex = -1;
+    if (etq) list.setAttribute('aria-labelledby', etq.id); else list.setAttribute('aria-label', sel.getAttribute('aria-label') || 'Opciones');
+    btn.setAttribute('aria-controls', list.id);
+    var activo = -1;
     wrap.appendChild(btn); wrap.appendChild(list);
     function render(){
       list.innerHTML = '';
       Array.prototype.forEach.call(sel.options, function(o, i){
         var d = document.createElement('div');
         d.className = 'ezsel-opt' + (i === sel.selectedIndex ? ' ezsel-sel' : '');
-        d.textContent = o.textContent; d.setAttribute('role', 'option');
+        d.textContent = o.textContent; d.setAttribute('role', 'option'); d.id = uid + '-op' + i;
+        d.setAttribute('aria-selected', i === sel.selectedIndex ? 'true' : 'false');
+        if (o.disabled) d.setAttribute('aria-disabled', 'true');
         d.addEventListener('click', function(){
           if (sel.selectedIndex !== i) { sel.selectedIndex = i; sel.dispatchEvent(new Event('change', { bubbles: true })); }
           sync(); close();
@@ -230,10 +246,31 @@ a.ezd-btn{text-decoration:none;display:inline-flex;align-items:center}
     function sync(){
       var o = sel.options[sel.selectedIndex];
       lbl.textContent = o ? o.textContent : '';
-      Array.prototype.forEach.call(list.children, function(c, i){ c.classList.toggle('ezsel-sel', i === sel.selectedIndex); });
+      Array.prototype.forEach.call(list.children, function(c, i){ c.classList.toggle('ezsel-sel', i === sel.selectedIndex); c.setAttribute('aria-selected', i === sel.selectedIndex ? 'true' : 'false'); });
     }
-    function open(){ render(); sync(); wrap.classList.add('ezsel-open'); setTimeout(function(){ document.addEventListener('click', outside, true); }, 0); }
-    function close(){ wrap.classList.remove('ezsel-open'); document.removeEventListener('click', outside, true); }
+    function marcar(i){
+      var n = list.children.length; if (!n) return;
+      activo = Math.max(0, Math.min(n - 1, i));
+      Array.prototype.forEach.call(list.children, function(c, k){ c.classList.toggle('ezsel-act', k === activo); });
+      list.setAttribute('aria-activedescendant', list.children[activo].id);
+      list.children[activo].scrollIntoView({ block: 'nearest' });
+    }
+    function elegir(i){ if (sel.options[i] && !sel.options[i].disabled && sel.selectedIndex !== i) { sel.selectedIndex = i; sel.dispatchEvent(new Event('change', { bubbles: true })); } sync(); }
+    function open(){ render(); sync(); wrap.classList.add('ezsel-open'); btn.setAttribute('aria-expanded', 'true'); marcar(Math.max(0, sel.selectedIndex)); list.focus(); setTimeout(function(){ document.addEventListener('click', outside, true); }, 0); }
+    function close(volver){ wrap.classList.remove('ezsel-open'); btn.setAttribute('aria-expanded', 'false'); list.removeAttribute('aria-activedescendant'); document.removeEventListener('click', outside, true); if (volver) btn.focus(); }
+    // Teclado: flechas abren y recorren, Enter/Espacio eligen, Esc y Tab cierran (sin trampa de foco).
+    btn.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); open(); }
+    });
+    list.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowDown') { e.preventDefault(); marcar(activo + 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); marcar(activo - 1); }
+      else if (e.key === 'Home') { e.preventDefault(); marcar(0); }
+      else if (e.key === 'End') { e.preventDefault(); marcar(list.children.length - 1); }
+      else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); elegir(activo); close(true); }
+      else if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(true); }
+      else if (e.key === 'Tab') { close(false); }
+    });
     function outside(e){ if (!wrap.contains(e.target)) close(); }
     btn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); if (wrap.classList.contains('ezsel-open')) close(); else open(); });
     sel.addEventListener('change', sync);

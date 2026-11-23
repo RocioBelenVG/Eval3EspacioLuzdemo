@@ -306,13 +306,13 @@ foreach ($nav as $item) {
             <div class="flex items-center gap-3">
                 <div class="hidden text-right sm:block">
                     <p class="font-body text-sm font-semibold text-cafe"><?= e($nombre) ?></p>
-                    <p class="font-body text-xs text-cafe/70"><?= e(rolEtiqueta($rol)) ?></p>
+                    <p class="font-body text-xs text-cafe/90"><?= e(rolEtiqueta($rol)) ?></p>
                 </div>
-                <div class="flex h-10 w-10 items-center justify-center rounded-full bg-terracota/15 font-body text-sm font-bold text-terracota-dark">
+                <div class="flex h-10 w-10 items-center justify-center rounded-full bg-terracota/15 font-body text-sm font-bold text-cafe-dark" aria-hidden="true">
                     <?= e(getIniciales($nombre)) ?>
                 </div>
             </div>
         </header>
-        <p class="pnl-demo" role="note">Espacio Luz <strong>Demo</strong> · datos sintéticos · boletas y facturas de demostración, nunca enviadas al SII</p>
         <main id="contenido" tabindex="-1" class="flex-1 px-4 py-6 sm:px-8 sm:py-8">
+        <p class="pnl-demo" role="note" style="margin:-1.5rem -1rem 1.25rem;border-radius:.75rem">Espacio Luz <strong>Demo</strong> · datos sintéticos · boletas y facturas de demostración, nunca enviadas al SII</p>
 <?php endif; ?>

@@ -67,7 +67,7 @@ function mapaCalor(datos) {
   art.querySelector('.lienzo').style.height = 'auto';
   art.querySelector('.lienzo').innerHTML = `<div class="el-tabla-envoltura" style="border:0" tabindex="0" role="region" aria-label="Mapa de calor (desplazable)"><table class="el-mapa" aria-hidden="true"><thead><tr><td></td>${dias.map((d) => `<td><strong>${d}</strong></td>`).join('')}</tr></thead><tbody>
     ${horas.map((h) => `<tr><td><strong>${String(h).padStart(2, '0')}</strong></td>${dias.map((_, i) => { const n = v(i + 1, h); const a = n / max;
-      return `<td style="background:rgba(164,81,47,${(0.08 + a * 0.85).toFixed(2)});color:${a > 0.55 ? '#fff' : '#3D2A21'}">${n || ''}</td>`; }).join('')}</tr>`).join('')}</tbody></table></div>`;
+      return `<td style="background:rgba(164,81,47,${(0.06 + a * 0.44).toFixed(2)});color:#3D2A21;font-weight:${a > 0.6 ? 800 : 500}">${n || ''}</td>`; }).join('')}</tr>`).join('')}</tbody></table></div>`;
 }
 
 function narrativa(series, ind) {
