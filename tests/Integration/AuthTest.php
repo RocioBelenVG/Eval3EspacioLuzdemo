@@ -32,6 +32,15 @@ final class AuthTest extends ApiTestCase
     }
 
     #[Test]
+    public function un_correo_inexistente_siempre_responde_401_y_nunca_500(): void
+    {
+        // Regresión: el hash de relleno usaba bytes aleatorios crudos y bcrypt rechaza el carácter nulo (500 en ~6 % de los casos).
+        for ($i = 0; $i < 40; $i++) {
+            $this->assertError($this->request('POST', '/auth/login', ['email' => "no.existe.$i@example.com", 'password' => 'x']), 401, 'CREDENCIALES_INVALIDAS');
+        }
+    }
+
+    #[Test]
     public function el_login_valida_la_entrada_y_responde_422_con_detalle_por_campo(): void
     {
         $r = $this->request('POST', '/auth/login', ['email' => 'sin-arroba']);

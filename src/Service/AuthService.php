@@ -33,7 +33,7 @@ final class AuthService
         $u = $this->usuarios->porEmail($email);
         // Si el correo no existe se verifica igual contra un hash de relleno, para no revelar
         // por el tiempo de respuesta qué correos están registrados.
-        $hash = $u ? preg_replace('/^\$2b\$/', '$2y$', (string) $u['password_hash']) : password_hash(random_bytes(16), PASSWORD_BCRYPT);
+        $hash = $u ? preg_replace('/^\$2b\$/', '$2y$', (string) $u['password_hash']) : password_hash(bin2hex(random_bytes(16)), PASSWORD_BCRYPT);
         $ok = password_verify($password, (string) $hash);
         if (!$u || !$ok || !(int) $u['activo']) {
             throw ApiException::unauthorized('Correo o contraseña incorrectos.', 'CREDENCIALES_INVALIDAS');
