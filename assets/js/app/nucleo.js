@@ -146,7 +146,8 @@ export function tabla(el, columnas, filas, opciones = {}) {
     return `<th scope="col"${ord ? ` aria-sort="${ord}"` : ''}${c.num ? ' class="num"' : ''}>${contenido}</th>`;
   }).join('');
   const tr = filas.map((f) => `<tr>${columnas.map((c, i) => {
-    const v = c.render ? c.render(f) : esc(f[c.clave] ?? '—');
+    // Un solo hijo por celda: en celular la celda es una rejilla «etiqueta | valor».
+    const v = `<span class="el-celda">${c.render ? c.render(f) : esc(f[c.clave] ?? '—')}</span>`;
     return i === 0 ? `<th scope="row" data-label="${esc(c.etiqueta)}" style="font-weight:600;text-transform:none;letter-spacing:0;background:none;white-space:normal">${v}</th>`
       : `<td data-label="${esc(c.etiqueta)}"${c.num ? ' class="num"' : ''}>${v}</td>`;
   }).join('')}</tr>`).join('');

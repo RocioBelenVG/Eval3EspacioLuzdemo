@@ -102,10 +102,12 @@ textarea.el-input { padding: var(--e-2) var(--e-3); min-height: 88px; }
 .el-tabla tbody tr:hover { background: #FBF6EE; }
 .el-tabla .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .el-tabla tfoot td { font-weight: 800; background: #F3EEE4; }
-.el-orden { all: unset; cursor: pointer; display: inline-flex; gap: .25rem; align-items: center; }
+.el-orden { all: unset; cursor: pointer; display: inline-flex; gap: .25rem; align-items: center; min-height: 32px; padding: 0 .25rem; border-radius: 4px; }
 .el-orden:focus-visible { outline: 3px solid var(--c-foco); }
 @media (max-width: 767.98px) {
-  .el-tabla--apilable thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  /* En celular la tabla se lee como tarjetas: cada celda muestra su etiqueta. El encabezado se quita
+     (display:none) para que sus botones de orden no queden enfocables sin verse; se ordena con «Ordenar por». */
+  .el-tabla--apilable thead { display: none; }
   .el-tabla--apilable tr { display: block; border-top: 1px solid var(--c-borde); padding: var(--e-2) 0; }
   .el-tabla--apilable td, .el-tabla--apilable tbody th { display: grid; grid-template-columns: minmax(7.5rem, 40%) 1fr; gap: var(--e-2); border: 0; padding: var(--e-1) var(--e-3); }
   .el-tabla--apilable td::before, .el-tabla--apilable tbody th::before { content: attr(data-label); font-weight: 700; color: var(--c-texto-suave); font-size: var(--t-xs); text-transform: uppercase; }
@@ -179,3 +181,4 @@ textarea.el-input { padding: var(--e-2) var(--e-3); min-height: 88px; }
   .el-tabla tr { page-break-inside: avoid; }
   a[href]::after { content: ""; }
 }
+.el-dialogo .el-fila { align-items: flex-start; }

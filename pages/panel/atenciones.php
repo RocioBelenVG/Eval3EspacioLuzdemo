@@ -29,6 +29,11 @@ $hoy = date('Y-m-d');
             <div class="el-campo"><label for="f-filtros-box">Box</label><select class="el-input" id="f-filtros-box" name="box"><option value="">Todos</option></select></div>
             <div class="el-campo"><label for="f-filtros-uso">Uso</label>
                 <select class="el-input" id="f-filtros-uso" name="uso"><option value="">Sesiones y arriendos</option><option value="sesion">Solo sesiones</option><option value="arriendo">Solo arriendos</option></select></div>
+            <div class="el-campo"><label for="f-filtros-sort">Ordenar por</label>
+                <select class="el-input" id="f-filtros-sort" name="sort">
+                    <option value="-fecha">Fecha (más reciente)</option><option value="fecha">Fecha (más antigua)</option>
+                    <option value="paciente">Paciente (A–Z)</option><option value="profesional">Profesional (A–Z)</option>
+                    <option value="box">Box (A–Z)</option><option value="estado">Estado</option><option value="precio">Precio (mayor)</option></select></div>
             <div class="el-campo" style="flex:0 0 auto;flex-direction:row;gap:.5rem">
                 <button class="el-btn" type="submit">Filtrar</button>
                 <button class="el-btn el-btn--sec" type="reset">Limpiar</button>

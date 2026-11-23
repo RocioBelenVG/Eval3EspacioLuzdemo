@@ -38,7 +38,11 @@ async function cargar() {
       { clave: 'cobrada', etiqueta: 'Cobro', render: (a) => Number(a.cobrada) ? '<span class="el-chip" data-estado="realizada">Cobrada</span>' : '—' },
       { clave: 'acciones', etiqueta: 'Acciones', render: (a) => `<button type="button" class="el-btn el-btn--sec el-btn--chico" data-ver="${a.id}"
           aria-label="${puedeGestionar || estado.yo.rol === 'pacientes' ? 'Gestionar' : 'Ver'} atención del ${fecha(a.fecha)} ${esc(a.hora || '')}">${puedeGestionar || estado.yo.rol === 'pacientes' ? 'Gestionar' : 'Ver'}</button>` },
-    ], r.data, { caption: 'Atenciones', orden: estado.query.sort, alOrdenar: (o) => { estado.query.sort = o; estado.query.page = 1; cargar(); } });
+    ], r.data, { caption: 'Atenciones', orden: estado.query.sort, alOrdenar: (o) => {
+      estado.query.sort = o; estado.query.page = 1;
+      const s = $('#f-filtros-sort'); if ([...s.options].some((x) => x.value === o)) s.value = o;
+      cargar();
+    } });
     lista.querySelectorAll('[data-ver]').forEach((b) => b.addEventListener('click', () => abrirAccion(Number(b.dataset.ver))));
     paginacion($('#paginas'), r.meta, (p) => { estado.query.page = p; cargar(); $('#lista').focus?.(); });
   } catch (e) {

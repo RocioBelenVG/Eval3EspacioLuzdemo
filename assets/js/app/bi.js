@@ -113,7 +113,7 @@ async function cargar() {
       m.map((r) => [mesCorto(r.mes), clp(r.ingresos), num(r.documentos)]),
       { type: 'line', data: { labels: m.map((r) => mesCorto(r.mes)), datasets: [{ label: 'Ingresos netos (CLP)', data: m.map((r) => Number(r.ingresos)), borderColor: C.terracota,
         backgroundColor: 'rgba(164,81,47,.15)', fill: true, tension: 0.25, pointRadius: 3 }] },
-        options: { scales: { y: { ticks: { callback: (v) => `$${(v / 1e6).toLocaleString('es-CL')}M` } } } } });
+        options: { scales: { y: { beginAtZero: true, ticks: { callback: (v) => `$${(v / 1e6).toLocaleString('es-CL')}M` } } } } });
     const esp = s.especialidades;
     figura('g-especialidad', 'Horas de box por especialidad',
       'Barras horizontales con las horas reservadas (no canceladas) por especialidad del profesional, ordenadas de mayor a menor.',
