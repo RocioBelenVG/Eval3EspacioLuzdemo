@@ -16,3 +16,6 @@
 /content/reservas.json
 # Videos pesados del sitio público (solo en el servidor)
 /assets/videos/
+
+/.phpunit.cache/
+/storage/dte_priv/
