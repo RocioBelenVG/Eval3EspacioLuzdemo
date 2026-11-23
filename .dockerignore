@@ -1,0 +1,20 @@
+# Nunca entran a la imagen: secretos, historial, dependencias locales y archivos generados
+.env
+.env.*
+!.env.example
+.git
+.github
+vendor
+dte/vendor/*
+!dte/vendor/autoload.php
+node_modules
+storage/cache/*
+storage/logs/*
+storage/firmas/*
+storage/informes/*
+storage/exports/*
+storage/dte_priv
+assets/videos
+.phpunit.cache
+docs/evidencias
+*.bak*

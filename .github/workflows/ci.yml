@@ -1,0 +1,205 @@
+# Espacio Luz Demo · CI/CD
+#   1. pruebas       PHPUnit (unitarias + integración contra MariaDB 11.8 real, con datos sintéticos)
+#                    y reversibilidad de las migraciones
+#   2. contenedores  construye las imágenes (la etapa «test» del Dockerfile vuelve a correr las unitarias),
+#                    levanta todo con docker compose, prueba de humo por HTTP, respaldo/restauración y rollback
+#   3. publicar      sube las imágenes a GitHub Container Registry, solo en main y solo si 1 y 2 pasaron
+# Los secretos de prueba se generan en cada ejecución y se enmascaran: nunca aparecen en los logs.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pruebas:
+    name: Pruebas (PHPUnit)
+    runs-on: ubuntu-24.04
+    services:
+      db:
+        image: mariadb:11.8.2
+        env:
+          MARIADB_DATABASE: espacioluzdemo
+          MARIADB_USER: espacioluzdemo
+          MARIADB_PASSWORD: ci_db_pass
+          MARIADB_ROOT_PASSWORD: ci_root_pass
+        ports: ["3306:3306"]
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s --health-timeout=5s --health-retries=10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: pdo_mysql, mysqli, mbstring, zip, curl, gd
+          coverage: none
+          tools: composer:v2
+
+      - name: Dependencias
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Archivo .env de prueba (secretos generados y enmascarados)
+        run: |
+          JWT=$(openssl rand -hex 32); DEMO=$(openssl rand -hex 12)
+          echo "::add-mask::$JWT"; echo "::add-mask::$DEMO"
+          cat > .env <<EOF
+          APP_ENV=testing
+          DB_HOST=127.0.0.1
+          DB_PORT=3306
+          DB_NAME=espacioluzdemo
+          DB_USER=espacioluzdemo
+          DB_PASS=ci_db_pass
+          JWT_SECRET=$JWT
+          DEMO_PASSWORD=$DEMO
+          EOF
+
+      - name: Disparadores sin privilegio SUPER
+        run: mysql -h 127.0.0.1 -uroot -pci_root_pass -e "SET GLOBAL log_bin_trust_function_creators = 1;"
+
+      - name: Migraciones y datos sintéticos (12 meses)
+        run: |
+          vendor/bin/phinx migrate -c phinx.php
+          vendor/bin/phinx seed:run -c phinx.php -s DatosSinteticos
+
+      - name: Reversibilidad de las migraciones (rollback hasta V1 y vuelta)
+        run: |
+          vendor/bin/phinx rollback -c phinx.php -t 20261123000000
+          vendor/bin/phinx migrate -c phinx.php
+
+      - name: PHPUnit
+        run: vendor/bin/phpunit --log-junit phpunit-junit.xml
+
+      - name: Reporte de pruebas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phpunit-junit
+          path: phpunit-junit.xml
+
+  contenedores:
+    name: Contenedores (build + compose + humo + respaldo)
+    needs: pruebas
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: .env para compose (secretos generados y enmascarados)
+        run: |
+          for v in DB_PASS DB_ROOT_PASSWORD JWT_SECRET DEMO_PASSWORD; do
+            val=$(openssl rand -hex 24); echo "::add-mask::$val"; echo "$v=$val" >> .env.ci
+          done
+          { grep -vE '^(DB_PASS|DB_ROOT_PASSWORD|JWT_SECRET|DEMO_PASSWORD)=' .env.example; cat .env.ci; } > .env
+          rm .env.ci
+
+      - name: Construir imágenes (incluye la etapa de pruebas del Dockerfile)
+        run: |
+          docker build --target test -t espacioluzdemo/test .
+          docker compose build
+
+      - name: docker compose up
+        run: |
+          docker compose up -d
+          for i in $(seq 1 60); do
+            if curl -fsS http://localhost:8080/api/v1/health | grep -q '"ok"'; then echo "Sistema arriba tras ${i}0 s"; break; fi
+            sleep 10
+          done
+          docker compose ps
+
+      - name: Prueba de humo por HTTP
+        run: |
+          set -a; . ./.env; set +a
+          B=http://localhost:8080/api/v1
+          test "$(curl -s -o /dev/null -w '%{http_code}' $B/atenciones)" = 401
+          TOKEN=$(curl -fsS -X POST $B/auth/login -H 'Content-Type: application/json' \
+            -d "{\"email\":\"recepcion@espacioluzdemo.cl\",\"password\":\"$DEMO_PASSWORD\"}" | jq -r .token)
+          echo "::add-mask::$TOKEN"
+          curl -fsS "$B/atenciones?per_page=1" -H "Authorization: Bearer $TOKEN" | jq -e '.meta.total > 500'
+          test "$(curl -s -o /dev/null -w '%{http_code}' $B/dashboard/series -H "Authorization: Bearer $TOKEN")" = 403
+          G=$(curl -fsS -X POST $B/auth/login -H 'Content-Type: application/json' \
+            -d "{\"email\":\"gerencia@espacioluzdemo.cl\",\"password\":\"$DEMO_PASSWORD\"}" | jq -r .token)
+          echo "::add-mask::$G"
+          curl -fsS "$B/reportes/gerencial/export?formato=pdf" -H "Authorization: Bearer $G" -o gerencial.pdf && head -c 4 gerencial.pdf | grep -q '%PDF'
+          test "$(curl -s -o /dev/null -w '%{http_code}' -X POST $B/ia/resumen -H "Authorization: Bearer $G" -H 'Content-Type: application/json' -d '{"desde":"2026-10-01","hasta":"2026-10-31"}')" = 503
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/)" = 200
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/admin/login)" = 200
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/vendor/autoload.php)" = 404
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/.env)" = 404
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/lib/db.php)" = 404
+          echo "Prueba de humo OK"
+
+      - name: Prueba de respaldo y restauración (menos de 15 minutos)
+        run: |
+          set -a; . ./.env; set +a
+          docker compose exec -T -e BACKUP_UNA_VEZ=1 backup sh /backup.sh
+          ARCHIVO=$(docker compose exec -T backup sh -c 'ls -t /backups/*.sql.gz | head -1' | tr -d '\r')
+          RESTORE_PASS=$(openssl rand -hex 16); echo "::add-mask::$RESTORE_PASS"
+          docker run -d --name restaurada --network espacioluzdemo_backend \
+            -e MARIADB_ROOT_PASSWORD="$RESTORE_PASS" -e MARIADB_DATABASE=restaurada mariadb:11.8.2 --log-bin-trust-function-creators=1
+          until docker exec restaurada healthcheck.sh --connect --innodb_initialized 2>/dev/null; do sleep 2; done
+          INICIO=$(date +%s)
+          docker compose exec -T backup sh -c "gunzip < $ARCHIVO" | docker exec -i restaurada mariadb -uroot -p"$RESTORE_PASS" restaurada
+          DURACION=$(( $(date +%s) - INICIO ))
+          for t in reservas pacientes boletas documento_pagos fichas evoluciones usuarios; do
+            A=$(docker compose exec -T db mariadb -uroot -p"$DB_ROOT_PASSWORD" -N -e "SELECT COUNT(*) FROM \`$DB_NAME\`.$t" | tr -d '\r')
+            B=$(docker exec restaurada mariadb -uroot -p"$RESTORE_PASS" -N -e "SELECT COUNT(*) FROM restaurada.$t")
+            echo "$t: original=$A restaurada=$B"; test "$A" = "$B"
+          done
+          echo "Restauración de $ARCHIVO verificada en ${DURACION} s"
+          test "$DURACION" -lt 900
+          docker rm -f restaurada
+
+      - name: Reversión de migraciones dentro de los contenedores
+        run: |
+          docker compose run --rm migrate vendor/bin/phinx rollback -c phinx.php -t 20261123000300
+          docker compose run --rm migrate vendor/bin/phinx migrate -c phinx.php
+          curl -fsS http://localhost:8080/api/v1/health
+
+      - name: Registros si algo falló
+        if: failure()
+        run: docker compose logs --no-color --tail=200
+
+      - name: Bajar el entorno
+        if: always()
+        run: docker compose down -v
+
+  publicar:
+    name: Publicar imágenes (GHCR)
+    needs: [pruebas, contenedores]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Nombre de las imágenes en minúsculas
+        run: echo "PREFIX=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: app
+          push: true
+          tags: ${{ env.PREFIX }}/app:${{ github.sha }},${{ env.PREFIX }}/app:latest
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: web
+          push: true
+          tags: ${{ env.PREFIX }}/web:${{ github.sha }},${{ env.PREFIX }}/web:latest

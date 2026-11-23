@@ -1,0 +1,121 @@
+# Espacio Luz Demo · docker compose up
+#   web      nginx: front end (recursos estáticos) y entrada HTTP          → http://localhost:8080
+#   app      PHP-FPM 8.3: API REST /api/v1 y panel/sitio renderizados en servidor
+#   db       MariaDB 11.8 (red interna, sin puerto publicado)
+#   migrate  auxiliar: migraciones Phinx, datos sintéticos y cuentas demo; termina al acabar
+#   backup   auxiliar: respaldo diario comprimido con retención de 14 días
+# Las variables vienen de .env (no versionado; ver .env.example).
+
+name: espacioluzdemo
+
+x-app-env: &app-env
+  APP_ENV: ${APP_ENV:-production}
+  APP_BASE: ""
+  DB_HOST: db
+  DB_PORT: "3306"
+  DB_NAME: ${DB_NAME}
+  DB_USER: ${DB_USER}
+  DB_PASS: ${DB_PASS}
+  JWT_SECRET: ${JWT_SECRET}
+  JWT_TTL: ${JWT_TTL:-3600}
+  GROQ_API_KEY: ${GROQ_API_KEY:-}
+  AI_TIMEOUT: ${AI_TIMEOUT:-20}
+  DEMO_PASSWORD: ${DEMO_PASSWORD}
+  SEED_DEMO: ${SEED_DEMO:-1}
+  MAIL_MODO: archivo
+  CORS_ORIGENES: ${CORS_ORIGENES:-}
+
+services:
+  db:
+    image: mariadb:11.8.2
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASS}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      TZ: America/Santiago
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci", "--log-bin-trust-function-creators=1"]
+    volumes:
+      - db-data:/var/lib/mysql
+    networks: [backend]
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  migrate:
+    build: { context: ., target: app }
+    image: ${IMAGE_PREFIX:-espacioluzdemo}/app:${IMAGE_TAG:-local}
+    command: ["sh", "docker/migrate.sh"]
+    entrypoint: []
+    user: www-data
+    environment: *app-env
+    volumes:
+      - ./docker/migrate.sh:/var/www/html/docker/migrate.sh:ro
+    depends_on:
+      db: { condition: service_healthy }
+    networks: [backend]
+    restart: "no"
+
+  app:
+    build: { context: ., target: app }
+    image: ${IMAGE_PREFIX:-espacioluzdemo}/app:${IMAGE_TAG:-local}
+    restart: unless-stopped
+    environment: *app-env
+    volumes:
+      - storage:/var/www/html/storage
+      - imagenes:/var/www/html/assets/images
+    depends_on:
+      db: { condition: service_healthy }
+      migrate: { condition: service_completed_successfully }
+    networks: [backend, egress]   # egress: única salida a internet, para el servicio de IA (Groq)
+
+  web:
+    build: { context: ., target: web }
+    image: ${IMAGE_PREFIX:-espacioluzdemo}/web:${IMAGE_TAG:-local}
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-8080}:8080"
+    volumes:
+      - imagenes:/var/www/html/assets/images:ro
+    depends_on:
+      app: { condition: service_healthy }
+    networks: [frontend, backend]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/api/v1/health | grep -q '\"ok\"'"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  backup:
+    image: mariadb:11.8.2
+    restart: unless-stopped
+    entrypoint: ["sh", "/backup.sh"]
+    environment:
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      BACKUP_INTERVAL: ${BACKUP_INTERVAL:-86400}
+      BACKUP_RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:-14}
+      TZ: America/Santiago
+    volumes:
+      - ./docker/backup.sh:/backup.sh:ro
+      - backups:/backups
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+    networks: [backend]
+
+networks:
+  frontend: {}          # publicada: solo web
+  backend:
+    internal: true      # db, app y auxiliares; sin salida a internet
+  egress: {}            # salida a internet solo para app (IA)
+
+volumes:
+  db-data: {}
+  storage: {}
+  imagenes: {}
+  backups: {}

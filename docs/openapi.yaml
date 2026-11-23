@@ -1,3 +1,591 @@
 openapi: 3.1.0
-info: {title: Espacio Luz Demo API, version: 1.0.0}
-paths: {}
+info:
+  title: Espacio Luz Demo · API REST
+  version: 1.0.0
+  description: |
+    API del sistema de gestión del centro terapéutico Espacio Luz (versión de demostración para la
+    Evaluación 3 de Lenguaje de Programación Web II). Expone la agenda (atenciones), pacientes,
+    documentos de cobro (boletas y facturas **de demostración**, nunca enviadas al SII), dashboard,
+    reportes exportables, un resumen con IA y el registro de auditoría.
+
+    **Autenticación:** JWT HS256 en el encabezado `Authorization: Bearer <token>`, obtenido con
+    `POST /auth/login` (o canjeando la sesión del panel en `POST /auth/sesion`). El token dura
+    `JWT_TTL` segundos (3600 por defecto) y el usuario se revalida en cada solicitud.
+
+    **Roles:** `admin` (Administración), `editor` (Recepción), `pacientes` (Área clínica) y
+    `gerencia` (Gerencia, solo lectura). Cada operación indica los roles permitidos.
+
+    **Errores:** todas las respuestas de error usan el esquema `Error` con un `request_id` para
+    rastrearlas en el log. Límite: 120 solicitudes por minuto y usuario (429 con `Retry-After`).
+
+    El contrato se definió antes de implementar cada recurso y se mantiene junto al código
+    (las pruebas de integración recorren estas rutas).
+  contact: { name: Espacio Luz Demo, url: https://trivoxa.cl/espacioluzdemo }
+servers:
+  - url: https://trivoxa.cl/espacioluzdemo/api/v1
+    description: Servidor de demostración (Hostinger)
+  - url: http://localhost:8080/api/v1
+    description: docker compose up
+security:
+  - bearerAuth: []
+tags:
+  - { name: Sistema }
+  - { name: Autenticación }
+  - { name: Catálogos }
+  - { name: Atenciones, description: Entidad principal (reservas de box con o sin paciente) y su flujo de estados }
+  - { name: Pacientes }
+  - { name: Documentos, description: Boletas y facturas de demostración y sus pagos }
+  - { name: Análisis, description: Indicadores y series del dashboard }
+  - { name: Reportes }
+  - { name: IA }
+  - { name: Auditoría }
+
+paths:
+  /health:
+    get:
+      tags: [Sistema]
+      summary: Estado del servicio (health check de Docker y CI)
+      security: []
+      responses:
+        '200': { description: Servicio operativo, content: { application/json: { schema: { $ref: '#/components/schemas/Health' } } } }
+        '503': { description: Sin conexión a la base de datos }
+
+  /openapi.yaml:
+    get:
+      tags: [Sistema]
+      summary: Este contrato
+      security: []
+      responses: { '200': { description: Contrato OpenAPI en YAML } }
+
+  /auth/login:
+    post:
+      tags: [Autenticación]
+      summary: Iniciar sesión y obtener un JWT
+      security: []
+      description: Máximo 5 intentos por minuto por IP y correo (OWASP API2). El mensaje de error es el mismo si el correo no existe.
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/LoginEntrada' } } }
+      responses:
+        '200': { description: Credenciales válidas, content: { application/json: { schema: { $ref: '#/components/schemas/Token' } } } }
+        '401': { $ref: '#/components/responses/NoAutenticado' }
+        '422': { $ref: '#/components/responses/Validacion' }
+        '429': { $ref: '#/components/responses/Limite' }
+
+  /auth/sesion:
+    post:
+      tags: [Autenticación]
+      summary: Canjear la sesión del panel por un JWT
+      description: Requiere la cookie de sesión del panel y su token CSRF en `X-CSRF-Token`. Lo usan los módulos nuevos del panel.
+      security: []
+      parameters:
+        - { in: header, name: X-CSRF-Token, required: true, schema: { type: string } }
+      responses:
+        '200': { description: Token emitido, content: { application/json: { schema: { $ref: '#/components/schemas/Token' } } } }
+        '401': { $ref: '#/components/responses/NoAutenticado' }
+        '403': { $ref: '#/components/responses/SinPermiso' }
+
+  /auth/me:
+    get:
+      tags: [Autenticación]
+      summary: Usuario autenticado
+      responses:
+        '200': { description: Usuario, content: { application/json: { schema: { type: object, properties: { usuario: { $ref: '#/components/schemas/Usuario' } } } } } }
+        '401': { $ref: '#/components/responses/NoAutenticado' }
+
+  /profesionales:
+    get:
+      tags: [Catálogos]
+      summary: Profesionales (todos los roles)
+      responses:
+        '200': { description: Lista, content: { application/json: { schema: { type: object, properties: { data: { type: array, items: { $ref: '#/components/schemas/Profesional' } } } } } } }
+        '401': { $ref: '#/components/responses/NoAutenticado' }
+  /boxes:
+    get:
+      tags: [Catálogos]
+      summary: Boxes con su precio por hora
+      responses:
+        '200': { description: Lista, content: { application/json: { schema: { type: object, properties: { data: { type: array, items: { $ref: '#/components/schemas/Box' } } } } } } }
+  /opciones:
+    get:
+      tags: [Catálogos]
+      summary: Especialidades, comunas, previsiones, tipos de atención, medios de pago y flujo de estados
+      responses: { '200': { description: Catálogos para filtros y formularios } }
+
+  /atenciones:
+    get:
+      tags: [Atenciones]
+      summary: Listar atenciones (búsqueda, filtros, orden y paginación)
+      description: |
+        Roles: admin, editor, pacientes, gerencia. El rol `pacientes` (área clínica) solo recibe
+        las atenciones de su propio profesional (OWASP API1).
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+        - { in: query, name: q, schema: { type: string, maxLength: 80 }, description: Paciente, profesional o código público }
+        - { in: query, name: estado, schema: { $ref: '#/components/schemas/EstadoAtencion' } }
+        - $ref: '#/components/parameters/desde'
+        - $ref: '#/components/parameters/hasta'
+        - { in: query, name: profesional_id, schema: { type: integer, minimum: 1 } }
+        - { in: query, name: paciente_id, schema: { type: integer, minimum: 1 } }
+        - { in: query, name: box, schema: { type: string, pattern: '^[a-z0-9-]+$' } }
+        - { in: query, name: especialidad, schema: { type: string, pattern: '^[a-z0-9-]+$' } }
+        - { in: query, name: uso, schema: { type: string, enum: [sesion, arriendo] } }
+        - { in: query, name: sort, schema: { type: string, enum: [fecha, -fecha, profesional, paciente, estado, precio, box], default: -fecha } }
+      responses:
+        '200': { description: Página de atenciones, content: { application/json: { schema: { $ref: '#/components/schemas/PaginaAtenciones' } } } }
+        '401': { $ref: '#/components/responses/NoAutenticado' }
+        '422': { $ref: '#/components/responses/Validacion' }
+    post:
+      tags: [Atenciones]
+      summary: Agendar una atención (CU-01)
+      description: |
+        Roles: admin, editor. Reglas: fecha no pasada, el centro no abre domingos ni feriados, dentro del
+        horario del centro y en bloques de 30 minutos; máximo 2 reservas por box y hora (409 BOX_SIN_CUPO)
+        y un profesional no puede tener dos atenciones a la misma hora (409 PROFESIONAL_OCUPADO).
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/AtencionEntrada' } } }
+      responses:
+        '201': { description: Creada, headers: { Location: { schema: { type: string } } }, content: { application/json: { schema: { type: object, properties: { data: { $ref: '#/components/schemas/Atencion' } } } } } }
+        '403': { $ref: '#/components/responses/SinPermiso' }
+        '409': { $ref: '#/components/responses/Conflicto' }
+        '422': { $ref: '#/components/responses/Validacion' }
+
+  /atenciones/{id}:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    get:
+      tags: [Atenciones]
+      summary: Ver una atención con sus transiciones permitidas y su historial
+      responses:
+        '200': { description: Atención, content: { application/json: { schema: { type: object, properties: { data: { $ref: '#/components/schemas/Atencion' } } } } } }
+        '404': { $ref: '#/components/responses/NoEncontrado' }
+    patch:
+      tags: [Atenciones]
+      summary: Reprogramar fecha, hora o box (solo pendientes o confirmadas)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [fecha, hora]
+              properties:
+                fecha: { type: string, format: date }
+                hora: { type: string, pattern: '^([01]\d|2[0-3]):(00|30)$' }
+                box: { type: string }
+      responses:
+        '200': { description: Reprogramada }
+        '409': { $ref: '#/components/responses/Conflicto' }
+        '422': { $ref: '#/components/responses/Validacion' }
+
+  /atenciones/{id}/estado:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    patch:
+      tags: [Atenciones]
+      summary: Cambiar el estado según el flujo (CU-02)
+      description: |
+        Transiciones válidas: pendiente → confirmada | realizada | cancelada | no_show; confirmada → realizada |
+        cancelada | no_show; cancelada → pendiente | confirmada. `realizada` y `no_show` son de cierre y exigen que
+        la fecha ya haya llegado. Una atención cobrada no se cancela desde la API (409 COBRO_ASOCIADO).
+        Roles: admin, editor; `pacientes` solo puede marcar realizada / no_show en sus propias atenciones.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [estado]
+              properties:
+                estado: { $ref: '#/components/schemas/EstadoAtencion' }
+                motivo: { type: [string, 'null'], maxLength: 300 }
+      responses:
+        '200': { description: Estado actualizado }
+        '403': { $ref: '#/components/responses/SinPermiso' }
+        '404': { $ref: '#/components/responses/NoEncontrado' }
+        '409': { $ref: '#/components/responses/Conflicto' }
+        '422': { $ref: '#/components/responses/Validacion' }
+
+  /atenciones/{id}/boleta:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    post:
+      tags: [Atenciones, Documentos]
+      summary: Cobrar una sesión realizada con boleta exenta DE DEMOSTRACIÓN (CU-05)
+      description: Emite una boleta 41 con un folio de CAF de prueba; no se envía al SII. Roles admin, editor.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [medio_pago]
+              properties:
+                medio_pago: { type: string, enum: [efectivo, tarjeta, transferencia, otro] }
+                pagado: { type: boolean, default: true }
+      responses:
+        '201': { description: Boleta demo emitida, content: { application/json: { schema: { type: object, properties: { data: { $ref: '#/components/schemas/Documento' }, aviso: { type: string } } } } } }
+        '409': { $ref: '#/components/responses/Conflicto' }
+        '502': { $ref: '#/components/responses/ErrorExterno' }
+
+  /pacientes:
+    get:
+      tags: [Pacientes]
+      summary: Listar pacientes (roles admin, editor, pacientes)
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+        - { in: query, name: q, schema: { type: string, maxLength: 80 } }
+        - { in: query, name: activo, schema: { type: boolean } }
+        - { in: query, name: comuna, schema: { type: string } }
+        - { in: query, name: prevision, schema: { type: string } }
+        - { in: query, name: sort, schema: { type: string, enum: [nombre, -creado, creado, -ultima, comuna] } }
+      responses:
+        '200': { description: Página de pacientes }
+        '403': { $ref: '#/components/responses/SinPermiso' }
+    post:
+      tags: [Pacientes]
+      summary: Registrar un paciente (CU-03)
+      description: Exige consentimiento informado; los menores de 18 deben registrar apoderado. RUT con dígito verificador válido y único (409 RUT_DUPLICADO).
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/PacienteEntrada' } } }
+      responses:
+        '201': { description: Creado }
+        '409': { $ref: '#/components/responses/Conflicto' }
+        '422': { $ref: '#/components/responses/Validacion' }
+  /pacientes/{id}:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    get:
+      tags: [Pacientes]
+      summary: Ver un paciente con sus fichas, próximas atenciones y saldo
+      responses:
+        '200': { description: Paciente }
+        '404': { $ref: '#/components/responses/NoEncontrado' }
+    put:
+      tags: [Pacientes]
+      summary: Actualizar datos del paciente (campos permitidos únicamente)
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: '#/components/schemas/PacienteEntrada' } } }
+      responses:
+        '200': { description: Actualizado }
+        '404': { $ref: '#/components/responses/NoEncontrado' }
+        '422': { $ref: '#/components/responses/Validacion' }
+
+  /documentos:
+    get:
+      tags: [Documentos]
+      summary: Listar boletas y facturas (roles admin, editor, gerencia)
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+        - $ref: '#/components/parameters/desde'
+        - $ref: '#/components/parameters/hasta'
+        - { in: query, name: tipo, schema: { type: string, enum: [boleta, factura] } }
+        - { in: query, name: pago_estado, schema: { type: string, enum: [pendiente, parcial, pagado] } }
+        - { in: query, name: vencidos, schema: { type: boolean } }
+        - { in: query, name: q, schema: { type: string } }
+        - { in: query, name: sort, schema: { type: string, enum: [-fecha, fecha, -total, -saldo, receptor] } }
+      responses: { '200': { description: Página de documentos con resumen de totales } }
+  /documentos/{id}:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    get:
+      tags: [Documentos]
+      summary: Documento con ítems, pagos y notas de crédito
+      responses:
+        '200': { description: Documento, content: { application/json: { schema: { type: object, properties: { data: { $ref: '#/components/schemas/Documento' } } } } } }
+        '404': { $ref: '#/components/responses/NoEncontrado' }
+  /documentos/{id}/pagos:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    post:
+      tags: [Documentos]
+      summary: Registrar un pago (CU-06)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [monto, medio]
+              properties:
+                monto: { type: integer, minimum: 1 }
+                fecha: { type: string, format: date, description: No puede ser futura }
+                medio: { type: string, enum: [efectivo, tarjeta, transferencia, otro] }
+                referencia: { type: string, maxLength: 160 }
+      responses:
+        '201': { description: Pago registrado; el estado de pago se recalcula }
+        '409': { $ref: '#/components/responses/Conflicto' }
+        '422': { $ref: '#/components/responses/Validacion' }
+
+  /dashboard/indicadores:
+    get:
+      tags: [Análisis]
+      summary: Indicadores del período con fórmula, pregunta de negocio y comparación (admin, gerencia)
+      parameters: [{ $ref: '#/components/parameters/desde' }, { $ref: '#/components/parameters/hasta' },
+        { in: query, name: especialidad, schema: { type: string } }, { in: query, name: box, schema: { type: string } }, { in: query, name: profesional_id, schema: { type: integer } }]
+      responses:
+        '200': { description: Indicadores, content: { application/json: { schema: { type: object, properties: { data: { type: array, items: { $ref: '#/components/schemas/Indicador' } } } } } } }
+        '422': { $ref: '#/components/responses/Validacion' }
+  /dashboard/series:
+    get:
+      tags: [Análisis]
+      summary: Series agregadas para los gráficos (mensual, especialidades, boxes, día×hora, estados, profesionales)
+      parameters: [{ $ref: '#/components/parameters/desde' }, { $ref: '#/components/parameters/hasta' },
+        { in: query, name: especialidad, schema: { type: string } }, { in: query, name: box, schema: { type: string } }, { in: query, name: profesional_id, schema: { type: integer } }]
+      responses: { '200': { description: Series } }
+
+  /reportes:
+    get:
+      tags: [Reportes]
+      summary: Reportes disponibles para el rol
+      responses: { '200': { description: Lista de reportes } }
+  /reportes/{reporte}:
+    parameters: [{ $ref: '#/components/parameters/reporte' }]
+    get:
+      tags: [Reportes]
+      summary: Datos paginados y filtrables del reporte (mismos filtros que la exportación)
+      description: |
+        `atenciones` (operativo; admin, editor, gerencia), `gerencial` (resumen mensual con indicadores y gráfico; admin, gerencia)
+        y `documentos` (parametrizable por rango de fechas, obligatorio; admin, gerencia). Gerencia no recibe nombres de pacientes.
+      parameters: [{ $ref: '#/components/parameters/page' }, { $ref: '#/components/parameters/per_page' }, { $ref: '#/components/parameters/desde' }, { $ref: '#/components/parameters/hasta' }]
+      responses:
+        '200': { description: Datos, columnas y totales del reporte }
+        '403': { $ref: '#/components/responses/SinPermiso' }
+        '404': { $ref: '#/components/responses/NoEncontrado' }
+        '422': { $ref: '#/components/responses/Validacion' }
+  /reportes/{reporte}/export:
+    parameters: [{ $ref: '#/components/parameters/reporte' }]
+    get:
+      tags: [Reportes]
+      summary: Exportar a CSV, Excel o PDF con los filtros aplicados
+      description: |
+        CSV en UTF-8 con BOM, separador punto y coma (;) y coma decimal; XLSX con encabezados, formato de fechas y
+        números y fila de totales con fórmulas; PDF con título, fecha de emisión, filtros, numeración de páginas y texto
+        seleccionable. Máximo 20.000 filas (422 DEMASIADAS_FILAS). Cada exportación queda registrada con el usuario.
+      parameters:
+        - { in: query, name: formato, required: true, schema: { type: string, enum: [csv, xlsx, pdf] } }
+        - $ref: '#/components/parameters/desde'
+        - $ref: '#/components/parameters/hasta'
+      responses:
+        '200':
+          description: Archivo
+          headers: { Content-Disposition: { schema: { type: string } }, X-Filas: { schema: { type: integer } } }
+          content:
+            text/csv: { schema: { type: string } }
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet: { schema: { type: string, format: binary } }
+            application/pdf: { schema: { type: string, format: binary } }
+        '403': { $ref: '#/components/responses/SinPermiso' }
+        '422': { $ref: '#/components/responses/Validacion' }
+
+  /ia/resumen:
+    post:
+      tags: [IA]
+      summary: Resumen ejecutivo del período generado por un modelo de lenguaje externo (admin, gerencia)
+      description: |
+        Envía al proveedor (Groq, modelo Llama 3.3 70B) SOLO indicadores agregados, nunca datos personales ni clínicos.
+        Clave como secreto (`GROQ_API_KEY`), tiempo máximo `AI_TIMEOUT`, 10 consultas por minuto y usuario,
+        respuesta del modelo validada contra un esquema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [desde, hasta]
+              properties:
+                desde: { type: string, format: date }
+                hasta: { type: string, format: date, description: Máximo un año después de desde }
+                enfoque: { type: string, enum: [general, ocupacion, cobranza] }
+                especialidad: { type: string }
+      responses:
+        '200': { description: Resumen, content: { application/json: { schema: { $ref: '#/components/schemas/ResumenIa' } } } }
+        '422': { $ref: '#/components/responses/Validacion' }
+        '429': { $ref: '#/components/responses/Limite' }
+        '502': { $ref: '#/components/responses/ErrorExterno' }
+        '503': { $ref: '#/components/responses/ErrorExterno' }
+        '504': { $ref: '#/components/responses/ErrorExterno' }
+
+  /auditoria:
+    get:
+      tags: [Auditoría]
+      summary: Registro de auditoría con los campos que cambiaron (solo admin)
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+        - { in: query, name: tabla, schema: { type: string } }
+        - { in: query, name: accion, schema: { type: string, enum: [crear, modificar, eliminar] } }
+        - { in: query, name: origen, schema: { type: string, enum: [panel, api, sistema] } }
+        - { in: query, name: registro_id, schema: { type: string } }
+        - $ref: '#/components/parameters/desde'
+        - $ref: '#/components/parameters/hasta'
+      responses:
+        '200': { description: Página de eventos }
+        '403': { $ref: '#/components/responses/SinPermiso' }
+  /auditoria/exportaciones:
+    get:
+      tags: [Auditoría]
+      summary: Últimas exportaciones de reportes (quién, qué, formato, filtros, filas)
+      responses: { '200': { description: Lista } }
+
+components:
+  securitySchemes:
+    bearerAuth: { type: http, scheme: bearer, bearerFormat: JWT }
+  parameters:
+    id: { in: path, name: id, required: true, schema: { type: integer, minimum: 1 } }
+    reporte: { in: path, name: reporte, required: true, schema: { type: string, enum: [atenciones, gerencial, documentos] } }
+    page: { in: query, name: page, schema: { type: integer, minimum: 1, default: 1 } }
+    per_page: { in: query, name: per_page, schema: { type: integer, minimum: 1, maximum: 100, default: 25 } }
+    desde: { in: query, name: desde, schema: { type: string, format: date } }
+    hasta: { in: query, name: hasta, schema: { type: string, format: date } }
+  responses:
+    NoAutenticado: { description: Falta el token, es inválido o expiró, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+    SinPermiso: { description: El rol no tiene permiso (SIN_PERMISO), content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+    NoEncontrado: { description: El recurso no existe o no es visible para el usuario, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+    Conflicto: { description: Regla de negocio (TRANSICION_INVALIDA, BOX_SIN_CUPO, PROFESIONAL_OCUPADO, RUT_DUPLICADO, YA_COBRADA…), content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+    Validacion: { description: Datos inválidos (VALIDATION_ERROR) con detalle por campo, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+    Limite: { description: Demasiadas solicitudes, headers: { Retry-After: { schema: { type: integer } } }, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+    ErrorExterno: { description: Falla del servicio externo (motor DTE o IA) traducida al formato estándar, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message, request_id]
+          properties:
+            code: { type: string, examples: [VALIDATION_ERROR] }
+            message: { type: string, examples: [Los datos enviados no son válidos.] }
+            details: { type: array, items: { type: object, properties: { field: { type: string }, message: { type: string } } } }
+            request_id: { type: string, examples: [8b31919dded078ac] }
+    Health:
+      type: object
+      properties: { status: { type: string, enum: [ok, error] }, db: { type: string }, migraciones: { type: integer }, version: { type: string }, modo_dte: { type: string, const: demo } }
+    LoginEntrada:
+      type: object
+      required: [email, password]
+      properties: { email: { type: string, format: email, maxLength: 190 }, password: { type: string, maxLength: 200, format: password } }
+    Token:
+      type: object
+      properties: { token: { type: string }, token_type: { type: string, const: Bearer }, expires_in: { type: integer }, usuario: { $ref: '#/components/schemas/Usuario' } }
+    Usuario:
+      type: object
+      properties:
+        id: { type: integer }
+        nombre: { type: string }
+        email: { type: string, format: email }
+        rol: { type: string, enum: [admin, editor, pacientes, gerencia] }
+        rol_etiqueta: { type: string }
+        profesional_id: { type: [integer, 'null'] }
+    Profesional:
+      type: object
+      properties: { id: { type: integer }, nombre: { type: string }, titulo: { type: string }, especialidad_slug: { type: string }, especialidad: { type: string }, socia: { type: integer }, box_slug: { type: string }, activo: { type: integer } }
+    Box:
+      type: object
+      properties: { slug: { type: string }, nombre: { type: string }, ave: { type: string }, ubicacion: { type: string }, activo: { type: integer }, precio_hora: { type: integer } }
+    EstadoAtencion: { type: string, enum: [pendiente, confirmada, realizada, cancelada, no_show] }
+    AtencionEntrada:
+      type: object
+      required: [box, profesional_id, fecha, hora]
+      properties:
+        box: { type: string, pattern: '^[a-z0-9-]+$' }
+        profesional_id: { type: integer, minimum: 1 }
+        paciente_id: { type: [integer, 'null'], description: Vacío = arriendo de box }
+        fecha: { type: string, format: date }
+        hora: { type: string, pattern: '^([01]\d|2[0-3]):(00|30)$' }
+        duracion_min: { type: integer, minimum: 15, maximum: 480, default: 60 }
+        tipo_atencion: { type: [string, 'null'], enum: [evaluacion, intervencion, orientacion_familiar, etapas_vida, otro, null] }
+        precio_clp: { type: [integer, 'null'], minimum: 0, maximum: 5000000 }
+        estado: { type: string, enum: [pendiente, confirmada], default: pendiente }
+        notas: { type: [string, 'null'], maxLength: 500 }
+    Atencion:
+      type: object
+      properties:
+        id: { type: integer }
+        publico_id: { type: string }
+        fecha: { type: string, format: date }
+        hora: { type: string, examples: ['10:00'] }
+        duracion_min: { type: integer }
+        estado: { $ref: '#/components/schemas/EstadoAtencion' }
+        uso: { type: string, enum: [sesion, arriendo] }
+        tipo_atencion: { type: [string, 'null'] }
+        precio_clp: { type: integer }
+        box_slug: { type: string }
+        box: { type: string }
+        profesional_id: { type: integer }
+        profesional: { type: string }
+        especialidad: { type: string }
+        paciente_id: { type: [integer, 'null'] }
+        paciente: { type: [string, 'null'] }
+        cobrada: { type: integer }
+        transiciones: { type: array, items: { $ref: '#/components/schemas/EstadoAtencion' } }
+        movimientos: { type: array, items: { type: object } }
+    PaginaAtenciones:
+      type: object
+      properties:
+        data: { type: array, items: { $ref: '#/components/schemas/Atencion' } }
+        meta: { $ref: '#/components/schemas/Meta' }
+    Meta:
+      type: object
+      properties: { page: { type: integer }, per_page: { type: integer }, total: { type: integer }, total_pages: { type: integer } }
+    PacienteEntrada:
+      type: object
+      required: [nombre, rut, fecha_nacimiento, consentimiento]
+      properties:
+        nombre: { type: string, minLength: 3, maxLength: 200 }
+        rut: { type: string, pattern: '^\d{7,8}-[\dkK]$', description: Sin puntos; se guarda formateado (12.345.678-5) }
+        email: { type: string, format: email }
+        telefono: { type: string, pattern: '^\+?[0-9 ()-]{8,20}$' }
+        fecha_nacimiento: { type: string, format: date }
+        sexo: { type: string, enum: [hombre, mujer, otro] }
+        direccion: { type: string }
+        region: { type: string }
+        comuna: { type: string }
+        prevision: { type: string, description: Debe existir en el catálogo de previsiones }
+        apoderado: { type: string, description: Obligatorio si es menor de 18 años }
+        apoderado_rut: { type: string }
+        apoderado_telefono: { type: string }
+        contacto_emergencia: { type: string }
+        consentimiento: { type: boolean, const: true }
+    Documento:
+      type: object
+      properties:
+        id: { type: integer }
+        tipo: { type: string, enum: [boleta, factura] }
+        folio: { type: integer }
+        fecha: { type: string, format: date }
+        receptor_nombre: { type: string }
+        receptor_tipo: { type: [string, 'null'], enum: [paciente, tutor, cliente, null] }
+        total_clp: { type: integer }
+        nc_clp: { type: integer }
+        pagado_clp: { type: integer }
+        saldo_clp: { type: integer }
+        pago_estado: { type: string, enum: [pendiente, parcial, pagado] }
+        sii_estado: { type: string, description: En la demo siempre simulado }
+        sii_track_id: { type: string, examples: [DEMO-261121-002289] }
+        items: { type: array, items: { type: object } }
+        pagos: { type: array, items: { type: object } }
+    Indicador:
+      type: object
+      properties:
+        clave: { type: string }
+        nombre: { type: string }
+        pregunta: { type: string }
+        formula: { type: string }
+        valor: { type: [number, 'null'] }
+        anterior: { type: [number, 'null'] }
+        unidad: { type: string }
+        mejor: { type: string, enum: [alto, bajo] }
+    ResumenIa:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            resumen: { type: string }
+            hallazgos: { type: array, items: { type: string } }
+            recomendaciones: { type: array, items: { type: string } }
+            modelo: { type: string }
+            generado_en: { type: string, format: date-time }
+            latencia_ms: { type: integer }
+            aviso: { type: string }

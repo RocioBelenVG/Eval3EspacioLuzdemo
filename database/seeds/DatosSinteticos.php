@@ -339,15 +339,18 @@ final class DatosSinteticos extends AbstractSeed
             $menor = $edad < 18;
             $creado = date('Y-m-d H:i:s', $inicio + (int) (pow(mt_rand() / mt_getrandmax(), 0.8) * 365 * 86400) + mt_rand(8, 19) * 3600);
             $apoderado = $menor ? $this->azar($this->prob(0.7) ? self::NOMBRES_F : self::NOMBRES_M) . ' ' . explode(' ', $nombre)[1] . ' ' . $this->azar(self::APELLIDOS) : null;
+            $rutPaciente = $this->rut($menor ? 22000000 : 8000000, $menor ? 27500000 : 21000000);
+            $rutApoderado = $menor ? $this->rut(9000000, 20000000) : null;
             $id = $this->insertar('pacientes', [
-                'nombre' => $nombre, 'rut' => $this->rut($menor ? 22000000 : 8000000, $menor ? 27500000 : 21000000), 'documento_tipo' => 'rut',
+                'nombre' => $nombre, 'rut' => $rutPaciente, 'documento_tipo' => 'rut',
                 'email' => $this->correo($apoderado ?? $nombre), 'telefono' => $this->telefono(), 'fecha_nacimiento' => $fnac,
                 'sexo' => $mujer ? 'mujer' : 'hombre', 'direccion' => $this->azar(self::CALLES) . ' ' . mt_rand(10, 2999), 'region' => 'Biobío',
-                'comuna' => $this->ponderado(self::COMUNAS), 'apoderado' => $apoderado, 'apoderado_rut' => $menor ? $this->rut(9000000, 20000000) : null,
+                'comuna' => $this->ponderado(self::COMUNAS), 'apoderado' => $apoderado, 'apoderado_rut' => $rutApoderado,
                 'apoderado_telefono' => $menor ? $this->telefono() : null, 'prevision' => $this->azar($previsiones ?: ['FONASA']),
                 'consentimiento' => 1, 'consentimiento_fecha' => $creado, 'activo' => $this->prob(0.97) ? 1 : 0, 'creado_en' => $creado,
             ]);
-            $this->pacientes[$id] = ['id' => $id, 'nombre' => $nombre, 'menor' => $menor, 'apoderado' => $apoderado, 'creado' => substr($creado, 0, 10)];
+            $this->pacientes[$id] = ['id' => $id, 'nombre' => $nombre, 'menor' => $menor, 'apoderado' => $apoderado, 'creado' => substr($creado, 0, 10),
+                'rut' => $rutPaciente, 'apoderado_rut' => $rutApoderado];
         }
     }
 
@@ -494,6 +497,7 @@ final class DatosSinteticos extends AbstractSeed
             $bid = $this->insertar('boletas', [
                 'folio' => $folio, 'tipo' => 'boleta', 'serie' => 'sii', 'empresa_id' => 2, 'emisor_usuario_id' => $this->usuarioAdmin,
                 'emisor_nombre' => 'Centro Luz (demo)', 'receptor_nombre' => $esTutor ? $pa['apoderado'] : $pa['nombre'],
+                'receptor_rut' => $esTutor ? $pa['apoderado_rut'] : $pa['rut'],
                 'paciente_id' => $pa['id'], 'receptor_tipo' => $esTutor ? 'tutor' : 'paciente', 'reserva_id' => $r['id'],
                 'profesional_id' => $pr['id'], 'profesional_nombre' => $pr['nombre'], 'fecha_emision' => $emision, 'medio_pago' => $medio,
                 'neto_clp' => 0, 'iva_clp' => 0, 'exento_clp' => $total, 'total_clp' => $total,
@@ -508,7 +512,7 @@ final class DatosSinteticos extends AbstractSeed
                     'usuario_nombre' => 'Recepción Demo', 'creado_en' => $emision]);
             }
             $this->pdo->prepare('UPDATE reservas SET boleta_id = ?, boleta_neto = ?, boleta_afecto = 0 WHERE id = ?')->execute([$bid, $total, $r['id']]);
-            $this->dte($bid, 2, 41, $folio, $emision, null, $esTutor ? $pa['apoderado'] : $pa['nombre'], $pa['id'], 0, $total, [[$r['modalidad_label'], 1, $total]]);
+            $this->dte($bid, 2, 41, $folio, $emision, $esTutor ? $pa['apoderado_rut'] : $pa['rut'], $esTutor ? $pa['apoderado'] : $pa['nombre'], $pa['id'], 0, $total, [[$r['modalidad_label'], 1, $total]]);
             if (++$n % 300 === 0) {
                 $this->pdo->commit();
                 $this->pdo->beginTransaction();
@@ -573,7 +577,7 @@ final class DatosSinteticos extends AbstractSeed
     /** Notas de crédito (61): devoluciones parciales de algunas boletas. */
     private function notasCredito(): void
     {
-        $bol = $this->pdo->query("SELECT id, folio, fecha_emision, total_clp, empresa_id, receptor_nombre, paciente_id FROM boletas
+        $bol = $this->pdo->query("SELECT id, folio, fecha_emision, total_clp, empresa_id, receptor_nombre, receptor_rut, paciente_id FROM boletas
                                    WHERE tipo = 'boleta' AND pago_estado = 'pagado' ORDER BY RAND(" . self::SEMILLA . ') LIMIT 18')->fetchAll();
         foreach ($bol as $b) {
             $monto = (int) round((int) $b['total_clp'] * $this->azar([0.5, 1.0]));
@@ -591,7 +595,7 @@ final class DatosSinteticos extends AbstractSeed
             $this->insertar('documento_pagos', ['documento_id' => $b['id'], 'fecha' => substr($fecha, 0, 10), 'monto' => -$monto, 'medio' => 'transferencia',
                 'referencia' => 'Devolución NC ' . $folio, 'usuario_nombre' => 'Administración Demo']);
             $this->pdo->prepare('UPDATE boletas SET nc_clp = nc_clp + ?, pagado_clp = pagado_clp - ? WHERE id = ?')->execute([$monto, $monto, $b['id']]);
-            $did = $this->dte(null, 2, 61, $folio, $fecha, null, (string) $b['receptor_nombre'], $b['paciente_id'] ? (int) $b['paciente_id'] : null, 0, $monto,
+            $did = $this->dte(null, 2, 61, $folio, $fecha, $b["receptor_rut"] ?: null, (string) $b['receptor_nombre'], $b['paciente_id'] ? (int) $b['paciente_id'] : null, 0, $monto,
                 [['Devolución de atención', 1, $monto]], ['tipo_doc' => '41', 'folio' => (string) $b['folio'], 'fecha' => substr((string) $b['fecha_emision'], 0, 10),
                     'codigo' => $monto === (int) $b['total_clp'] ? 1 : 3, 'razon' => 'Devolución por sesión no realizada']);
             $this->pdo->prepare('UPDATE notas_credito SET dte_documento_id = ? WHERE id = ?')->execute([$did, $nid]);
