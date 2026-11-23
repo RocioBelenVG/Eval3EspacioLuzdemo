@@ -85,8 +85,9 @@ jobs:
           cat phpunit.out
           if [ "$codigo" -ne 0 ]; then
             # El detalle de la falla queda como anotación (visible en el resumen de la ejecución).
-            detalle=$(sed -n '/^There w/,$p' phpunit.out | head -80 | sed ':a;N;$!ba;s/%/%25/g;s/\r//g;s/\n/%0A/g')
-            echo "::error title=PHPUnit::${detalle:-$(tail -40 phpunit.out | sed ':a;N;$!ba;s/\n/%0A/g')}"
+            detalle=$(grep -A12 "✘" phpunit.out | grep -v "^ *│ *$" | head -120 | sed ':a;N;$!ba;s/%/%25/g;s/\r//g;s/\n/%0A/g')
+            echo "::error title=PHPUnit (pruebas fallidas)::${detalle}"
+            echo "::error title=PHPUnit (resumen)::$(tail -12 phpunit.out | sed ':a;N;$!ba;s/%/%25/g;s/\n/%0A/g')"
           fi
           exit $codigo
 
