@@ -85,7 +85,7 @@ flowchart LR
         LEG["Panel clásico lib/ pages/"]
     end
     DBX[("MariaDB")]
-    LLM[("API Groq · Llama 3.3")]
+    LLM[("API Groq · GPT-OSS 120B")]
     JS -- "HTTPS JSON + Bearer" --> IDX --> V1 --> KER --> SVC
     IDX --> LEG
     CT -. "inyecta" .-> SVC

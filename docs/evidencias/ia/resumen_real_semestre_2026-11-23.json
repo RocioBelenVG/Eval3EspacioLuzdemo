@@ -1,0 +1,131 @@
+{
+    "solicitud": {
+        "desde": "2026-05-24",
+        "hasta": "2026-11-22",
+        "enfoque": "general"
+    },
+    "http": 200,
+    "respuesta": {
+        "data": {
+            "resumen": "El centro muestra mejora en ingresos y ocupación de boxes, aunque la tasa de asistencia y cancelación presentan ligeras variaciones negativas. Los pacientes nuevos crecieron notablemente, pero la retención no cuenta con dato previo. Los días de pago se redujeron y la cartera de cuentas por cobrar aumentó.",
+            "hallazgos": [
+                "Ingresos netos subieron a $53.483.500 frente a $41.127.500",
+                "Ocupación de boxes aumentó a 26.9% desde 21.1%",
+                "Pacientes nuevos crecieron a 280 frente a 179",
+                "Cuentas por cobrar se elevaron a $3.128.000 frente a $910.000"
+            ],
+            "recomendaciones": [
+                "Implementar campañas de fidelización para mejorar la retención de pacientes",
+                "Optimizar la gestión de cobros para reducir la cartera de cuentas por cobrar",
+                "Revisar políticas de cancelación y reforzar recordatorios para disminuir la tasa de cancelación",
+                "Ajustar la capacidad de boxes o promocionar horarios para mantener la ocupación sin sobrecargar recursos"
+            ],
+            "modelo": "openai/gpt-oss-120b",
+            "generado_en": "2026-11-23T12:01:36-03:00",
+            "latencia_ms": 875,
+            "indicadores": [
+                {
+                    "clave": "tasa_asistencia",
+                    "nombre": "Tasa de asistencia",
+                    "pregunta": "¿Los pacientes llegan a las sesiones que agendan?",
+                    "formula": "sesiones realizadas ÷ (sesiones realizadas + inasistencias) × 100",
+                    "valor": 92.8,
+                    "anterior": 93.6,
+                    "unidad": "%",
+                    "mejor": "alto"
+                },
+                {
+                    "clave": "tasa_cancelacion",
+                    "nombre": "Tasa de cancelación",
+                    "pregunta": "¿Qué parte de la agenda se pierde por cancelaciones?",
+                    "formula": "atenciones canceladas ÷ atenciones agendadas × 100",
+                    "valor": 9.3,
+                    "anterior": 8.8,
+                    "unidad": "%",
+                    "mejor": "bajo"
+                },
+                {
+                    "clave": "ocupacion_boxes",
+                    "nombre": "Ocupación de boxes",
+                    "pregunta": "¿Estamos aprovechando la capacidad instalada de los boxes?",
+                    "formula": "horas-box con al menos una reserva vigente ÷ (horas de apertura × días hábiles × boxes activos) × 100",
+                    "valor": 26.9,
+                    "anterior": 21.1,
+                    "unidad": "%",
+                    "mejor": "alto"
+                },
+                {
+                    "clave": "ingresos",
+                    "nombre": "Ingresos netos",
+                    "pregunta": "¿Cuánto factura el centro en el período?",
+                    "formula": "Σ boletas y facturas emitidas − Σ notas de crédito + Σ notas de débito",
+                    "valor": 53483500,
+                    "anterior": 41127500,
+                    "unidad": "CLP",
+                    "mejor": "alto"
+                },
+                {
+                    "clave": "ticket_sesion",
+                    "nombre": "Ticket promedio por sesión",
+                    "pregunta": "¿Cuánto ingresa en promedio cada sesión cobrada?",
+                    "formula": "ingresos de boletas a pacientes ÷ sesiones cobradas",
+                    "valor": 33088,
+                    "anterior": 33253,
+                    "unidad": "CLP",
+                    "mejor": "alto"
+                },
+                {
+                    "clave": "pacientes_nuevos",
+                    "nombre": "Pacientes nuevos",
+                    "pregunta": "¿Cuántos pacientes se suman al centro?",
+                    "formula": "pacientes cuya primera atención realizada cae en el período",
+                    "valor": 280,
+                    "anterior": 179,
+                    "unidad": "pacientes",
+                    "mejor": "alto"
+                },
+                {
+                    "clave": "retencion",
+                    "nombre": "Retención de pacientes",
+                    "pregunta": "¿Los pacientes continúan su tratamiento?",
+                    "formula": "pacientes atendidos en el período anterior que vuelven en este ÷ pacientes atendidos en el período anterior × 100",
+                    "valor": 65.4,
+                    "anterior": null,
+                    "unidad": "%",
+                    "mejor": "alto"
+                },
+                {
+                    "clave": "dias_pago",
+                    "nombre": "Días promedio de pago de facturas",
+                    "pregunta": "¿Cuánto demoran los clientes en pagar el arriendo de box?",
+                    "formula": "promedio de (fecha de pago − fecha de emisión) de las facturas pagadas",
+                    "valor": 22.8,
+                    "anterior": 25.2,
+                    "unidad": "días",
+                    "mejor": "bajo"
+                },
+                {
+                    "clave": "por_cobrar",
+                    "nombre": "Cuentas por cobrar",
+                    "pregunta": "¿Cuánto dinero facturado falta recaudar?",
+                    "formula": "Σ saldos de documentos emitidos y no pagados al cierre del período",
+                    "valor": 3128000,
+                    "anterior": 910000,
+                    "unidad": "CLP",
+                    "mejor": "bajo"
+                },
+                {
+                    "clave": "anticipacion",
+                    "nombre": "Anticipación de reserva",
+                    "pregunta": "¿Con cuántos días de anticipación se agenda?",
+                    "formula": "promedio de (fecha de la atención − fecha de creación de la reserva)",
+                    "valor": 13.1,
+                    "anterior": 12.2,
+                    "unidad": "días",
+                    "mejor": "alto"
+                }
+            ],
+            "aviso": "Texto generado por IA a partir de indicadores agregados. Revísalo antes de tomar decisiones."
+        }
+    }
+}
