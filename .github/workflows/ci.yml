@@ -78,7 +78,17 @@ jobs:
           vendor/bin/phinx migrate -c phinx.php
 
       - name: PHPUnit
-        run: vendor/bin/phpunit --log-junit phpunit-junit.xml
+        run: |
+          set +e
+          vendor/bin/phpunit --log-junit phpunit-junit.xml > phpunit.out 2>&1
+          codigo=$?
+          cat phpunit.out
+          if [ "$codigo" -ne 0 ]; then
+            # El detalle de la falla queda como anotación (visible en el resumen de la ejecución).
+            detalle=$(sed -n '/^There w/,$p' phpunit.out | head -80 | sed ':a;N;$!ba;s/%/%25/g;s/\r//g;s/\n/%0A/g')
+            echo "::error title=PHPUnit::${detalle:-$(tail -40 phpunit.out | sed ':a;N;$!ba;s/\n/%0A/g')}"
+          fi
+          exit $codigo
 
       - name: Reporte de pruebas
         if: always()
