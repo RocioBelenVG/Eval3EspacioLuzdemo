@@ -2,6 +2,10 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # API REST: entregar el encabezado Authorization (JWT) a PHP; Apache/LiteSpeed lo descartan con PHP-FPM.
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
     # Base automática: si la app vive en un subdirectorio, Apache la resuelve.
     # Si un archivo o carpeta existe físicamente (imágenes, css, js), se sirve tal cual.
     RewriteCond %{REQUEST_FILENAME} -f [OR]
@@ -30,3 +34,17 @@ RedirectMatch 404 ^.*/(config|data)\.php$
 <Files "map-style.json">
     Require all granted
 </Files>
+
+# Secretos y archivos del proyecto que nunca se sirven por la web.
+<FilesMatch "^(\.env.*|composer\.(json|lock)|phinx\.php|phpunit\.xml.*|Dockerfile|compose\.ya?ml)$">
+    Require all denied
+</FilesMatch>
+RedirectMatch 404 ^.*/(vendor|database|tests|docker|src|\.git)(/.*)?$
+
+# Cabeceras de seguridad del sitio
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>

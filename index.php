@@ -14,6 +14,12 @@ if (PHP_SAPI === 'cli-server') {
     }
 }
 
+// API REST /api/v1 (JWT, sin sesión): su propio controlador frontal (api/v1/index.php).
+if (preg_match('#/api/v1(/|$)#', (string) (parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/'))) {
+    require __DIR__ . '/api/v1/index.php';
+    return;
+}
+
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/lib/db.php';
 require_once __DIR__ . '/lib/helpers.php';
