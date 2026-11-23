@@ -90,6 +90,7 @@ docs/                Documentación y evidencias (ver abajo)
 
 | Documento | Contenido |
 |---|---|
+| [00 Propuesta del dominio](docs/00_propuesta_dominio.md) | Dominio, problema, usuarios, casos de uso y alcance (Hito 1) |
 | [01 Requerimientos](docs/01_requerimientos.md) | Roles, RF/RNF priorizados, casos de uso, historias con criterios de aceptación, trazabilidad |
 | [02 Modelo de datos](docs/02_modelo_datos.md) | ER, diccionario, normalización, migraciones, vistas, índices, respaldo y restauración |
 | [03 Arquitectura](docs/03_arquitectura.md) | Capas, componentes, despliegue, patrones (ADR), SOLID, RNF y OWASP |
@@ -100,6 +101,9 @@ docs/                Documentación y evidencias (ver abajo)
 | [08 Informe de integración](docs/08_informe_integracion.md) | Articulación por asignatura y reflexión |
 | [09 Accesibilidad](docs/09_accesibilidad.md) | WCAG 2.2 AA, auditoría axe, pruebas de teclado |
 | [OpenAPI](docs/openapi.yaml) | Contrato de la API |
+| [Informe técnico (PDF)](docs/Informe_Tecnico_EspacioLuzDemo.pdf) | Informe con la estructura mínima de la pauta |
+| [Presentación de la defensa (PDF)](docs/presentacion/Defensa_EspacioLuzDemo.pdf) | Diapositivas de la exposición |
+| [Evidencias](docs/evidencias/) | Pruebas, accesibilidad, exportaciones de ejemplo, capturas (incluida la vista de impresión), respaldo, IA |
 
 ## Uso de herramientas de IA (declaración)
 
