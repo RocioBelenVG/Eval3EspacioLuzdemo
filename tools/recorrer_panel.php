@@ -3,7 +3,7 @@
  * Recorre las pantallas del panel clásico con una sesión simulada (sin contraseña) y
  * reporta el código HTTP, el tamaño y cualquier error PHP. Solo por CLI.
  *
- *   php tools/recorrer_panel.php [rol]        rol: admin (defecto), editor, pacientes, gerencia
+ *   sh tools/recorrer_panel.sh [rol]        rol: admin (defecto), editor, pacientes, gerencia
  */
 declare(strict_types=1);
 
@@ -41,14 +41,9 @@ $lista = $rutas ? explode(',', $rutas) : [
     '/admin/bi', '/admin/reportes', '/admin/atenciones', '/admin/auditoria', '/admin/sin-permiso', '/api/docs',
 ];
 
+// shell_exec suele estar deshabilitado en hosting compartido: este script solo imprime
+// «ruta<TAB>usuario» y tools/recorrer_panel.sh ejecuta cada ruta en un proceso PHP aparte.
 foreach ($lista as $ruta) {
-    $cmd = sprintf('php -d display_errors=1 -d error_reporting=32767 %s %s %s %s 2>&1',
-        escapeshellarg(__DIR__ . '/recorrer_ruta.php'), escapeshellarg($raiz), escapeshellarg($ruta), escapeshellarg(json_encode($u)));
-    $salida = shell_exec($cmd) ?? '';
-    [$cabecera, $cuerpo] = array_pad(explode("\n", $salida, 2), 2, '');
-    $errores = [];
-    if (preg_match_all('/(Fatal error|Warning|Notice|Deprecated|Uncaught)[^\n]{0,220}/', $cuerpo, $m)) {
-        $errores = array_slice(array_unique($m[0]), 0, 3);
-    }
-    printf("%-58s %s %7d bytes %s\n", $ruta, trim($cabecera), strlen($cuerpo), $errores ? "\n    ⚠ " . implode("\n    ⚠ ", $errores) : '');
+    echo $ruta, "	", json_encode($u), "
+";
 }
