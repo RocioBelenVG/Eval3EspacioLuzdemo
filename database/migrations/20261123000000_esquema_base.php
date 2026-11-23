@@ -16,6 +16,9 @@ final class EsquemaBase extends AbstractMigration
 {
     public function up(): void
     {
+        // Misma intercalación que las tablas: las vistas y disparadores guardan la de la conexión
+        // (MariaDB 11.8 usa utf8mb4_uca1400_ai_ci por defecto y provocaría «Illegal mix of collations»).
+        $this->execute('SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci');
         if ($this->hasTable('reservas')) {
             $this->output->writeln('  El esquema base ya existe: solo se registra la migración.');
             return;

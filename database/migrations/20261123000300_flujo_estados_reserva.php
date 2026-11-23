@@ -19,6 +19,9 @@ final class FlujoEstadosReserva extends AbstractMigration
 {
     public function up(): void
     {
+        // Misma intercalación que las tablas: las vistas y disparadores guardan la de la conexión
+        // (MariaDB 11.8 usa utf8mb4_uca1400_ai_ci por defecto y provocaría «Illegal mix of collations»).
+        $this->execute('SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci');
         $this->execute('DROP TRIGGER IF EXISTS trg_reservas_transicion');
         $this->execute(<<<'SQL'
             CREATE TRIGGER trg_reservas_transicion BEFORE UPDATE ON reservas FOR EACH ROW
