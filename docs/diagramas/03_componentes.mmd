@@ -20,11 +20,11 @@ flowchart LR
         EXP["interfaz Exportador"]
         CSV["CsvExportador"]
         XLS["XlsxExportador"]
-        PDF["PdfExportador · TCPDF"]
+        PDF["PdfExportador con TCPDF"]
         LEG["Panel clásico lib/ pages/"]
     end
     DBX[("MariaDB")]
-    LLM[("API Groq · GPT-OSS 120B")]
+    LLM[("API Groq, GPT-OSS 120B")]
     JS -- "HTTPS JSON + Bearer" --> IDX --> V1 --> KER --> SVC
     IDX --> LEG
     CT -. "inyecta" .-> SVC

@@ -43,7 +43,7 @@ await esperar(800);
 const encabezado = `<div style="width:100%;padding:0 16mm;display:flex;justify-content:flex-end;align-items:center">
   <img src="data:image/png;base64,${logo}" style="height:15mm"></div>`;
 const pie = `<div style="width:100%;padding:0 16mm;font:8px Arial,sans-serif;color:#6B5446;display:flex;justify-content:space-between">
-  <span>Espacio Luz Demo · Informe técnico · Rocío Riquelme Torres</span><span>Página <span class="pageNumber"></span> de <span class="totalPages"></span></span></div>`;
+  <span>Informe técnico Espacio Luz Demo, Rocío Riquelme Torres</span><span>Página <span class="pageNumber"></span> de <span class="totalPages"></span></span></div>`;
 const r = await cdp('Page.printToPDF', {
   printBackground: true, preferCSSPageSize: false, paperWidth: 8.27, paperHeight: 11.69,
   marginTop: 1.0, marginBottom: 0.75, marginLeft: 0.63, marginRight: 0.63,

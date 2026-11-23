@@ -1,4 +1,4 @@
-# 03 · Arquitectura de software
+# Arquitectura de software
 
 ## 1. Visión general
 
@@ -20,22 +20,22 @@ no diverjan (flujo de estados, auditoría y validación en base de datos).
 flowchart TB
     subgraph P["Presentación"]
         UI1["Panel clásico SSR<br/>pages/, partials/"]
-        UI2["Módulos nuevos<br/>atenciones · bi · reportes · auditoria<br/>assets/js/app · assets/css/app.css"]
+        UI2["Módulos nuevos<br/>atenciones, bi, reportes, auditoria<br/>assets/js/app, assets/css/app.css"]
         SW["Swagger UI /api/docs"]
     end
     subgraph A["API"]
-        K["Kernel · Router · Request/Response<br/>JWT · RateLimiter · roles · errores"]
+        K["Kernel, Router, Request/Response<br/>JWT, RateLimiter, roles, errores"]
         C["Controladores delgados<br/>src/Controller"]
     end
     subgraph S["Servicios de negocio"]
-        SV["AtencionService · PacienteService · DocumentoService<br/>DashboardService · ReporteService · IaService · AuthService"]
-        D["Dominio: EstadoReserva · Rol"]
+        SV["AtencionService, PacienteService, DocumentoService<br/>DashboardService, ReporteService, IaService, AuthService"]
+        D["Dominio: EstadoReserva y Rol"]
     end
     subgraph DA["Acceso a datos"]
         R["Repositorios PDO<br/>src/Repository"]
-        AD["Adaptadores externos<br/>MotorDteLegado · GroqClient · Exportadores"]
+        AD["Adaptadores externos<br/>MotorDteLegado, GroqClient, Exportadores"]
     end
-    DB[("MariaDB 11.8<br/>tablas · vistas · CHECK · disparadores")]
+    DB[("MariaDB 11.8<br/>tablas, vistas, CHECK, disparadores")]
     LEG["lib/*.php + api/panel/*"]
     UI2 -- "fetch + JWT" --> K
     SW --> K
@@ -54,7 +54,7 @@ flowchart TB
 | API (`Kernel`, `Http`, `Controller`) | Enrutar, autenticar, limitar tasa, autorizar por rol, traducir JSON ↔ servicios, formato estándar de errores. | Decidir reglas (solo delega). |
 | Servicios (`Service`, `Domain`) | Casos de uso y reglas: calendario, cupo, flujo de estados, cobro, privacidad por rol, indicadores. | Saber de HTTP o de SQL concreto. |
 | Acceso a datos (`Repository`, adaptadores) | Todo el SQL (preparado, listas blancas), vistas, transacciones; integración con el motor DTE, la IA y los formatos de archivo. | Reglas de negocio. |
-| Base de datos | Tercer nivel de validación (CHECK, FK, UNIQUE), flujo de estados y auditoría por disparadores, vistas. | — |
+| Base de datos | Tercer nivel de validación (CHECK, FK, UNIQUE), flujo de estados y auditoría por disparadores, vistas. | No aplica |
 
 ## 3. Diagrama de componentes
 
@@ -81,11 +81,11 @@ flowchart LR
         EXP["interfaz Exportador"]
         CSV["CsvExportador"]
         XLS["XlsxExportador"]
-        PDF["PdfExportador · TCPDF"]
+        PDF["PdfExportador con TCPDF"]
         LEG["Panel clásico lib/ pages/"]
     end
     DBX[("MariaDB")]
-    LLM[("API Groq · GPT-OSS 120B")]
+    LLM[("API Groq, GPT-OSS 120B")]
     JS -- "HTTPS JSON + Bearer" --> IDX --> V1 --> KER --> SVC
     IDX --> LEG
     CT -. "inyecta" .-> SVC
@@ -107,7 +107,7 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    U[Usuario · navegador] -->|HTTPS 443| H
+    U[Usuario en el navegador] -->|HTTPS 443| H
     subgraph H["Hosting actual (Hostinger, LiteSpeed + PHP 8.3)"]
         WEB1[public_html/espacioluzdemo<br/>.htaccess → index.php]
         DB1[(MariaDB u195628024_espacioluzdemo)]
@@ -115,13 +115,13 @@ flowchart TB
         WEB1 --> DB1
         DB1 -. mysqldump diario .-> BK1
     end
-    subgraph D["Docker (docker compose up) — mismo código"]
+    subgraph D["Docker (docker compose up), mismo código"]
         direction TB
-        W[web · nginx 1.27<br/>:8080 publicado · red frontend+backend]
-        APP[app · PHP-FPM 8.3<br/>:9000 · redes backend+egress]
-        MDB[(db · MariaDB 11.8<br/>red backend interna · volumen db-data)]
-        MIG[migrate · Phinx + datos sintéticos<br/>termina al acabar]
-        BKP[backup · mariadb-dump diario<br/>volumen backups]
+        W[web: nginx 1.27<br/>:8080 publicado, red frontend+backend]
+        APP[app: PHP-FPM 8.3<br/>:9000, redes backend+egress]
+        MDB[(db: MariaDB 11.8<br/>red backend interna, volumen db-data)]
+        MIG[migrate: Phinx + datos sintéticos<br/>termina al acabar]
+        BKP[backup: mariadb-dump diario<br/>volumen backups]
         W -->|fastcgi| APP --> MDB
         MIG --> MDB
         BKP --> MDB
@@ -165,13 +165,13 @@ stateDiagram-v2
 
 ## 7. Principios SOLID e inyección de dependencias en el código
 
-* **S** — cada clase tiene una razón de cambio: `AtencionController` solo traduce HTTP; `AtencionService` las reglas;
+* **S**: cada clase tiene una razón de cambio: `AtencionController` solo traduce HTTP; `AtencionService` las reglas;
   `AtencionRepository` el SQL; `PdfExportador` el formato PDF.
-* **O** — nuevos formatos de exportación o proveedores de IA se agregan implementando `Exportador` o `IaClient`.
-* **L** — `FakeIaClient` y `FakeEmisorDte` sustituyen a las implementaciones reales en las pruebas sin cambiar el
+* **O**: nuevos formatos de exportación o proveedores de IA se agregan implementando `Exportador` o `IaClient`.
+* **L**: `FakeIaClient` y `FakeEmisorDte` sustituyen a las implementaciones reales en las pruebas sin cambiar el
   comportamiento esperado por los servicios.
-* **I** — interfaces pequeñas: `EmisorDte` (un método), `IaClient` (tres), `Exportador` (tres).
-* **D** — los servicios reciben sus dependencias por constructor (`AtencionService(Database, AtencionRepository,
+* **I**: interfaces pequeñas: `EmisorDte` (un método), `IaClient` (tres), `Exportador` (tres).
+* **D**: los servicios reciben sus dependencias por constructor (`AtencionService(Database, AtencionRepository,
   PacienteRepository, CatalogoRepository, DocumentoRepository, EmisorDte, ?Closure $hoy)`); solo `App::container()` conoce
   las clases concretas.
 

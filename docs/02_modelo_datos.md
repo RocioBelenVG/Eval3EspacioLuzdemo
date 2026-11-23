@@ -1,10 +1,10 @@
-# 02 · Modelo de datos, migraciones y respaldo
+# Modelo de datos, migraciones y respaldo
 
 Base MariaDB 11.8 (`utf8mb4_unicode_ci`, InnoDB). **45 tablas** (40 del sistema original + `auditoria`, `exportaciones`,
 `ia_consultas`, `rate_limits` y `phinxlog`), **4 vistas** de reportes, **34 restricciones CHECK**, **37 claves foráneas** y **52 disparadores** (2 de cupo y
 calendario heredados, 2 de flujo de estados y 48 de auditoría). El esquema se crea solo con migraciones Phinx versionadas.
 
-## 1. Diagrama entidad–relación (entidades principales)
+## 1. Diagrama entidad-relación (entidades principales)
 
 ```mermaid
 erDiagram
@@ -81,7 +81,7 @@ atenciones (`reservas.boleta_id`) y una **factura** agrupa las horas de arriendo
 
 ## 2. Diccionario de datos (tablas principales)
 
-### `reservas` — atención (entidad principal: 5.520 filas, 12 meses de historia)
+### `reservas`: atención (entidad principal: 5.520 filas, 12 meses de historia)
 | Columna | Tipo | Nulo | Restricción | Descripción |
 |---|---|---|---|---|
 | id | BIGINT UNSIGNED | No | PK, AUTO_INCREMENT | Identificador interno. |
@@ -92,8 +92,8 @@ atenciones (`reservas.boleta_id`) y una **factura** agrupa las horas de arriendo
 | modalidad_label | VARCHAR(120) | No | | Texto de la prestación («Sesión de fonoaudiología», «Arriendo de box»). |
 | tipo_atencion | VARCHAR(40) | Sí | validado en API | evaluacion, intervencion, orientacion_familiar, etapas_vida, otro. |
 | precio_clp | INT UNSIGNED | Sí | CHECK ≤ 5.000.000 | Precio de la sesión u hora de box. |
-| fecha / hora | DATE / TIME | No / Sí | CHECK hora 07:00–22:00; disparador: no domingos ni feriados | Inicio de la atención. |
-| duracion_min | SMALLINT | Sí | CHECK 15–480 | Duración (NULL = 60). |
+| fecha / hora | DATE / TIME | No / Sí | CHECK hora 07:00 a 22:00; disparador: no domingos ni feriados | Inicio de la atención. |
+| duracion_min | SMALLINT | Sí | CHECK 15 a 480 | Duración (NULL = 60). |
 | estado | ENUM | No | disparador `trg_reservas_transicion` | Estado del flujo. |
 | origen | VARCHAR(30) | No | | web (agenda en línea) o panel. |
 | boleta_id / factura_id | BIGINT | Sí | FK `boletas.id` | Documento que la cobró. |
@@ -114,7 +114,7 @@ atenciones (`reservas.boleta_id`) y una **factura** agrupa las horas de arriendo
 | consentimiento / consentimiento_fecha | TINYINT / DATETIME | No / Sí | CHECK: si hay consentimiento, hay fecha | Ley 20.584. |
 | activo | TINYINT | No | | Baja lógica. |
 
-### `boletas` — boletas y facturas (2.446 filas, todas de demostración)
+### `boletas`: boletas y facturas (2.446 filas, todas de demostración)
 | Columna | Tipo | Nulo | Restricción | Descripción |
 |---|---|---|---|---|
 | id | BIGINT | No | PK | |
@@ -144,7 +144,7 @@ atenciones (`reservas.boleta_id`) y una **factura** agrupa las horas de arriendo
 | `exportaciones` | Quién exportó qué reporte, formato, filtros y filas | FK usuarios. |
 | `ia_consultas` | Uso del servicio de IA (sin datos personales) | FK usuarios. |
 | `rate_limits` | Contadores de límite de tasa | PK clave. |
-| `regiones`, `comunas`, `previsiones`, `feriados`, `horario_centro`, `disponibilidad`, `configuracion` | Catálogos y configuración | UNIQUE y CHECK de horarios (fin > inicio, día 1–6/1–7). |
+| `regiones`, `comunas`, `previsiones`, `feriados`, `horario_centro`, `disponibilidad`, `configuracion` | Catálogos y configuración | UNIQUE y CHECK de horarios (fin > inicio, día 1 a 6/1 a 7). |
 
 ## 3. Normalización
 
@@ -172,7 +172,7 @@ pagos de un documento en tablas hijas). Las desnormalizaciones son **deliberadas
 
 Datos de prueba: `database/seeds/DatosSinteticos.php` (determinista, semilla 20261122; bloqueado salvo en bases «demo»/«test»).
 Genera 520 pacientes, 10 profesionales, 8 clientes, 5.520 atenciones entre noviembre de 2025 y diciembre de 2026 con
-estacionalidad (verano bajo, peak marzo–junio), tratamientos con alta, 2.446 documentos demo, pagos, notas de crédito,
+estacionalidad (verano bajo, peak marzo a junio), tratamientos con alta, 2.446 documentos demo, pagos, notas de crédito,
 459 fichas y 1.079 evoluciones. Ningún dato es real: nombres combinados al azar, RUT ficticios válidos, correos `@example.com`.
 
 ## 5. Consultas para reportes y dashboard

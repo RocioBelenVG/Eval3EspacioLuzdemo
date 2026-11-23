@@ -1,22 +1,22 @@
 flowchart TB
     subgraph P["Presentación"]
         UI1["Panel clásico SSR<br/>pages/, partials/"]
-        UI2["Módulos nuevos<br/>atenciones · bi · reportes · auditoria<br/>assets/js/app · assets/css/app.css"]
+        UI2["Módulos nuevos<br/>atenciones, bi, reportes, auditoria<br/>assets/js/app, assets/css/app.css"]
         SW["Swagger UI /api/docs"]
     end
     subgraph A["API"]
-        K["Kernel · Router · Request/Response<br/>JWT · RateLimiter · roles · errores"]
+        K["Kernel, Router, Request/Response<br/>JWT, RateLimiter, roles, errores"]
         C["Controladores delgados<br/>src/Controller"]
     end
     subgraph S["Servicios de negocio"]
-        SV["AtencionService · PacienteService · DocumentoService<br/>DashboardService · ReporteService · IaService · AuthService"]
-        D["Dominio: EstadoReserva · Rol"]
+        SV["AtencionService, PacienteService, DocumentoService<br/>DashboardService, ReporteService, IaService, AuthService"]
+        D["Dominio: EstadoReserva y Rol"]
     end
     subgraph DA["Acceso a datos"]
         R["Repositorios PDO<br/>src/Repository"]
-        AD["Adaptadores externos<br/>MotorDteLegado · GroqClient · Exportadores"]
+        AD["Adaptadores externos<br/>MotorDteLegado, GroqClient, Exportadores"]
     end
-    DB[("MariaDB 11.8<br/>tablas · vistas · CHECK · disparadores")]
+    DB[("MariaDB 11.8<br/>tablas, vistas, CHECK, disparadores")]
     LEG["lib/*.php + api/panel/*"]
     UI2 -- "fetch + JWT" --> K
     SW --> K

@@ -1,6 +1,6 @@
-# 08 · Informe de integración: articulación del módulo
+# Informe de integración: articulación del módulo
 
-El sistema es un único producto en un único dominio —la operación de un centro terapéutico— y cada asignatura del módulo
+El sistema es un único producto en un único dominio (la operación de un centro terapéutico) y cada asignatura del módulo
 de desarrollo de software queda evidenciada en un componente concreto del código. La coherencia entre capas se garantiza
 porque **la base de datos, la API, la interfaz y el dashboard comparten las mismas definiciones**: el flujo de estados
 vive en un enum usado por la API y por el panel clásico y en un disparador; las cifras del dashboard, del reporte
@@ -21,23 +21,23 @@ gerencial y de la IA salen de las mismas vistas y del mismo servicio.
 | Requerimiento | Componente | Prueba / evidencia | Asignatura |
 |---|---|---|---|
 | RF01 Autenticación JWT | `AuthService`, `Jwt`, `AuthController` | `AuthTest` (9 casos), `ValidacionYSeguridadTest` | Web II |
-| RF02 Roles y BOLA | `Kernel::rutas`, `AtencionService::listar/ver`, `PacienteRepository::listar` | `AtencionesTest::gerencia_lee…`, `PacientesTest::…area_clinica…` | Web II · OO II |
+| RF02 Roles y BOLA | `Kernel::rutas`, `AtencionService::listar/ver`, `PacienteRepository::listar` | `AtencionesTest::gerencia_lee…`, `PacientesTest::…area_clinica…` | Web II, OO II |
 | RF03 Agenda con reglas | `AtencionService::crear/validarAgenda` | `AtencionesTest` (calendario, cupo) | OO II |
-| RF04 Flujo de estados | `EstadoReserva`, disparador V4, `api/panel/reservas.php` | `EstadoReservaTest`, `AtencionesTest::…cerrada…` | OO II · BD |
-| RF05 Pacientes (3 niveles de validación) | Formularios, `PacienteService`, CHECK V3 | `PacientesTest` | Web II · BD |
+| RF04 Flujo de estados | `EstadoReserva`, disparador V4, `api/panel/reservas.php` | `EstadoReservaTest`, `AtencionesTest::…cerrada…` | OO II, BD |
+| RF05 Pacientes (3 niveles de validación) | Formularios, `PacienteService`, CHECK V3 | `PacientesTest` | Web II, BD |
 | RF07 Cobro demo | `MotorDteLegado` → `dte_demo.php` | `CobrosTest` | OO II |
 | RF09 Auditoría | Disparadores V2, `AuditoriaRepository` | `AnalisisTest::…auditoria…` | BD |
-| RF10 Dashboard | `DashboardService`, `bi.js` | `AnalisisTest::los_indicadores…`, `…series…`; axe 0 violaciones | BI I · BI II |
-| RF11 Reportes | `ReporteService`, `Export/*` | `AnalisisTest::los_tres_formatos…` | BI II · OO II |
+| RF10 Dashboard | `DashboardService`, `bi.js` | `AnalisisTest::los_indicadores…`, `…series…`; axe 0 violaciones | BI I, BI II |
+| RF11 Reportes | `ReporteService`, `Export/*` | `AnalisisTest::los_tres_formatos…` | BI II, OO II |
 | RF12 IA | `IaService`, `GroqClient` | `AnalisisTest::la_ia…`, `…errores_de_la_ia…` | Web II |
-| RNF04 Respaldo | `tools/respaldo.sh`, servicio `backup` | `evidencias/respaldo/…`, paso de CI | BD · Web II |
+| RNF04 Respaldo | `tools/respaldo.sh`, servicio `backup` | `evidencias/respaldo/…`, paso de CI | BD, Web II |
 | RNF09 Contenedores | `Dockerfile`, `compose.yaml`, `ci.yml` | Pipeline (al publicar el repositorio) | Web II |
 
 ## 3. Reflexión crítica sobre las decisiones
 
 * **Evolucionar vs. reescribir.** Partir del sistema real dio un producto completo y verosímil, pero obligó a convivir con
   código procedural heredado (sesión, mysqli, Tailwind por CDN). Se mitigó unificando reglas en la base y en un enum
-  compartido; una alternativa más limpia —reescribir todo el panel como SPA— excedía el plazo y aportaba poco valor.
+  compartido; una alternativa más limpia (reescribir todo el panel como SPA) excedía el plazo y aportaba poco valor.
 * **Auditoría en la base de datos.** Los disparadores garantizan cobertura total, a costa de lógica fuera del código PHP;
   se compensó generándolos desde la migración y documentando las variables de sesión que fijan el autor.
 * **Modo demo de los documentos tributarios.** Se implementó en el código (no por configuración) para que sea imposible

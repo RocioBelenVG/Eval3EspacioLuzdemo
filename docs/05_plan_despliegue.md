@@ -1,4 +1,4 @@
-# 05 · Plan de despliegue
+# Plan de despliegue
 
 ## 1. Entornos
 
@@ -13,7 +13,7 @@ modo DTE es **demo** en esta copia (para emitir de verdad se usaría el sistema 
 
 ## 2. Infraestructura propuesta
 
-* **VPS** 2 vCPU · 4 GB RAM · 60 GB SSD (p. ej. Hostinger KVM 2 o DigitalOcean Basic), Ubuntu 24.04 LTS con Docker 27.
+* **VPS** 2 vCPU, 4 GB RAM, 60 GB SSD (p. ej. Hostinger KVM 2 o DigitalOcean Basic), Ubuntu 24.04 LTS con Docker 27.
 * Contenedores: `web` (nginx, único puerto publicado), `app` (PHP-FPM), `db` (MariaDB, red interna), `migrate`, `backup`.
 * Red: `frontend` (publicada), `backend` (interna, sin internet), `egress` (solo `app`, para la IA).
 * Puertos: 443/80 en un proxy inverso (Caddy o Traefik) con certificado **Let's Encrypt** automático → `web:8080`.
@@ -58,14 +58,14 @@ luego por SSH `composer install --no-dev` y `vendor/bin/phinx migrate -c phinx.p
   (`docker compose exec -e BACKUP_UNA_VEZ=1 backup sh /backup.sh`) → `IMAGE_TAG=<sha> docker compose up -d` → `migrate`
   aplica migraciones nuevas → verificación de `/api/v1/health` y prueba de humo.
 * **Rollback de aplicación:** volver a la etiqueta anterior: `IMAGE_TAG=<sha_anterior> docker compose up -d`.
-* **Rollback de base de datos:** cada migración V2–V6 tiene `down()`; `vendor/bin/phinx rollback -c phinx.php -t <versión>`.
+* **Rollback de base de datos:** cada migración V2 a V6 tiene `down()`; `vendor/bin/phinx rollback -c phinx.php -t <versión>`.
   Probado en el hosting (V6 y V5 revertidas y re-aplicadas, `docs/evidencias/migraciones/reversion_hosting.txt`) y en cada
   ejecución del pipeline (hasta V1 y vuelta). Si una migración destruye datos, se restaura el respaldo previo.
 
 ## 6. Respaldo y recuperación
 
 Diario a las 03:00 (servicio `backup` o cron con `tools/respaldo.sh respaldar`), retención 14 días, copia semanal fuera
-del servidor (almacenamiento de objetos). **RPO 24 h · RTO 15 min.** Restauración probada: 1 s en el hosting (2026-11-23);
+del servidor (almacenamiento de objetos). **RPO de 24 h y RTO de 15 min.** Restauración probada: 1 s en el hosting (2026-11-23);
 en CI, en cada ejecución. Procedimiento: `sh tools/respaldo.sh restaurar ARCHIVO` o `gunzip < ARCHIVO | mariadb ...`.
 
 ## 7. Monitoreo y logs
@@ -93,11 +93,11 @@ en CI, en cada ejecución. Procedimiento: `sh tools/respaldo.sh restaurar ARCHIV
 
 | Ítem | Costo mensual estimado (CLP) |
 |---|---|
-| VPS 2 vCPU / 4 GB | 9.000 – 12.000 |
+| VPS 2 vCPU / 4 GB | 9.000 a 12.000 |
 | Dominio `.cl` (anual prorrateado) | 800 |
 | Respaldo externo (objetos, 10 GB) | 1.000 |
-| API de IA (Groq; nivel gratuito suficiente para ~100 resúmenes/día) | 0 – 5.000 |
-| **Total** | **≈ 11.000 – 19.000** |
+| API de IA (Groq; nivel gratuito suficiente para ~100 resúmenes/día) | 0 a 5.000 |
+| **Total** | **≈ 11.000 a 19.000** |
 
 | Riesgo | Mitigación |
 |---|---|

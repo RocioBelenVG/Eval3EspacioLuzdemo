@@ -5,12 +5,12 @@ Sistema web de gestión de un **centro terapéutico** (terapia ocupacional, fono
 estados, fichas clínicas, cobros con boletas y facturas, dashboard de indicadores, reportes exportables, resumen con IA y
 API REST documentada.
 
-> **Demo académica — Evaluación 3, Lenguaje de Programación Web II.** Es una copia del sistema EspacioLuz en producción con
+> **Demo académica de la Evaluación 3 de Lenguaje de Programación Web II.** Es una copia del sistema EspacioLuz en producción con
 > **datos 100 % sintéticos** (ningún paciente, profesional ni cliente es real) y documentos tributarios **de demostración**:
 > las boletas y facturas usan folios de un CAF de prueba, muestran la leyenda «sin validez tributaria» y **nunca se envían al
 > SII** (el cliente del SII está bloqueado en el código, `dte/lib/dte_demo.php`). Los correos se guardan como `.eml` y no se envían.
 
-* **En línea:** https://trivoxa.cl/espacioluzdemo · panel: `/admin/login` · API: `/api/v1` · Swagger: `/api/docs`
+* **En línea:** https://trivoxa.cl/espacioluzdemo, panel: `/admin/login`, API: `/api/v1`, Swagger: `/api/docs`
 * **Contrato OpenAPI:** [`docs/openapi.yaml`](docs/openapi.yaml)
 
 ## Ejecutar con un solo comando
@@ -75,8 +75,8 @@ api/v1/index.php     Entrada de la API REST → src/Kernel.php
 src/                 API en capas: Http, Controller, Service, Domain, Repository, Security, Validation, Export, Ia, Dte
 lib/ pages/ partials/ api/panel/   Sistema clásico (panel y sitio, renderizado en servidor)
 dte/                 Motor de documentos tributarios heredado, en MODO DEMO (dte/lib/dte_demo.php)
-assets/css/app.css   Sistema de diseño de los módulos nuevos · assets/js/app/ módulos ES (Atenciones, BI, Reportes)
-database/            migrations/ (Phinx V1–V6), seeds/DatosSinteticos.php, sql/ (esquema base y catálogos)
+assets/css/app.css   Sistema de diseño de los módulos nuevos; assets/js/app/ módulos ES (Atenciones, BI, Reportes)
+database/            migrations/ (Phinx V1 a V6), seeds/DatosSinteticos.php, sql/ (esquema base y catálogos)
 tests/               Unit/ Integration/ Support/
 docker/ Dockerfile compose.yaml .github/   Contenedores y pipeline
 tools/               CLI: respaldo, recorrido del panel por rol, indicadores, instantáneas para auditar accesibilidad
@@ -90,7 +90,7 @@ docs/                Documentación y evidencias (ver abajo)
 | [01 Requerimientos](docs/01_requerimientos.md) | Roles, RF/RNF priorizados, casos de uso, historias con criterios de aceptación, trazabilidad |
 | [02 Modelo de datos](docs/02_modelo_datos.md) | ER, diccionario, normalización, migraciones, vistas, índices, respaldo y restauración |
 | [03 Arquitectura](docs/03_arquitectura.md) | Capas, componentes, despliegue, patrones (ADR), SOLID, RNF y OWASP |
-| [04 Guía de estilos](docs/04_guia_estilos.md) · [maquetas](docs/maquetas/index.html) | Paleta, tipografía, espaciado, componentes, responsive |
+| [04 Guía de estilos](docs/04_guia_estilos.md) y [maquetas](docs/maquetas/index.html) | Paleta, tipografía, espaciado, componentes, responsive |
 | [05 Plan de despliegue](docs/05_plan_despliegue.md) | Los 10 apartados |
 | [06 Manual de usuario](docs/06_manual_usuario.md) | Por rol |
 | [07 Indicadores](docs/07_indicadores.md) | 10 indicadores con fórmula e interpretación, dashboard, reportes y formatos |

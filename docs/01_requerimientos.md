@@ -1,14 +1,14 @@
-# 01 · Requerimientos e historias de usuario
+# Requerimientos e historias de usuario
 
-**Sistema:** Espacio Luz Demo — gestión de un centro terapéutico infantil y adulto (Los Ángeles, Región del Biobío) que
+**Sistema:** Espacio Luz Demo, gestión de un centro terapéutico infantil y adulto (Los Ángeles, Región del Biobío) que
 atiende pacientes con profesionales socias (terapia ocupacional y fonoaudiología) y además **arrienda boxes por hora** a
 profesionales externos (psicología, psiquiatría, psicopedagogía), a quienes factura mensualmente.
 
 **Problema.** La agenda, los cobros y la información clínica estaban repartidos entre planillas y mensajería; no había
 indicadores de ocupación, asistencia ni cobranza, y no existía una API para integrar otras herramientas.
 
-**Objetivo.** Ofrecer un sistema web completo —sitio público, agenda, fichas clínicas, cobros con documentos tributarios y
-análisis— con una API REST segura, reportes exportables y un dashboard que guíe las decisiones de la administración.
+**Objetivo.** Ofrecer un sistema web completo (sitio público, agenda, fichas clínicas, cobros con documentos tributarios y
+análisis) con una API REST segura, reportes exportables y un dashboard que guíe las decisiones de la administración.
 
 **Alcance de la demo.** Es una copia del sistema EspacioLuz en producción, con **datos 100 % sintéticos** y documentos
 tributarios **de demostración** (nunca se envían al SII). Fuera de alcance: emisión tributaria real, pagos en línea,
@@ -112,12 +112,12 @@ La matriz completa de permisos por ruta está en `src/Kernel.php` (API) y `lib/a
 
 | Requerimiento | Componente principal | Asignatura |
 |---|---|---|
-| RF01–RF02, RNF01 | `src/Security`, `src/Kernel.php`, `lib/auth.php` | Programación Web II |
-| RF03–RF04 | `AtencionService`, `Domain/EstadoReserva`, disparadores V4 | Diseño OO II · Base de Datos |
-| RF05, RNF05 | `Validator`, `PacienteService`, CHECK V3 | Programación Web II · Base de Datos |
-| RF07–RF08 | `Dte/MotorDteLegado` (Adapter) + `dte/lib/dte_demo.php` | Diseño OO II |
+| RF01 a RF02, RNF01 | `src/Security`, `src/Kernel.php`, `lib/auth.php` | Programación Web II |
+| RF03 a RF04 | `AtencionService`, `Domain/EstadoReserva`, disparadores V4 | Diseño OO II, Base de Datos |
+| RF05, RNF05 | `Validator`, `PacienteService`, CHECK V3 | Programación Web II, Base de Datos |
+| RF07 a RF08 | `Dte/MotorDteLegado` (Adapter) + `dte/lib/dte_demo.php` | Diseño OO II |
 | RF09 | Migración V2 (disparadores de auditoría) | Base de Datos |
 | RF10 | `DashboardService`, `assets/js/app/bi.js` | Inteligencia de Negocios I y II |
-| RF11 | `ReporteService`, `Export/*` (Strategy) | Inteligencia de Negocios II · Diseño OO II |
+| RF11 | `ReporteService`, `Export/*` (Strategy) | Inteligencia de Negocios II, Diseño OO II |
 | RF12 | `IaService`, `Ia/GroqClient` | Programación Web II |
 | RNF04, RNF09 | `compose.yaml`, `docker/backup.sh`, `.github/workflows/ci.yml` | Programación Web II |

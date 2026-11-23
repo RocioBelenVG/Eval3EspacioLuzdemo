@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Informe técnico — Espacio Luz Demo</title>
+<title>Informe técnico Espacio Luz Demo</title>
 <!--
   Fuente del informe técnico (PDF). Compone los documentos de docs/*.md con secciones propias.
   Generar: servir la raíz del repositorio en http://127.0.0.1:8767 y ejecutar
@@ -15,7 +15,7 @@
   body { font: 10pt/1.45 "Segoe UI", Inter, Arial, sans-serif; color: var(--t); }
   h1, h2, h3, h4 { font-family: Georgia, "Times New Roman", serif; color: var(--t); page-break-after: avoid; }
   h1 { font-size: 20pt; margin: 0 0 6pt; }
-  h2.sec { font-size: 16pt; border-bottom: 2px solid var(--p); padding-bottom: 3pt; margin-top: 0; page-break-before: always; }
+  h2.sec { font-size: 16pt; margin-top: 0; margin-bottom: 8pt; page-break-before: always; }
   .doc h1 { font-size: 13pt; margin-top: 14pt; color: var(--s); }
   .doc h2 { font-size: 12pt; margin-top: 12pt; }
   .doc h3 { font-size: 10.5pt; }
@@ -27,9 +27,13 @@
   pre { background: #F6F1E8; padding: 6pt; font-size: 8pt; white-space: pre-wrap; border-radius: 4pt; page-break-inside: avoid; }
   pre code { background: none; }
   img.diag { width: 100%; max-height: 210mm; object-fit: contain; border: 1px solid var(--b); border-radius: 4pt; margin: 6pt 0; page-break-inside: avoid; }
-  .portada { height: 250mm; display: flex; flex-direction: column; justify-content: center; }
-  .portada .sub { font-size: 13pt; color: var(--s); }
-  .aviso { background: #FFF4D6; border: 1px solid #E0B44C; padding: 6pt 8pt; border-radius: 4pt; }
+  .portada { height: 245mm; display: flex; flex-direction: column; justify-content: space-between; text-align: center; page-break-after: always; }
+  .portada .inst { font-size: 12pt; letter-spacing: 0; margin-top: 18mm; }
+  .portada .centro h1 { font-size: 30pt; margin: 0 0 8pt; }
+  .portada .centro p { font-size: 13pt; color: var(--s); margin: 4pt 0; }
+  .portada .datos { text-align: left; margin: 0 auto 6mm; font-size: 11pt; border-collapse: collapse; width: auto; }
+  .portada .datos td { border: none; padding: 2pt 8pt; font-size: 11pt; }
+  .aviso { font-style: italic; color: var(--s); }
   .completar { background: #FDECEA; border: 1.5px dashed #B3261E; padding: 6pt 8pt; border-radius: 4pt; color: #7A1712; }
   .capturas { display: grid; grid-template-columns: 1fr 1fr; gap: 6pt; }
   .capturas figure { margin: 0; page-break-inside: avoid; } .capturas img { width: 100%; border: 1px solid var(--b); }
@@ -39,25 +43,36 @@
 </head>
 <body>
 <section class="portada">
-  <p class="sub">Lenguaje de Programación Web II · Evaluación 3</p>
-  <h1 style="font-size:28pt">Espacio Luz Demo</h1>
-  <p class="sub">Proyecto integrador: sistema web de gestión de un centro terapéutico, análisis de datos y plan de despliegue</p>
-  <p><strong>Integrante:</strong> Rocío Riquelme Torres (proyecto individual)</p>
-  <p><strong>Institución:</strong> Instituto Profesional Virginio Gómez · <strong>Fecha:</strong> noviembre de 2026</p>
-  <p><strong>Sistema en línea:</strong> https://trivoxa.cl/espacioluzdemo · <strong>API:</strong> /api/v1 · <strong>Swagger:</strong> /api/docs</p>
-  <p class="aviso">Datos 100 % sintéticos. Las boletas y facturas son de demostración: nunca se envían al SII.</p>
-  <ol class="indice">
-    <li>Introducción y dominio</li><li>Plan de trabajo</li><li>Requerimientos</li><li>Arquitectura de software</li><li>Modelo de datos</li>
-    <li>Backend y API</li><li>Front end y accesibilidad</li><li>Análisis de datos, dashboard y reportes</li><li>Integración de IA</li>
-    <li>Contenerización y despliegue</li><li>Articulación del módulo y cierre</li>
-  </ol>
+  <div class="inst"><strong>Instituto Profesional Virginio Gómez</strong><br>Lenguaje de Programación Web II</div>
+  <div class="centro">
+    <h1>Espacio Luz Demo</h1>
+    <p>Informe técnico del proyecto integrador de la Evaluación 3</p>
+    <p>Sistema web de gestión de un centro terapéutico, análisis de datos y plan de despliegue</p>
+  </div>
+  <div>
+    <table class="datos">
+      <tr><td><strong>Integrante</strong></td><td>Rocío Riquelme Torres (proyecto individual)</td></tr>
+      <tr><td><strong>Sistema en línea</strong></td><td>https://trivoxa.cl/espacioluzdemo</td></tr>
+      <tr><td><strong>API y documentación</strong></td><td>/api/v1 y /api/docs (Swagger)</td></tr>
+      <tr><td><strong>Repositorio</strong></td><td>https://github.com/RocioBelenVG/Eval3EspacioLuzdemo</td></tr>
+      <tr><td><strong>Fecha</strong></td><td>Noviembre de 2026</td></tr>
+    </table>
+    <p class="aviso" style="font-size:10pt">Todos los datos del sistema son sintéticos. Las boletas y facturas son de demostración y nunca se envían al SII.</p>
+  </div>
 </section>
+
+<h2 class="sec" style="page-break-before:auto">Índice</h2>
+<ol class="indice">
+  <li>Introducción y dominio</li><li>Plan de trabajo</li><li>Requerimientos</li><li>Arquitectura de software</li><li>Modelo de datos</li>
+  <li>Backend y API</li><li>Front end y accesibilidad</li><li>Análisis de datos, dashboard y reportes</li><li>Integración de IA</li>
+  <li>Contenerización y despliegue</li><li>Articulación del módulo y cierre</li>
+</ol>
 
 <h2 class="sec">1. Introducción y dominio</h2>
 <p><strong>Contexto.</strong> Espacio Luz es un centro terapéutico de Los Ángeles (Región del Biobío) que atiende a niños, adolescentes y adultos con
 profesionales socias de terapia ocupacional y fonoaudiología, y que además arrienda por hora sus cinco boxes (salas y gimnasios sensoriales) a
 profesionales externos de psicología, psiquiatría y psicopedagogía, a quienes factura mensualmente.</p>
-<p><strong>Problema.</strong> La operación diaria —agenda de boxes, fichas clínicas, cobros a pacientes y facturación a clientes— necesitaba
+<p><strong>Problema.</strong> La operación diaria (agenda de boxes, fichas clínicas, cobros a pacientes y facturación a clientes) necesitaba
 reglas consistentes (cupos, horarios, estados), trazabilidad de los cambios y, sobre todo, información para decidir: qué tan ocupados están los
 boxes, cuántos pacientes asisten, cuánto se factura y cuánto falta cobrar.</p>
 <p><strong>Objetivo.</strong> Construir un sistema completo sobre el sistema real del centro, agregando una API REST segura, validación en tres
@@ -69,14 +84,14 @@ Queda fuera la emisión tributaria real, los pagos en línea y el envío real de
 <h2 class="sec">2. Plan de trabajo</h2>
 <p><strong>Equipo y roles.</strong> Proyecto individual de <strong>Rocío Riquelme Torres</strong>, que asumió todos los roles: análisis del dominio y requerimientos, diseño de arquitectura y base de datos, backend y API, front end y accesibilidad, análisis de datos y reportes, integración de IA y DevOps (contenedores, CI/CD y despliegue). Como herramienta de apoyo se usó Claude Code (declarado en el README); el historial de commits del repositorio refleja el trabajo realizado.</p>
 <table><tr><th>Hito</th><th>Semana</th><th>Entregado</th></tr>
-<tr><td>1 · Propuesta y diseño</td><td>11</td><td>Dominio, requerimientos e historias (01), arquitectura (03), modelo ER (02), contrato OpenAPI, maquetas (docs/maquetas), repositorio.</td></tr>
-<tr><td>2 · Datos y backend</td><td>12</td><td>6 migraciones Phinx, datos sintéticos, API /api/v1 con JWT y 4 roles, validación, pruebas de integración.</td></tr>
-<tr><td>3 · Front end, contenedores e IA</td><td>13</td><td>Módulos Atenciones, Dashboard, Reportes y Auditoría conectados a la API; Dockerfile, compose y pipeline; endpoint de IA.</td></tr>
-<tr><td>4 · Análisis, reportes y despliegue</td><td>14</td><td>Indicadores, dashboard, 3 reportes con exportación e impresión, plan de despliegue, auditoría de accesibilidad.</td></tr></table>
+<tr><td>Hito 1: Propuesta y diseño</td><td>11</td><td>Dominio, requerimientos e historias (01), arquitectura (03), modelo ER (02), contrato OpenAPI, maquetas (docs/maquetas), repositorio.</td></tr>
+<tr><td>Hito 2: Datos y backend</td><td>12</td><td>6 migraciones Phinx, datos sintéticos, API /api/v1 con JWT y 4 roles, validación, pruebas de integración.</td></tr>
+<tr><td>Hito 3: Front end, contenedores e IA</td><td>13</td><td>Módulos Atenciones, Dashboard, Reportes y Auditoría conectados a la API; Dockerfile, compose y pipeline; endpoint de IA.</td></tr>
+<tr><td>Hito 4: Análisis, reportes y despliegue</td><td>14</td><td>Indicadores, dashboard, 3 reportes con exportación e impresión, plan de despliegue, auditoría de accesibilidad.</td></tr></table>
 <p><strong>Herramientas:</strong> PHP 8.3, MariaDB 11.8, Composer, Phinx, PHPUnit 11, dompdf/TCPDF, Chart.js 4, Docker y Compose, GitHub Actions,
 axe-core, Mermaid, Git (repositorio en el servidor con despliegue por <code>git push</code>), Claude Code como asistente (declarado en el README).</p>
-<p><strong>Organización del repositorio:</strong> <code>src/</code> API en capas · <code>lib/ pages/ partials/</code> sistema clásico · <code>dte/</code> motor tributario (modo demo) ·
-<code>database/</code> migraciones, seeds y SQL · <code>tests/</code> · <code>docker/</code>, <code>Dockerfile</code>, <code>compose.yaml</code>, <code>.github/</code> · <code>docs/</code> documentación y evidencias · <code>tools/</code> utilidades CLI.</p>
+<p><strong>Organización del repositorio:</strong> <code>src/</code> API en capas; <code>lib/ pages/ partials/</code> sistema clásico; <code>dte/</code> motor tributario (modo demo);
+<code>database/</code> migraciones, seeds y SQL, <code>tests/</code>, <code>docker/</code>, <code>Dockerfile</code>, <code>compose.yaml</code>, <code>.github/</code>, <code>docs/</code> documentación y evidencias, <code>tools/</code> utilidades CLI.</p>
 
 <h2 class="sec">3. Requerimientos</h2><div class="doc" data-md="../01_requerimientos.md"></div>
 <h2 class="sec">4. Arquitectura de software</h2><div class="doc" data-md="../03_arquitectura.md"></div>
@@ -99,11 +114,11 @@ dashboard, reportes y exportación, IA y auditoría; esquemas de datos, códigos
 <div class="doc" data-md="../04_guia_estilos.md"></div>
 <h3>Capturas en celular, tablet y escritorio</h3>
 <div class="capturas">
-  <figure><img src="../evidencias/capturas/atenciones_360px_tarjetas.jpg" alt="Atenciones en 360 px: tabla convertida en tarjetas"><figcaption>Atenciones · 360 px (tarjetas apiladas)</figcaption></figure>
-  <figure><img src="../evidencias/capturas/atenciones_360px_filtros.jpg" alt="Atenciones en 360 px: filtros en una columna"><figcaption>Atenciones · 360 px (filtros)</figcaption></figure>
-  <figure><img src="../evidencias/capturas/dashboard_768px.jpg" alt="Dashboard en 768 px con gráficos a dos columnas"><figcaption>Dashboard · 768 px</figcaption></figure>
-  <figure><img src="../evidencias/capturas/reportes_1440px.jpg" alt="Reporte operativo en 1440 px"><figcaption>Reportes · 1440 px</figcaption></figure>
-  <figure><img src="../evidencias/capturas/reporte_gerencial_1440px.jpg" alt="Reporte gerencial con gráfico de ingresos"><figcaption>Reporte gerencial · 1440 px</figcaption></figure>
+  <figure><img src="../evidencias/capturas/atenciones_360px_tarjetas.jpg" alt="Atenciones en 360 px: tabla convertida en tarjetas"><figcaption>Atenciones en 360 px (tarjetas apiladas)</figcaption></figure>
+  <figure><img src="../evidencias/capturas/atenciones_360px_filtros.jpg" alt="Atenciones en 360 px: filtros en una columna"><figcaption>Atenciones en 360 px (filtros)</figcaption></figure>
+  <figure><img src="../evidencias/capturas/dashboard_768px.jpg" alt="Dashboard en 768 px con gráficos a dos columnas"><figcaption>Dashboard en 768 px</figcaption></figure>
+  <figure><img src="../evidencias/capturas/reportes_1440px.jpg" alt="Reporte operativo en 1440 px"><figcaption>Reportes en 1440 px</figcaption></figure>
+  <figure><img src="../evidencias/capturas/reporte_gerencial_1440px.jpg" alt="Reporte gerencial con gráfico de ingresos"><figcaption>Reporte gerencial en 1440 px</figcaption></figure>
   <figure><img src="../evidencias/capturas/validacion_inmediata_1440px.jpg" alt="Formulario con validación inmediata y resumen de errores"><figcaption>Validación inmediata y resumen de errores</figcaption></figure>
 </div>
 <div class="doc" data-md="../09_accesibilidad.md"></div>
@@ -121,7 +136,7 @@ dashboard, reportes y exportación, IA y auditoría; esquemas de datos, códigos
 <tr><td>Tiempo máximo y errores</td><td><code>AI_TIMEOUT</code> (20 s) y 5 s de conexión. Timeout → 504 IA_TIEMPO_AGOTADO; error del proveedor o respuesta inválida → 502 IA_ERROR; límite del proveedor → 503 IA_SATURADA con Retry-After; límite propio 10/min → 429. Todo en el formato estándar y registrado en <code>ia_consultas</code>.</td></tr>
 <tr><td>Entrada y salida validadas</td><td>Entrada con <code>Validator</code>; salida del modelo validada contra un esquema y recortada (OWASP API10). Pruebas con el servicio simulado (<code>FakeIaClient</code>) para éxito, timeout, error, saturación y respuesta inválida.</td></tr></table>
 <h3>Resultado real (23-11-2026, semestre 24-05 al 22-11-2026, enfoque general)</h3>
-<p class="aviso">Modelo openai/gpt-oss-120b · 875 ms · HTTP 200. Evidencia completa: <code>docs/evidencias/ia/resumen_real_semestre_2026-11-23.json</code>.</p>
+<p class="aviso">Modelo openai/gpt-oss-120b, latencia de 875 ms, respuesta HTTP 200. Evidencia completa: <code>docs/evidencias/ia/resumen_real_semestre_2026-11-23.json</code>.</p>
 <p><strong>Resumen:</strong> El centro muestra mejora en ingresos y ocupación de boxes, aunque la tasa de asistencia y cancelación presentan ligeras variaciones negativas. Los pacientes nuevos crecieron notablemente, pero la retención no cuenta con dato previo. Los días de pago se redujeron y la cartera de cuentas por cobrar aumentó.</p>
 <p><strong>Hallazgos:</strong></p><ul><li>Ingresos netos subieron a $53.483.500 frente a $41.127.500</li><li>Ocupación de boxes aumentó a 26.9% desde 21.1%</li><li>Pacientes nuevos crecieron a 280 frente a 179</li><li>Cuentas por cobrar se elevaron a $3.128.000 frente a $910.000</li></ul>
 <p><strong>Recomendaciones:</strong></p><ol><li>Implementar campañas de fidelización para mejorar la retención de pacientes</li><li>Optimizar la gestión de cobros para reducir la cartera de cuentas por cobrar</li><li>Revisar políticas de cancelación y reforzar recordatorios para disminuir la tasa de cancelación</li><li>Ajustar la capacidad de boxes o promocionar horarios para mantener la ocupación sin sobrecargar recursos</li></ol>

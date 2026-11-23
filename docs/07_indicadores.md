@@ -1,4 +1,4 @@
-# 07 · Análisis de datos: indicadores, dashboard y reportes
+# Análisis de datos: indicadores, dashboard y reportes
 
 Todos los indicadores se calculan **desde los datos del sistema** con `DashboardService` (la misma lógica que consumen el
 dashboard, el reporte gerencial y la IA), sobre las vistas `v_atenciones`, `v_documentos` y `v_ingresos_diarios`.
@@ -16,31 +16,31 @@ sintéticos pero generados con reglas verosímiles (estacionalidad, alta de paci
 | 4 | Ingresos netos | ¿Cuánto factura el centro? | Σ boletas y facturas emitidas − Σ NC + Σ ND | **$53.483.500** | $41.127.500 | +30 %: más pacientes nuevos y mayor arriendo de boxes. |
 | 5 | Ticket promedio por sesión | ¿Cuánto ingresa cada sesión cobrada? | ingresos de boletas a pacientes ÷ sesiones cobradas | **$33.088** | $33.253 | Estable; el crecimiento de ingresos viene del volumen, no del precio. |
 | 6 | Pacientes nuevos | ¿Cuántos pacientes se suman? | pacientes con primera atención realizada en el período | **280** | 179 | +56 %: la captación funciona. |
-| 7 | Retención de pacientes | ¿Los pacientes continúan su tratamiento? | atendidos en el período anterior que vuelven ÷ atendidos en el período anterior × 100 | **65,4 %** | — | Dos de cada tres continúan; el resto corresponde mayoritariamente a altas terapéuticas (220 de 459 fichas cerradas). |
+| 7 | Retención de pacientes | ¿Los pacientes continúan su tratamiento? | atendidos en el período anterior que vuelven ÷ atendidos en el período anterior × 100 | **65,4 %** | Sin dato | Dos de cada tres continúan; el resto corresponde mayoritariamente a altas terapéuticas (220 de 459 fichas cerradas). |
 | 8 | Días promedio de pago de facturas | ¿Cuánto demoran los clientes en pagar el arriendo? | promedio (fecha de pago − fecha de emisión) de facturas pagadas | **22,8 días** | 25,2 días | Mejora 2,4 días, dentro del plazo de 30 días. |
 | 9 | Cuentas por cobrar | ¿Cuánto dinero facturado falta recaudar? | Σ saldos de documentos emitidos no pagados al cierre | **$3.128.000** | $910.000 | Se triplica: hay facturas de un cliente que paga sistemáticamente tarde y boletas recientes por cobrar. |
 | 10 | Anticipación de reserva | ¿Con cuántos días de anticipación se agenda? | promedio (fecha de la atención − fecha de creación) | **13,1 días** | 12,2 días | Permite planificar la dotación con dos semanas de anticipación. |
 
 ## 2. Tendencias y comparaciones
 
-* **Estacionalidad:** las atenciones realizadas caen en febrero (189) y julio (320) —vacaciones— y alcanzan su máximo en
-  octubre (473) y mayo–junio (445–448). Los ingresos siguen la misma curva: de $4,4 M en febrero a $10,2 M en octubre.
+* **Estacionalidad:** las atenciones realizadas caen en febrero (189) y julio (320) (vacaciones) y alcanzan su máximo en
+  octubre (473) y mayo a junio (445 a 448). Los ingresos siguen la misma curva: de $4,4 M en febrero a $10,2 M en octubre.
 * **Ocupación por box (semestre):** Loica 41,0 % y Gimnasio Colibrí 38,7 % (sesiones de las socias) frente a
   Martín Pescador 31,1 %, **Gimnasio Golondrina 12,6 %** y **7 Colores 10,9 %** (solo arriendo externo).
 * **Especialidades:** Terapia Ocupacional (956 h) y Fonoaudiología (788 h) generan el 68 % de las horas de box.
 * **Demanda por día y hora:** el martes es el día de mayor demanda (526 reservas en el semestre) y el lunes el menor (360);
-  las horas pico son 16:00–17:00 y las de menor uso, 08:00 y 19:00.
+  las horas pico son 16:00 a 17:00 y las de menor uso, 08:00 y 19:00.
 
 ## 3. Recomendaciones de negocio
 
 1. **Comercializar los boxes subutilizados** (7 Colores y Golondrina, < 13 % de ocupación): ofrecer planes mensuales de
    media jornada a profesionales externos los lunes y en los bloques de 08:00 y 19:00. Pasar ambos boxes al 25 % sumaría
-   ~510 horas por semestre (≈ $4 a $6 M a $8.000–12.000 la hora).
+   ~510 horas por semestre (≈ $4 a $6 M a $8.000 a 12.000 la hora).
 2. **Reducir inasistencias:** recordatorio el día anterior para las sesiones agendadas con más de 7 días de anticipación
    (la anticipación media es de 13 días). Recuperar 1 punto de asistencia equivale a ≈ $0,6 M al semestre.
 3. **Gestionar la cobranza:** el saldo por cobrar se triplicó; aplicar recordatorio a los 25 días de emitida la factura y
    revisar las condiciones del cliente con pagos sobre 30 días.
-4. **Planificar la dotación estacional:** reforzar marzo–junio y octubre; usar febrero y julio para formación y
+4. **Planificar la dotación estacional:** reforzar marzo a junio y octubre; usar febrero y julio para formación y
    mantención de boxes.
 
 ## 4. Dashboard (BI II)
@@ -53,7 +53,7 @@ se actualiza al cambiar filtros y cada 5 minutos, de modo que refleja cualquier 
 | 1 | Atenciones por mes según resultado | Serie temporal categórica → barras apiladas | Fecha, especialidad, box, profesional |
 | 2 | Ingresos netos por mes | Serie temporal continua → línea con área | Fecha |
 | 3 | Horas de box por especialidad | Comparación de categorías → barras horizontales ordenadas | Todos |
-| 4 | Ocupación por box | Porcentaje por categoría → barras horizontales 0–100 % | Todos |
+| 4 | Ocupación por box | Porcentaje por categoría → barras horizontales 0 a 100 % | Todos |
 | 5 | Distribución por estado | Partes de un todo (5 categorías) → anillo | Todos |
 | 6 | Demanda por día y hora | Matriz de dos dimensiones → mapa de calor con números | Todos |
 
