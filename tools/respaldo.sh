@@ -17,7 +17,8 @@ BD=$(php -r 'require "lib/env.php"; echo env("DB_NAME");')
 
 respaldar() {
   ARCHIVO="$DESTINO/espacioluz_$(date +%Y%m%d_%H%M%S).sql.gz"
-  mysqldump --defaults-extra-file="$CNF" --single-transaction --routines --triggers --no-tablespaces "$BD" | gzip > "$ARCHIVO.tmp"
+  mysqldump --defaults-extra-file="$CNF" --single-transaction --routines --triggers --no-tablespaces "$BD" \
+    | sed -e 's/DEFINER=`[^`]*`@`[^`]*`//g' | gzip > "$ARCHIVO.tmp"   # sin DEFINER: restaurable en otro servidor
   mv "$ARCHIVO.tmp" "$ARCHIVO"
   find "$DESTINO" -name 'espacioluz_*.sql.gz' -mtime +14 -delete
   echo "$ARCHIVO"
